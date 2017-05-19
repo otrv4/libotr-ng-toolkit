@@ -1,6 +1,8 @@
 *.o
 *.la
 *.lo
+src/otrv4_toolkit
+src/.deps/otrv4_toolkit.Po
 
 TAGS
 tags
