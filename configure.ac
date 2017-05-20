@@ -3,6 +3,8 @@
 
 AC_PREREQ([2.69])
 AC_INIT([otrv4_toolkit], [0.0.1], [strike@thoughtworks.com])
+# maybe not
+AM_PROG_AR
 AC_CONFIG_SRCDIR([src/otrv4_toolkit.c])
 
 AM_INIT_AUTOMAKE([-Wall -Werror foreign subdir-objects])
@@ -43,7 +45,7 @@ AC_CHECK_FUNCS([memchr memmove memset stpcpy strchr strstr])
 
 AC_CACHE_SAVE
 
-AC_CONFIG_HEADERS([toolkit.h])
+AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_FILES([Makefile src/Makefile src/test/Makefile])
 AC_OUTPUT
 
