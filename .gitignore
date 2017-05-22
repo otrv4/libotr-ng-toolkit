@@ -55,6 +55,8 @@ dkms.conf
 # OTR
 src/otrv4_toolkit
 src/.deps
+src/test/.deps
+src/test/test
 /.libs
 
 TAGS

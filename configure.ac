@@ -5,7 +5,7 @@ AC_PREREQ([2.69])
 AC_INIT([otrv4_toolkit], [0.0.1], [strike@thoughtworks.com])
 # maybe not
 AM_PROG_AR
-AC_CONFIG_SRCDIR([src/otrv4_toolkit.c])
+AC_CONFIG_SRCDIR([src/otr_parse.c])
 
 AM_INIT_AUTOMAKE([-Wall -Werror foreign subdir-objects])
 # Checks for programs.

@@ -1,18 +1,35 @@
+#include <stdio.h>
+#include <string.h>
+
 #include <libotr4/otrv4.h>
 #include <libotr4/b64.h>
+#include <libotr4/constants.h>
+#include <libotr4/data_message.h>
 
 typedef struct {
    int type;
+   int version;
+   int sender_instance_tag;
+   int receiver_instance_tag;
+   char nonce[DATA_MSG_NONCE_BYTES];
+   ec_point_t our_ecdh;
+   dh_public_key_t our_dh;
+   char * ciphertext;
+   int ciphertext_len;
+   char mac[DATA_MSG_MAC_BYTES];
 } encoded_msg_t;
 
 int
 parse(encoded_msg_t *dst, const char * src, const int src_len);
 
-// the size
 int
 parse(encoded_msg_t * dst, const char * src, const int src_len) {
+    if (NULL == src) {
+        return 1;
+    }
+
     if (src_len > strlen(src)) {
-      return 1;
+        return 1;
     }
 
     int otr_type = (int) get_message_type(src);
@@ -33,7 +50,41 @@ parse(encoded_msg_t * dst, const char * src, const int src_len) {
 	return 1;
     }
 
-    dst->type = header.type;
+    if (header.type != OTR_DATA_MSG_TYPE) {
+        return 1;
+    }
 
+    dst->type = header.type;
+    dst->version = header.version;
+
+    data_message_t * data = malloc(sizeof(data_message_t));
+    if (NULL == data) {
+	return 1;
+    }
+
+    err = data_message_deserialize(data, decoded, dec_len);
+    dst->sender_instance_tag = data->sender_instance_tag;
+    dst->receiver_instance_tag = data->receiver_instance_tag;
+    memcpy(dst->nonce, data->nonce, DATA_MSG_NONCE_BYTES);
+    dst->our_ecdh[0] = data->our_ecdh[0];
+    dst->our_dh = data->our_dh;
+    // CHECK
+    dst->ciphertext = malloc((size_t) data->enc_msg_len);
+    if (NULL == dst->ciphertext) {
+	return 1;
+    }
+
+    // XXX: check where old mackeys are deser
+    memcpy(dst->ciphertext, data->enc_msg, data->enc_msg_len);
+    dst->ciphertext_len = data->enc_msg_len;
+    memcpy(dst->mac, data->mac, DATA_MSG_MAC_BYTES);
+
+    free(data);
+
+//typedef struct {
+//	uint8_t flags;
+//	uint32_t ratchet_id;
+//	uint32_t message_id;
+//} data_message_t;
     return 0;
 }

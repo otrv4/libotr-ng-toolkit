@@ -2,6 +2,7 @@
 #include <string.h>
 #include <libotr4/constants.h>
 #include "../otr_parse.c"
+#include "test_helpers.h"
 
 void
 otrv4_toolkit_test_parse_data_message()
@@ -14,6 +15,16 @@ otrv4_toolkit_test_parse_data_message()
 
 	g_assert_cmpint(parse(data_msg, msg, strlen(msg)), ==, 0);
 	g_assert_cmpint(data_msg->type, ==, OTR_DATA_MSG_TYPE);
+	g_assert_cmpint(data_msg->version, ==, OTRV4_ALLOW_V4);
+	g_assert_cmpint(data_msg->sender_instance_tag,  ==, 0);
+	g_assert_cmpint(data_msg->receiver_instance_tag, ==, 0);
+	g_assert_cmpstr(data_msg->nonce, ==, "\270\325\317\021X}^\321]\034\343\273\2436 8\343\300");
+        // XX: FIX ME
+	otrv4_assert_point_equals(data_msg->our_ecdh, data_msg->our_ecdh);
+	//g_assert_cmpint(data_msg->our_dh, ==, 0);
+	g_assert_cmpstr(data_msg->ciphertext, ==, "\236.Z");
+        g_assert_cmpint(data_msg->ciphertext_len, ==, 3);
+	g_assert_cmpstr(data_msg->mac, ==, "R\346\262\035\267B\273\264\276<\037q\365C/@\tu|\235\320kT@\370\023\362");
 
 	free(data_msg);
 }
