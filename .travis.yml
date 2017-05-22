@@ -1,0 +1,45 @@
+language: c
+#cache: ccache
+
+matrix:
+  fast_finish: true
+  allow_failures:
+    - dist: precise
+  include:
+    - os: linux
+      dist: trusty
+      compiler: clang
+    - os: linux
+      dist: trusty
+      compiler: gcc
+    - os: linux
+      dist: precise
+      compiler: clang
+    - os: linux
+      dist: precise
+      compiler: gcc
+
+sudo: required
+
+before_install:
+  - sudo apt-get update --quiet --assume-yes
+  - sudo apt-get install splint --quiet --assume-yes
+  - sudo apt-get install valgrind --quiet --assume-yes
+
+before_script:
+  - mkdir .deps
+  - curl https://www.gnupg.org/ftp/gcrypt/libgpg-error/libgpg-error-1.26.tar.bz2 | tar xjf - -C .deps
+  - pushd .deps/libgpg-error-1.26 && ./configure && make && sudo make install && popd
+  - curl https://www.gnupg.org/ftp/gcrypt/libgcrypt/libgcrypt-1.7.6.tar.bz2 | tar xjf - -C .deps
+  - pushd .deps/libgcrypt-1.7.6 && ./configure && make && sudo make install && popd
+  - git clone --depth=1 https://github.com/twstrike/ed448goldilocks .deps/goldilocks
+  - pushd .deps/goldilocks && ./autogen.sh && ./configure && make && sudo make install && popd
+  - git clone --depth=1 https://github.com/twstrike/libotrv4 .deps/libotrv4
+  - pushd .deps/libotrv4 && ./autogen.sh && ./configure && make && sudo make install && popd
+
+script:
+  - export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
+  - ./autogen.sh && ./configure
+  - if [[ $(lsb_release -c -s) == "precise" ]]; then make test; fi
+  - if [[ $(lsb_release -c -s) == "trusty" ]];  then make ci;   fi
+

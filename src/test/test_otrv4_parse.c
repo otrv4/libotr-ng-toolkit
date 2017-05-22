@@ -26,6 +26,8 @@ otrv4_toolkit_test_parse_data_message()
         g_assert_cmpint(data_msg->ciphertext_len, ==, 3);
 	g_assert_cmpstr(data_msg->mac, ==, "R\346\262\035\267B\273\264\276<\037q\365C/@\tu|\235\320kT@\370\023\362");
 
+
+        free(data_msg->ciphertext);
 	free(data_msg);
 }
 
