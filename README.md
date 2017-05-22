@@ -1,5 +1,7 @@
 # Otrv4 Toolkit
 
+[![Build Status](https://travis-ci.org/twtiger/otrv4_toolkit.svg?branch=master)](https://travis-ci.org/twtiger/otrv4_toolkit)
+
 The OTR Toolkit is useful for analyzing and/or forging OTR messages.
 It  makes  absolutely  sure  that  transcripts  of OTR conversations are really
 easy to forge after the fact [Note that during an OTR conversation, messages
