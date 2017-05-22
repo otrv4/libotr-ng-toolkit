@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
-
-#include <libotr4/ed448.h>
+#include <decaf.h>
+#include <decaf/ed448.h>
 
 static inline void
 otrv4_assert_point_equals(const ec_point_t expected, const ec_point_t actual)
