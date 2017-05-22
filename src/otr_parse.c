@@ -1,19 +1,39 @@
+#include <libotr4/otrv4.h>
+#include <libotr4/b64.h>
+
 typedef struct {
    int type;
-} datamsg;
+} encoded_msg_t;
 
-datamsg parse(const char *msg);
+int
+parse(encoded_msg_t *dst, const char * src, const int src_len);
 
-datamsg
-parse(const char *msg) {
-    //char *otrtag;
+// the size
+int
+parse(encoded_msg_t * dst, const char * src, const int src_len) {
+    if (src_len > strlen(src)) {
+      return 1;
+    }
 
-    //otrtag = strstr(message, "?OTR");
+    int otr_type = (int) get_message_type(src);
+    if (otr_type != IN_MSG_OTR_ENCODED) {
+        return 1;
+    }
 
-    //if (!otrtag) {
-    //   return OTRL_MSGTYPE_NOTOTR;
-    //}
+    size_t dec_len = 0;
+    uint8_t *decoded = NULL;
+    int err = otrl_base64_otr_decode(src, &decoded, &dec_len);
+    if (err)
+       return 1;
 
-    datamsg parser = { .type = 3 };
-    return parser;
+
+    otrv4_header_t header;
+    if (!extract_header(&header, decoded, dec_len)) {
+        free(decoded);
+	return 1;
+    }
+
+    dst->type = header.type;
+
+    return 0;
 }

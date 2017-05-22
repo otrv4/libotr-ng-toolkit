@@ -143,7 +143,38 @@ test-test.o: test.c /usr/local/Cellar/glib/2.52.0/include/glib-2.0/glib.h \
   /usr/include/string.h /usr/include/strings.h \
   /usr/include/secure/_string.h /usr/include/secure/_common.h \
   test_otrv4_parse.c /usr/local/include/libotr4/constants.h \
-  ../otr_parse.c
+  ../otr_parse.c /usr/local/include/libotr4/otrv4.h \
+  /Library/Developer/CommandLineTools/usr/bin/../lib/clang/8.0.0/include/stdbool.h \
+  /usr/local/include/libotr4/fingerprint.h \
+  /Library/Developer/CommandLineTools/usr/bin/../lib/clang/8.0.0/include/stdint.h \
+  /usr/include/stdint.h /usr/include/_types/_uint8_t.h \
+  /usr/include/_types/_uint16_t.h /usr/include/_types/_uint32_t.h \
+  /usr/include/_types/_uint64_t.h /usr/include/_types/_intmax_t.h \
+  /usr/include/_types/_uintmax_t.h /usr/include/stdio.h \
+  /usr/include/sys/_types/_va_list.h /usr/include/sys/stdio.h \
+  /usr/include/secure/_stdio.h /usr/local/include/libotr4/keys.h \
+  /usr/local/include/libotr4/ed448.h /usr/local/include/decaf.h \
+  /usr/local/include/decaf/point_255.h /usr/local/include/decaf/common.h \
+  /usr/local/include/decaf/point_448.h /usr/local/include/decaf/ed448.h \
+  /usr/local/include/decaf/shake.h /usr/include/stdlib.h \
+  /usr/include/sys/wait.h /usr/include/sys/resource.h \
+  /usr/include/sys/_types/_timeval.h /usr/include/alloca.h \
+  /usr/include/sys/_types/_ct_rune_t.h /usr/include/sys/_types/_rune_t.h \
+  /usr/include/sys/_types/_wchar_t.h /usr/local/include/decaf/sha512.h \
+  /usr/local/include/libotr4/key_management.h \
+  /usr/local/include/libotr4/dh.h \
+  /usr/local/opt/libgcrypt/include/gcrypt.h \
+  /usr/local/opt/libgpg-error/include/gpg-error.h \
+  /usr/include/sys/socket.h /usr/include/machine/_param.h \
+  /usr/include/i386/_param.h /usr/include/sys/_types/_sa_family_t.h \
+  /usr/include/sys/_types/_socklen_t.h \
+  /usr/include/sys/_types/_iovec_t.h /usr/include/sys/time.h \
+  /usr/include/sys/_types/_timeval64.h /usr/include/sys/_select.h \
+  /usr/include/sys/select.h /usr/local/include/libotr4/error.h \
+  /usr/local/include/libotr4/smp.h /usr/local/include/libotr4/str.h \
+  /usr/local/include/libotr4/tlv.h \
+  /usr/local/include/libotr4/user_profile.h \
+  /usr/local/include/libotr4/mpi.h /usr/local/include/libotr4/b64.h
 
 /usr/local/Cellar/glib/2.52.0/include/glib-2.0/glib.h:
 
@@ -508,3 +539,109 @@ test_otrv4_parse.c:
 /usr/local/include/libotr4/constants.h:
 
 ../otr_parse.c:
+
+/usr/local/include/libotr4/otrv4.h:
+
+/Library/Developer/CommandLineTools/usr/bin/../lib/clang/8.0.0/include/stdbool.h:
+
+/usr/local/include/libotr4/fingerprint.h:
+
+/Library/Developer/CommandLineTools/usr/bin/../lib/clang/8.0.0/include/stdint.h:
+
+/usr/include/stdint.h:
+
+/usr/include/_types/_uint8_t.h:
+
+/usr/include/_types/_uint16_t.h:
+
+/usr/include/_types/_uint32_t.h:
+
+/usr/include/_types/_uint64_t.h:
+
+/usr/include/_types/_intmax_t.h:
+
+/usr/include/_types/_uintmax_t.h:
+
+/usr/include/stdio.h:
+
+/usr/include/sys/_types/_va_list.h:
+
+/usr/include/sys/stdio.h:
+
+/usr/include/secure/_stdio.h:
+
+/usr/local/include/libotr4/keys.h:
+
+/usr/local/include/libotr4/ed448.h:
+
+/usr/local/include/decaf.h:
+
+/usr/local/include/decaf/point_255.h:
+
+/usr/local/include/decaf/common.h:
+
+/usr/local/include/decaf/point_448.h:
+
+/usr/local/include/decaf/ed448.h:
+
+/usr/local/include/decaf/shake.h:
+
+/usr/include/stdlib.h:
+
+/usr/include/sys/wait.h:
+
+/usr/include/sys/resource.h:
+
+/usr/include/sys/_types/_timeval.h:
+
+/usr/include/alloca.h:
+
+/usr/include/sys/_types/_ct_rune_t.h:
+
+/usr/include/sys/_types/_rune_t.h:
+
+/usr/include/sys/_types/_wchar_t.h:
+
+/usr/local/include/decaf/sha512.h:
+
+/usr/local/include/libotr4/key_management.h:
+
+/usr/local/include/libotr4/dh.h:
+
+/usr/local/opt/libgcrypt/include/gcrypt.h:
+
+/usr/local/opt/libgpg-error/include/gpg-error.h:
+
+/usr/include/sys/socket.h:
+
+/usr/include/machine/_param.h:
+
+/usr/include/i386/_param.h:
+
+/usr/include/sys/_types/_sa_family_t.h:
+
+/usr/include/sys/_types/_socklen_t.h:
+
+/usr/include/sys/_types/_iovec_t.h:
+
+/usr/include/sys/time.h:
+
+/usr/include/sys/_types/_timeval64.h:
+
+/usr/include/sys/_select.h:
+
+/usr/include/sys/select.h:
+
+/usr/local/include/libotr4/error.h:
+
+/usr/local/include/libotr4/smp.h:
+
+/usr/local/include/libotr4/str.h:
+
+/usr/local/include/libotr4/tlv.h:
+
+/usr/local/include/libotr4/user_profile.h:
+
+/usr/local/include/libotr4/mpi.h:
+
+/usr/local/include/libotr4/b64.h:
