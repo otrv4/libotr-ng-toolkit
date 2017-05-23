@@ -57,7 +57,8 @@ parse(encoded_msg_t * dst, const char * src, const int src_len) {
     dst->type = header.type;
     dst->version = header.version;
 
-    data_message_t * data = malloc(sizeof(data_message_t));
+    data_message_t * data = NULL;
+    data = malloc(sizeof(data_message_t));
     if (!data) {
 	return 1;
     }

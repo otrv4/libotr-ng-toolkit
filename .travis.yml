@@ -45,3 +45,7 @@ script:
   - if [[ $(lsb_release -c -s) == "precise" ]]; then make test; fi
   - if [[ $(lsb_release -c -s) == "trusty" ]];  then make ci;   fi
 
+notifications:
+  email:
+    on_success: never
+    on_failure: never
