@@ -21,6 +21,13 @@
                         g_assertion_message_expr (G_LOG_DOMAIN, __FILE__, __LINE__, G_STRFUNC, \
                         #expr); } while (0)
 
+static inline void
+otrv4_assert_uint8_equals(const uint8_t * expected, const uint8_t * actual, int len)
+{
+	for (unsigned int i = 0; i < len; i++) {
+	     g_assert_cmpint(expected[i], ==, actual[i]);
+	}
+}
 
 static inline void
 otrv4_assert_point_equals(const ec_point_t expected, const ec_point_t actual)
