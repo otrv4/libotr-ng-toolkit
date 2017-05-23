@@ -25,6 +25,41 @@ typedef struct {
 int
 parse(encoded_msg_t *dst, const char * src, const int src_len);
 
+
+encoded_msg_t *encoded_message_new()
+{
+	encoded_msg_t *ret = malloc(sizeof(encoded_msg_t));
+	if (!ret)
+		return NULL;
+
+	ret->b64_msg = NULL;
+	ret->b64_msg_len = 0;
+	ret->ciphertext = NULL;
+	ret->ciphertext_len = 0;
+	return ret;
+}
+
+void encoded_message_destroy(encoded_msg_t * enc_msg)
+{
+	enc_msg->b64_msg_len = 0;
+        free(enc_msg->b64_msg);
+	enc_msg->b64_msg = NULL;
+
+	enc_msg->ciphertext_len = 0;
+	free(enc_msg->ciphertext);
+	enc_msg->ciphertext = NULL;
+}
+
+void encoded_message_free(encoded_msg_t * enc_msg)
+{
+	if (!enc_msg)
+		return;
+
+	encoded_message_destroy(enc_msg);
+
+	free(enc_msg);
+}
+
 int
 parse(encoded_msg_t * dst, const char * src, const int src_len) {
     if (NULL == src) {
@@ -87,25 +122,4 @@ parse(encoded_msg_t * dst, const char * src, const int src_len) {
     data_message_free(data);
 
     return 0;
-}
-
-void encoded_message_destroy(encoded_msg_t * enc_msg)
-{
-	enc_msg->b64_msg_len = 0;
-        free(enc_msg->b64_msg);
-	enc_msg->b64_msg = NULL;
-
-	enc_msg->ciphertext_len = 0;
-	free(enc_msg->ciphertext);
-	enc_msg->ciphertext = NULL;
-}
-
-void encoded_message_free(encoded_msg_t * enc_msg)
-{
-	if (!enc_msg)
-		return;
-
-	encoded_message_destroy(enc_msg);
-
-	free(enc_msg);
 }
