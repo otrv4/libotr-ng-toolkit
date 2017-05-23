@@ -5,6 +5,7 @@
 #include <libotr4/b64.h>
 #include <libotr4/constants.h>
 #include <libotr4/data_message.h>
+#include <libotr4/dh.h>
 
 typedef struct {
    uint8_t * b64_msg;
@@ -71,6 +72,7 @@ parse(encoded_msg_t * dst, const char * src, const int src_len) {
     *dst->our_ecdh = *data->our_ecdh;
     dst->our_dh = data->our_dh;
     memcpy(dst->nonce, data->nonce, DATA_MSG_NONCE_BYTES);
+
     dst->ciphertext = malloc(data->enc_msg_len);
     if (!dst->ciphertext) {
 	free(data);
@@ -85,4 +87,25 @@ parse(encoded_msg_t * dst, const char * src, const int src_len) {
     data_message_free(data);
 
     return 0;
+}
+
+void encoded_message_destroy(encoded_msg_t * enc_msg)
+{
+	enc_msg->b64_msg_len = 0;
+        free(enc_msg->b64_msg);
+	enc_msg->b64_msg = NULL;
+
+	enc_msg->ciphertext_len = 0;
+	free(enc_msg->ciphertext);
+	enc_msg->ciphertext = NULL;
+}
+
+void encoded_message_free(encoded_msg_t * enc_msg)
+{
+	if (!enc_msg)
+		return;
+
+	encoded_message_destroy(enc_msg);
+
+	free(enc_msg);
 }
