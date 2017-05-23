@@ -48,6 +48,8 @@ void encoded_message_destroy(encoded_msg_t * enc_msg)
 	enc_msg->ciphertext_len = 0;
 	free(enc_msg->ciphertext);
 	enc_msg->ciphertext = NULL;
+
+	dh_mpi_release(enc_msg->our_dh);
 }
 
 void encoded_message_free(encoded_msg_t * enc_msg)
@@ -105,7 +107,8 @@ parse(encoded_msg_t * dst, const char * src, const int src_len) {
     dst->sender_instance_tag = data->sender_instance_tag;
     dst->receiver_instance_tag = data->receiver_instance_tag;
     *dst->our_ecdh = *data->our_ecdh;
-    dst->our_dh = data->our_dh;
+    dst->our_dh = gcry_mpi_new(DH3072_MOD_LEN_BITS);
+    //gcry_mpi_set(dst->our_dh, data->our_dh);
     memcpy(dst->nonce, data->nonce, DATA_MSG_NONCE_BYTES);
 
     dst->ciphertext = malloc(data->enc_msg_len);

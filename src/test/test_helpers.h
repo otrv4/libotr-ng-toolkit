@@ -3,6 +3,25 @@
 #include <decaf.h>
 #include <decaf/ed448.h>
 
+#include "../debug.h"
+
+#define otrv4_assert_cmpmem(s1, s2, len) do { \
+        char *__s1 = _otrv4_memdump((const uint8_t*) s1, len); \
+        char *__s1 = _otrv4_memdump((const uint8_t*) s2, len); \
+        char *__msg = g_strdup_printf("assertion failed: (%s)\nEXPECTED (%p): %s\nACTUAL (%p): %s\n", \
+            #s1 " ==  " #s2, s1, __s1, s2, __s2); \
+        if (memcmp(s1, s2, len) == 0); else \
+        g_assertion_message (G_LOG_DOMAIN, __FILE__, __LINE__, G_STRFUNC, __msg); \
+        free(__s1); \
+        free(__s2); \
+        g_free(__msg); \
+        } while (0)
+
+#define otrv4_assert(expr)  do { if G_LIKELY (expr) ; else \
+                        g_assertion_message_expr (G_LOG_DOMAIN, __FILE__, __LINE__, G_STRFUNC, \
+                        #expr); } while (0)
+
+
 static inline void
 otrv4_assert_point_equals(const ec_point_t expected, const ec_point_t actual)
 {
