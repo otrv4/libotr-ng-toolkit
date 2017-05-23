@@ -62,7 +62,7 @@ parse(encoded_msg_t * dst, const char * src, const int src_len) {
     }
 
     if (!data_message_deserialize(data, dst->b64_msg, dst->b64_msg_len)) {
-       free(data);
+       data_message_free(data);
        return 1;
     }
 
@@ -71,7 +71,6 @@ parse(encoded_msg_t * dst, const char * src, const int src_len) {
     *dst->our_ecdh = *data->our_ecdh;
     dst->our_dh = data->our_dh;
     memcpy(dst->nonce, data->nonce, DATA_MSG_NONCE_BYTES);
-
     dst->ciphertext = malloc(data->enc_msg_len);
     if (!dst->ciphertext) {
 	free(data);
@@ -83,7 +82,7 @@ parse(encoded_msg_t * dst, const char * src, const int src_len) {
     dst->ciphertext_len = data->enc_msg_len;
     memcpy(dst->mac, data->mac, DATA_MSG_MAC_BYTES);
 
-    free(data);
+    data_message_free(data);
 
     return 0;
 }
