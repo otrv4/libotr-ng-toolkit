@@ -5,6 +5,8 @@ AC_PREREQ([2.68])
 AC_INIT([otrv4_toolkit], [0.0.1], [strike@thoughtworks.com])
 AC_CONFIG_SRCDIR([src/otr_parse.c])
 AC_CONFIG_MACRO_DIR([m4])
+AC_CONFIG_AUX_DIR([.])
+AM_SILENT_RULES([no])
 
 AM_INIT_AUTOMAKE([-Wall -Werror foreign subdir-objects])
 # maybe not
@@ -29,6 +31,7 @@ AC_CHECK_HEADERS([stdint.h stdlib.h string.h])
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_HEADER_STDBOOL
+# prob not needed
 AC_C_INLINE
 AC_TYPE_INT64_T
 AC_TYPE_SIZE_T
