@@ -29,6 +29,5 @@ otrv4_toolkit_test_parse_data_message()
 	g_assert_cmpstr(data_msg->mac, ==, "R\346\262\035\267B\273\264\276<\037q\365C/@\tu|\235\320kT@\370\023\362");
 
 	encoded_message_free(data_msg);
-	free(exp);
 }
 
