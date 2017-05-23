@@ -7,13 +7,15 @@
 #include <libotr4/data_message.h>
 
 typedef struct {
+   uint8_t * b64_msg;
+   size_t b64_msg_len;
    int type;
    int version;
    int sender_instance_tag;
    int receiver_instance_tag;
-   char nonce[DATA_MSG_NONCE_BYTES];
    ec_point_t our_ecdh;
    dh_public_key_t our_dh;
+   char nonce[DATA_MSG_NONCE_BYTES];
    uint8_t * ciphertext;
    int ciphertext_len;
    char mac[DATA_MSG_MAC_BYTES];
@@ -28,7 +30,7 @@ parse(encoded_msg_t * dst, const char * src, const int src_len) {
         return 1;
     }
 
-    if (src_len > strlen(src)) {
+    if (src_len <= 0) {
         return 1;
     }
 
@@ -37,16 +39,13 @@ parse(encoded_msg_t * dst, const char * src, const int src_len) {
         return 1;
     }
 
-    size_t dec_len = 0;
-    uint8_t *decoded = NULL;
-    int err = otrl_base64_otr_decode(src, &decoded, &dec_len);
-    if (err)
+    int err = otrl_base64_otr_decode(src, &dst->b64_msg, &dst->b64_msg_len);
+    if (err) {
        return 1;
-
+    }
 
     otrv4_header_t header;
-    if (!extract_header(&header, decoded, dec_len)) {
-        free(decoded);
+    if (!extract_header(&header, dst->b64_msg, dst->b64_msg_len)) {
 	return 1;
     }
 
@@ -57,28 +56,24 @@ parse(encoded_msg_t * dst, const char * src, const int src_len) {
     dst->type = header.type;
     dst->version = header.version;
 
-    data_message_t * data = NULL;
-    data = malloc(sizeof(data_message_t));
+    data_message_t * data = malloc(sizeof(data_message_t));
     if (!data) {
-	free(data);
 	return 1;
     }
 
-    if (!data_message_deserialize(data, decoded, dec_len)) {
+    if (!data_message_deserialize(data, dst->b64_msg, dst->b64_msg_len)) {
        free(data);
-       free(decoded);
        return 1;
     }
 
     dst->sender_instance_tag = data->sender_instance_tag;
     dst->receiver_instance_tag = data->receiver_instance_tag;
-    memcpy(dst->nonce, data->nonce, DATA_MSG_NONCE_BYTES);
-    dst->our_ecdh[0] = data->our_ecdh[0];
+    *dst->our_ecdh = *data->our_ecdh;
     dst->our_dh = data->our_dh;
-    // CHECK
+    memcpy(dst->nonce, data->nonce, DATA_MSG_NONCE_BYTES);
+
     dst->ciphertext = malloc(data->enc_msg_len);
     if (!dst->ciphertext) {
-	free(dst->ciphertext);
 	free(data);
 	return 1;
     }
@@ -86,24 +81,9 @@ parse(encoded_msg_t * dst, const char * src, const int src_len) {
     // XXX: check where old mackeys are deser
     memcpy(dst->ciphertext, data->enc_msg, data->enc_msg_len);
     dst->ciphertext_len = data->enc_msg_len;
-
-    //for (unsigned int i = 0; i<data->enc_msg_len; i++) {
-    //printf("%x \n", data->enc_msg[i]);
-    //}
-    //printf("%lu \n", data->enc_msg_len);
-
-    //printf("sec%x \n", *dst->ciphertext);
-    //printf("sec%d \n", dst->ciphertext_len);
-
     memcpy(dst->mac, data->mac, DATA_MSG_MAC_BYTES);
 
-    free(decoded);
     free(data);
 
-//typedef struct {
-//	uint8_t flags;
-//	uint32_t ratchet_id;
-//	uint32_t message_id;
-//} data_message_t;
     return 0;
 }
