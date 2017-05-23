@@ -62,8 +62,11 @@ parse(encoded_msg_t * dst, const char * src, const int src_len) {
 	return 1;
     }
 
-    if (!data_message_deserialize(data, decoded, dec_len))
+    if (!data_message_deserialize(data, decoded, dec_len)) {
+       free(data);
+       free(decoded);
        return 1;
+    }
 
     dst->sender_instance_tag = data->sender_instance_tag;
     dst->receiver_instance_tag = data->receiver_instance_tag;
@@ -90,6 +93,7 @@ parse(encoded_msg_t * dst, const char * src, const int src_len) {
 
     memcpy(dst->mac, data->mac, DATA_MSG_MAC_BYTES);
 
+    free(decoded);
     free(data);
 
 //typedef struct {
