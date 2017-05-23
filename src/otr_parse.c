@@ -60,6 +60,7 @@ parse(encoded_msg_t * dst, const char * src, const int src_len) {
     data_message_t * data = NULL;
     data = malloc(sizeof(data_message_t));
     if (!data) {
+	free(data);
 	return 1;
     }
 
@@ -77,6 +78,8 @@ parse(encoded_msg_t * dst, const char * src, const int src_len) {
     // CHECK
     dst->ciphertext = malloc(data->enc_msg_len);
     if (!dst->ciphertext) {
+	free(dst->ciphertext);
+	free(data);
 	return 1;
     }
 
