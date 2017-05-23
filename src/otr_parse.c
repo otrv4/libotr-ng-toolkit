@@ -14,7 +14,7 @@ typedef struct {
    char nonce[DATA_MSG_NONCE_BYTES];
    ec_point_t our_ecdh;
    dh_public_key_t our_dh;
-   char * ciphertext;
+   uint8_t * ciphertext;
    int ciphertext_len;
    char mac[DATA_MSG_MAC_BYTES];
 } encoded_msg_t;
@@ -69,14 +69,24 @@ parse(encoded_msg_t * dst, const char * src, const int src_len) {
     dst->our_ecdh[0] = data->our_ecdh[0];
     dst->our_dh = data->our_dh;
     // CHECK
-    dst->ciphertext = malloc((size_t) data->enc_msg_len);
-    if (NULL == dst->ciphertext) {
+    dst->ciphertext = malloc(data->enc_msg_len);
+    if (!dst->ciphertext) {
 	return 1;
     }
 
     // XXX: check where old mackeys are deser
+    //dst->ciphertext = data->enc_msg;
     memcpy(dst->ciphertext, data->enc_msg, data->enc_msg_len);
     dst->ciphertext_len = data->enc_msg_len;
+
+    //for (unsigned int i = 0; i<data->enc_msg_len; i++) {
+    //printf("%x \n", data->enc_msg[i]);
+    //}
+    //printf("%lu \n", data->enc_msg_len);
+
+    //printf("sec%x \n", *dst->ciphertext);
+    //printf("sec%d \n", dst->ciphertext_len);
+
     memcpy(dst->mac, data->mac, DATA_MSG_MAC_BYTES);
 
     free(data);
