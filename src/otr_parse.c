@@ -58,11 +58,13 @@ parse(encoded_msg_t * dst, const char * src, const int src_len) {
     dst->version = header.version;
 
     data_message_t * data = malloc(sizeof(data_message_t));
-    if (NULL == data) {
+    if (!data) {
 	return 1;
     }
 
-    err = data_message_deserialize(data, decoded, dec_len);
+    if (!data_message_deserialize(data, decoded, dec_len))
+       return 1;
+
     dst->sender_instance_tag = data->sender_instance_tag;
     dst->receiver_instance_tag = data->receiver_instance_tag;
     memcpy(dst->nonce, data->nonce, DATA_MSG_NONCE_BYTES);
@@ -75,7 +77,6 @@ parse(encoded_msg_t * dst, const char * src, const int src_len) {
     }
 
     // XXX: check where old mackeys are deser
-    //dst->ciphertext = data->enc_msg;
     memcpy(dst->ciphertext, data->enc_msg, data->enc_msg_len);
     dst->ciphertext_len = data->enc_msg_len;
 
