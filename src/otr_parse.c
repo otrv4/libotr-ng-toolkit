@@ -25,7 +25,6 @@ typedef struct {
 int
 parse(encoded_msg_t *dst, const char * src, const int src_len);
 
-
 encoded_msg_t *encoded_message_new()
 {
 	encoded_msg_t *ret = malloc(sizeof(encoded_msg_t));
