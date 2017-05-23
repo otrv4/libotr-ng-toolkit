@@ -1,13 +1,15 @@
 #                                               -*- Autoconf -*-
 # Process this file with autoconf to produce a configure script.
 
-AC_PREREQ([2.69])
+AC_PREREQ([2.68])
 AC_INIT([otrv4_toolkit], [0.0.1], [strike@thoughtworks.com])
-# maybe not
-AM_PROG_AR
 AC_CONFIG_SRCDIR([src/otr_parse.c])
+AC_CONFIG_MACRO_DIR([m4])
 
 AM_INIT_AUTOMAKE([-Wall -Werror foreign subdir-objects])
+# maybe not
+AM_PROG_AR
+
 # Checks for programs.
 AC_PROG_CC
 AC_PROG_LIBTOOL
