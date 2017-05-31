@@ -64,16 +64,16 @@ void encoded_message_free(encoded_msg_t * enc_msg)
 int
 parse(encoded_msg_t * dst, const char * src, const int src_len) {
     if (NULL == src) {
-        return 1;
+	return 1;
     }
 
     if (src_len <= 0) {
-        return 1;
+	return 1;
     }
 
     int otr_type = (int) get_message_type(src);
     if (otr_type != IN_MSG_OTR_ENCODED) {
-        return 1;
+	return 1;
     }
 
     int err = otrl_base64_otr_decode(src, &dst->b64_msg, &dst->b64_msg_len);
@@ -82,7 +82,7 @@ parse(encoded_msg_t * dst, const char * src, const int src_len) {
     }
 
     otrv4_header_t header;
-    if (!extract_header(&header, dst->b64_msg, dst->b64_msg_len)) {
+    if (extract_header(&header, dst->b64_msg, dst->b64_msg_len)) {
 	return 1;
     }
 
@@ -98,16 +98,16 @@ parse(encoded_msg_t * dst, const char * src, const int src_len) {
 	return 1;
     }
 
-    if (!data_message_deserialize(data, dst->b64_msg, dst->b64_msg_len)) {
+    if (data_message_deserialize(data, dst->b64_msg, dst->b64_msg_len)) {
        data_message_free(data);
        return 1;
     }
 
     dst->sender_instance_tag = data->sender_instance_tag;
     dst->receiver_instance_tag = data->receiver_instance_tag;
-    *dst->our_ecdh = *data->our_ecdh;
+    *dst->our_ecdh = *data->ecdh;
     dh_init();
-    dst->our_dh = dh_mpi_copy(data->our_dh);
+    dst->our_dh = dh_mpi_copy(data->dh);
     memcpy(dst->nonce, data->nonce, DATA_MSG_NONCE_BYTES);
 
     dst->ciphertext = malloc(data->enc_msg_len);
