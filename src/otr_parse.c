@@ -1,11 +1,13 @@
 #include <stdio.h>
 #include <string.h>
 
+// clang-format off
+#include <libotr4/otrv4.h>
+// clang-format on
 #include <libotr4/b64.h>
 #include <libotr4/constants.h>
 #include <libotr4/data_message.h>
 #include <libotr4/dh.h>
-#include <libotr4/otrv4.h>
 
 typedef struct {
   uint8_t *b64_msg;
