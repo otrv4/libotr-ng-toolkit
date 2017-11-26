@@ -34,9 +34,9 @@ before_script:
   - pushd .deps/goldilocks && ./autogen.sh && ./configure && make && sudo make install && popd
   - git clone --depth=1 https://bugs.otr.im/lib/libotr.git .deps/libotr
   - pushd .deps/libotr && ./bootstrap && ./configure && make && sudo make install && popd
-  - curl https://download.libsodium.org/libsodium/releases/libsodium-1.0.11.tar.gz | tar xzf - -C .deps
-  - pushd .deps/libsodium-1.0.11 && ./autogen.sh && ./configure && make && sudo make install && popd
-  - git clone --depth=1 https://github.com/twstrike/libotrv4 .deps/libotrv4
+  - git clone --depth=1 https://github.com/jedisct1/libsodium.git .deps/libsodium; fi
+  - pushd .deps/libsodium && ./autogen.sh && ./configure && make && sudo make install && popd
+  - git clone --depth=1 https://github.com/otrv4/libotrv4 .deps/libotrv4
   - pushd .deps/libotrv4 && ./autogen.sh && ./configure && make && sudo make install && popd
 
 script:
