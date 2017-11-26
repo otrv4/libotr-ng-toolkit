@@ -95,7 +95,8 @@ int parse(encoded_msg_t *dst, const char *src, const int src_len) {
     return 1;
   }
 
-  if (data_message_deserialize(data, dst->b64_msg, dst->b64_msg_len)) {
+  size_t read = 0;
+  if (data_message_deserialize(data, dst->b64_msg, dst->b64_msg_len, &read)) {
     data_message_free(data);
     return 1;
   }
