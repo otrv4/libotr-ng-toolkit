@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.68])
-AC_INIT([otrv4_toolkit], [0.0.1], [coyim@olabini.se])
+AC_INIT([otrv4_toolkit], [0.0.1], [otrv4-dev@autonomia.digital])
 AC_CONFIG_SRCDIR([src/otr_parse.c])
 AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_AUX_DIR([.])
@@ -22,8 +22,8 @@ AC_PROG_MAKE_SET
 
 # Checks for libraries.
 PKG_CHECK_MODULES([GLIB], [glib-2.0 >= 2.18])
-PKG_CHECK_MODULES([LIBOTR4], [libotr4 >= 0.0.1])
-PKG_CHECK_MODULES([LIBDECAF], [libdecaf >= 0.0.1])
+PKG_CHECK_MODULES([LIBGOLDILOCKS], [libgoldilocks >= 0.0.1])
+PKG_CHECK_MODULES([LIBOTRNG], [libotr-ng >= 0.0.1])
 AM_PATH_LIBOTR(4.0.0,,AC_MSG_ERROR(libotr 4.x >= 4.0.0 is required.))
 AM_PATH_LIBGCRYPT(1:1.7.6,,AC_MSG_ERROR(libgcrypt 1.7.6 or newer is required.))
 
