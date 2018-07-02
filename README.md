@@ -1,6 +1,6 @@
 # OTRv4 toolkit / libotr-ng-toolkit
 
-[![Build Status](https://travis-ci.org/otrv4/otrv4_toolkit.svg?branch=master)](https://travis-ci.org/otrv4/otrv4_toolkit)
+[![Build Status](https://travis-ci.org/otrv4/libotr-ng-toolkit.svg?branch=master)](https://travis-ci.org/otrv4/libotr-ng-toolkit)
 
 This is OTRv4 toolkit implementation.
 
