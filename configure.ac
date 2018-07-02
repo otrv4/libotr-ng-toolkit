@@ -23,9 +23,9 @@ AC_PROG_MAKE_SET
 # Checks for libraries.
 PKG_CHECK_MODULES([GLIB], [glib-2.0 >= 2.18])
 PKG_CHECK_MODULES([LIBGOLDILOCKS], [libgoldilocks >= 0.0.1])
-PKG_CHECK_MODULES([LIBOTRNG], [libotr-ng >= 0.0.1])
-AM_PATH_LIBOTR(4.0.0,,AC_MSG_ERROR(libotr 4.x >= 4.0.0 is required.))
 AM_PATH_LIBGCRYPT(1:1.7.6,,AC_MSG_ERROR(libgcrypt 1.7.6 or newer is required.))
+AM_PATH_LIBOTR(4.0.0,,AC_MSG_ERROR(libotr 4.x >= 4.0.0 is required.))
+PKG_CHECK_MODULES([LIBOTRNG], [libotr-ng >= 0.0.1])
 
 # Checks for header files.
 AC_CHECK_HEADERS([stdint.h stdlib.h string.h])
