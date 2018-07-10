@@ -15,7 +15,7 @@ typedef struct {
   int sender_instance_tag;
   int receiver_instance_tag;
   ec_point_p our_ecdh;
-  dh_public_key_t our_dh;
+  dh_public_key_p our_dh;
   char nonce[DATA_MSG_NONCE_BYTES];
   uint8_t *ciphertext;
   int ciphertext_len;
