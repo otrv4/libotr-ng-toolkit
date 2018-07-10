@@ -1,9 +1,6 @@
 #include <stdio.h>
 #include <string.h>
 
-// clang-format off
-#include <libotr-ng/otrv4.h>
-// clang-format on
 #include <libotr-ng/b64.h>
 #include <libotr-ng/constants.h>
 #include <libotr-ng/data_message.h>
