@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <string.h>
 
-#include <libotr-ng/b64.h>
+#include <libotr/b64.h>
+
 #include <libotr-ng/constants.h>
 #include <libotr-ng/data_message.h>
 #include <libotr-ng/dh.h>
