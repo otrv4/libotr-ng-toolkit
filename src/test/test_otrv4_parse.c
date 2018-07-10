@@ -1,5 +1,5 @@
 #include <glib.h>
-#include <libotr4/constants.h>
+#include <libotr-ng/constants.h>
 #include <stdbool.h>
 #include <string.h>
 

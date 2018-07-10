@@ -2,12 +2,12 @@
 #include <string.h>
 
 // clang-format off
-#include <libotr4/otrv4.h>
+#include <libotr-ng/otrv4.h>
 // clang-format on
-#include <libotr4/b64.h>
-#include <libotr4/constants.h>
-#include <libotr4/data_message.h>
-#include <libotr4/dh.h>
+#include <libotr-ng/b64.h>
+#include <libotr-ng/constants.h>
+#include <libotr-ng/data_message.h>
+#include <libotr-ng/dh.h>
 
 typedef struct {
   uint8_t *b64_msg;
