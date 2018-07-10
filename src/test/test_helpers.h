@@ -37,7 +37,7 @@ static inline void otrv4_assert_uint8_equals(const uint8_t *expected,
   }
 }
 
-static inline void otrv4_assert_point_equals(const ec_point_t expected,
-                                             const ec_point_t actual) {
+static inline void otrv4_assert_point_equals(const ec_point_p expected,
+                                             const ec_point_p actual) {
   g_assert_cmpint(decaf_448_point_eq(expected, actual), !=, 0);
 }
