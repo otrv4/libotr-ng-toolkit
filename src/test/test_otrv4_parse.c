@@ -1,7 +1,9 @@
 #include <glib.h>
-#include <libotr-ng/constants.h>
 #include <stdbool.h>
 #include <string.h>
+
+#include <libotr-ng/constants.h>
+#include <libotr-ng/otrng.h>
 
 #include "../otr_parse.c"
 #include "test_helpers.h"
@@ -26,14 +28,14 @@ void otrv4_toolkit_test_parse_data_message() {
   encoded_msg_t *data_msg = encoded_message_new();
 
   g_assert_cmpint(parse(data_msg, msg, strlen(msg)), ==, 0);
-  g_assert_cmpint(data_msg->type, ==, OTR_DATA_MSG_TYPE);
-  g_assert_cmpint(data_msg->version, ==, OTRV4_ALLOW_V4);
+  g_assert_cmpint(data_msg->type, ==, DATA_MSG_TYPE);
+  g_assert_cmpint(data_msg->version, ==, OTRNG_ALLOW_V4);
   g_assert_cmpint(data_msg->sender_instance_tag, ==, 0);
   g_assert_cmpint(data_msg->receiver_instance_tag, ==, 0);
   g_assert_cmpstr(data_msg->nonce, ==,
                   "\270\325\317\021X}^\321]\034\343\273\2436 8\343\300");
-  otrv4_assert(true == ec_point_valid(data_msg->our_ecdh));
-  otrv4_assert(true == dh_mpi_valid(data_msg->our_dh));
+  otrv4_assert(true == otrng_ec_point_valid(data_msg->our_ecdh));
+  otrv4_assert(true == otrng_dh_mpi_valid(data_msg->our_dh));
   g_assert_cmpint(data_msg->ciphertext_len, ==, 3);
 
   uint8_t exp[3] = {158, 46, 90};
