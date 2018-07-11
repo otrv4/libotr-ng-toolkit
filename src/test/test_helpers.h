@@ -6,7 +6,7 @@
 
 #include "../debug.h"
 
-/* this is not used */
+// this is not used
 //#define otrv4_assert_cmpmem(s1, s2, len)                                       \
   //do {                                                                         \
     //char *__s1 = _otrng_memdump((const uint8_t *)s1, len);                     \
@@ -39,7 +39,7 @@ static inline void otrv4_assert_uint8_equals(const uint8_t *expected,
   }
 }
 
-/* this is not used */
+// this is not used
 // static inline void otrv4_assert_point_equals(const ec_point_p expected,
 // const ec_point_p actual) {
 // g_assert_cmpint(decaf_448_point_eq(expected, actual), !=, 0);
