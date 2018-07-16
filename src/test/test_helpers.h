@@ -3,7 +3,10 @@
 
 #include "../debug.h"
 
-#define otrv4_assert(expr)                                                     \
+#ifndef TEST_HELPERS
+#define TEST_HELPERS
+
+#define otrng_assert(expr)                                                     \
   do {                                                                         \
     if                                                                         \
       G_LIKELY(expr);                                                          \
