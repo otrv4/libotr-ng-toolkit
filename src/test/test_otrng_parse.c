@@ -8,7 +8,7 @@
 #include "../otr_parse.c"
 #include "test_helpers.h"
 
-void otrv4_toolkit_test_parse_data_message() {
+void otrng_toolkit_test_parse_data_message() {
   const char *msg =
       "?OTR:"
       "AAQDAAAAAAAAAAAAAAAAAAAAAAHyCwN0UvdtAN1sj2u7eZRt0bJz4OcsY8oWVNUhdjjKJt4v"
@@ -34,12 +34,12 @@ void otrv4_toolkit_test_parse_data_message() {
   g_assert_cmpint(data_msg->receiver_instance_tag, ==, 0);
   g_assert_cmpstr(data_msg->nonce, ==,
                   "\270\325\317\021X}^\321]\034\343\273\2436 8\343\300");
-  otrv4_assert(true == otrng_ec_point_valid(data_msg->our_ecdh));
-  otrv4_assert(true == otrng_dh_mpi_valid(data_msg->our_dh));
+  otrng_assert(true == otrng_ec_point_valid(data_msg->our_ecdh));
+  otrng_assert(true == otrng_dh_mpi_valid(data_msg->our_dh));
   g_assert_cmpint(data_msg->ciphertext_len, ==, 3);
 
   uint8_t exp[3] = {158, 46, 90};
-  otrv4_assert_uint8_equals(exp, data_msg->ciphertext, sizeof(exp));
+  otrng_assert_uint8_equals(exp, data_msg->ciphertext, sizeof(exp));
 
   g_assert_cmpstr(
       data_msg->mac, ==,

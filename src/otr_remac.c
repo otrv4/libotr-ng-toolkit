@@ -16,7 +16,7 @@ static void usage(const char *progname)
     exit(1);
 }
 
-int main(int argc, char **argv)
+int remac(int argc, char **argv)
 {
     unsigned char *mackey;
     size_t mackeylen;
