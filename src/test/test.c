@@ -18,7 +18,7 @@ int main(int argc, char **argv) {
 
 
   g_test_init(&argc, &argv, NULL);
-  g_test_add_func("/toolkit/parse", otrng_toolkit_test_parse_data_message);
+//  g_test_add_func("/toolkit/parse", otrng_toolkit_test_parse_data_message);
 //  g_test_add_func("/toolkit/remac", otrng_toolkit_test_parse_data_message);
 
   return g_test_run();
