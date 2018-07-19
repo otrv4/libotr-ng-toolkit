@@ -3,7 +3,10 @@ ACLOCAL_AMFLAGS = -I m4
 
 @CODE_COVERAGE_RULES@
 
-ci: test mem-check coverage-check
+bin_PROGRAMS=otrng_parse
+otrng_parse_SOURCES=src/otr_parse.c
+
+ci: test mem-check coverage-check dist-check
 
 test: check
 	$(top_builddir)/src/test/test
