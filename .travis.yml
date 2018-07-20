@@ -42,5 +42,5 @@ before_script:
 script:
   - export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
   - ./autogen.sh && ./configure
-  - if [[ $(lsb_release -c -s) == "precise" ]]; then make test; fi
-  - if [[ $(lsb_release -c -s) == "trusty" ]];  then sudo make ci;   fi
+  - make
+  - make test
