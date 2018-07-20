@@ -3,7 +3,7 @@
 
 AC_PREREQ([2.68])
 AC_INIT([otrv4_toolkit], [0.0.1], [otrv4-dev@autonomia.digital])
-AC_CONFIG_SRCDIR([src/otr_parse.c])
+AC_CONFIG_SRCDIR([src/otrng_parse.c])
 AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_AUX_DIR([.])
 AM_SILENT_RULES([no])

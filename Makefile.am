@@ -3,12 +3,12 @@ ACLOCAL_AMFLAGS = -I m4
 
 @CODE_COVERAGE_RULES@
 
-noinst_HEADERS = src/parse_functions.h
+noinst_HEADERS = src/parse.h
 bin_PROGRAMS = otrng_parse
 
 COMMON_LD = /usr/local/lib/libotr-ng.la /usr/local/lib/libotr.la @LIBS@ @LIBGCRYPT_LIBS@
 
-otrng_parse_SOURCES = src/otr_parse.c src/parse_functions.c
+otrng_parse_SOURCES = src/otrng_parse.c src/parse.c
 otrng_parse_LDADD = $(COMMON_LD)
 
 ci: test mem-check coverage-check install uninstall

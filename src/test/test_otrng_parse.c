@@ -5,7 +5,7 @@
 #include <libotr-ng/constants.h>
 #include <libotr-ng/otrng.h>
 
-#include "../parse_functions.c"
+#include "../parse.c"
 #include "test_helpers.h"
 
 void otrng_toolkit_test_parse_data_message() {

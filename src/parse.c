@@ -7,7 +7,7 @@
 #include <libotr-ng/data_message.h>
 #include <libotr-ng/dh.h>
 #include <libotr-ng/otrng.h>
-#include "parse_functions.h"
+#include "parse.h"
 
 encoded_msg_t *encoded_message_new() {
   encoded_msg_t *ret = malloc(sizeof(encoded_msg_t));
