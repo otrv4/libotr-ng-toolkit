@@ -1,5 +1,5 @@
-noinst_LTLIBRARIES = libotrv4_parse.la
+noinst_LTLIBRARIES = libotr_ng_parse.la
 
-libotrv4_parse_la_SOURCES = otr_parse.c
-libotrv4_parse_la_CFLAGS = $(AM_CFLAGS) @LIBGOLDILOCKS_CFLAGS@
-libotrv4_parse_la_LDFLAGS = $(AM_LDFLAGS) @LIBGOLDILOCKS_LIBS@
+libotr_ng_parse_la_SOURCES = otr_parse.c
+libotr_ng_parse_la_CFLAGS = $(AM_CFLAGS) @LIBGOLDILOCKS_CFLAGS@
+libotr_ng_parse_la_LDFLAGS = $(AM_LDFLAGS) @LIBGOLDILOCKS_LIBS@
