@@ -57,7 +57,7 @@ int parse(data_message_s *dst, otrng_header_s *header_msg, const char *src,
 
   size_t read = 0;
   if (!otrng_data_message_deserialize(dst, decoded, dec_len, &read)) {
-      return 1;
+    return 1;
   }
 
   return 0;
