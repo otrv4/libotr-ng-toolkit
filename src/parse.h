@@ -23,7 +23,8 @@ typedef struct {
   char mac[DATA_MSG_MAC_BYTES];
 } encoded_msg_t;
 
-int parse(encoded_msg_t *dst, const char *src, const int src_len);
+int parse(data_message_s *dst, otrng_header_s *header_msg, const char *src,
+          const int src_len);
 encoded_msg_t *encoded_message_new();
 
 void encoded_message_destroy(encoded_msg_t *enc_msg);
