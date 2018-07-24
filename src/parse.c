@@ -3,11 +3,11 @@
 
 #include <libotr/b64.h>
 
+#include "parse.h"
 #include <libotr-ng/constants.h>
 #include <libotr-ng/data_message.h>
 #include <libotr-ng/dh.h>
 #include <libotr-ng/otrng.h>
-#include "parse.h"
 
 encoded_msg_t *encoded_message_new() {
   encoded_msg_t *ret = malloc(sizeof(encoded_msg_t));
@@ -216,4 +216,3 @@ int parse(encoded_msg_t *dst, const char *src, const int src_len) {
 
   return 0;
 }
-

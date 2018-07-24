@@ -26,7 +26,6 @@ typedef struct {
 int parse(encoded_msg_t *dst, const char *src, const int src_len);
 encoded_msg_t *encoded_message_new();
 
-
 void encoded_message_destroy(encoded_msg_t *enc_msg);
 
 void encoded_message_free(encoded_msg_t *enc_msg);

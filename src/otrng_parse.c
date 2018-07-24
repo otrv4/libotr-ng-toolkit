@@ -1,6 +1,6 @@
 #include "parse.h"
 
-int main(){
+int main() {
   encoded_msg_t *dst = NULL;
   char *src = NULL;
   int src_len = 0;
