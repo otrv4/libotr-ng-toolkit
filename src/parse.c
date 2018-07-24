@@ -42,21 +42,26 @@ void encoded_message_free(encoded_msg_t *enc_msg) {
   free(enc_msg);
 }
 
-int parse(data_message_s *dst, otrng_header_s *header_msg, const char *src,
-          const int src_len) {
-  size_t dec_len = 0;
-  uint8_t *decoded = NULL;
-  otrl_base64_otr_decode(src, &decoded, &dec_len);
-  if (!otrng_extract_header(header_msg, decoded, dec_len)) {
+int parse(data_message_s *body_msg, otrng_header_s *header_msg, const char *original_msg) {
+
+  size_t decoded_msg_len = 0;
+  uint8_t *decoded_msg = NULL;
+  otrl_base64_otr_decode(original_msg, &decoded_msg, &decoded_msg_len);
+  printf("Dec len: %zu\n", decoded_msg_len);
+  printf("dst len: %zu\n", sizeof(body_msg));
+  if (!otrng_extract_header(header_msg, decoded_msg, decoded_msg_len)) {
+    puts("extract");
     return 1;
   }
-
   if (header_msg->type != DATA_MSG_TYPE) {
+    puts("tipo da msg");
     return 1;
   }
 
+  printf("Dec len: %zu\n", decoded_msg_len);
   size_t read = 0;
-  if (!otrng_data_message_deserialize(dst, decoded, dec_len, &read)) {
+  if (!otrng_data_message_deserialize(body_msg, decoded_msg, decoded_msg_len, &read)) {
+    puts("deserialize");
     return 1;
   }
 
