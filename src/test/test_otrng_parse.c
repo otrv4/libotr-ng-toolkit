@@ -17,14 +17,13 @@ void otrng_toolkit_test_parse_data_message() {
   g_assert_cmpint(header_msg->version, ==, OTRNG_ALLOW_V4);
   g_assert_cmpint(data_msg->sender_instance_tag, ==, 480412658);
   g_assert_cmpint(data_msg->receiver_instance_tag, ==, 1764592062);
-  /*g_assert_cmpstr(data_msg->nonce, ==,*/
-  /*"\270\325\317\021X}^\321]\034\343\273\2436 8\343\300");*/
+  g_assert_cmpstr((char *)data_msg->nonce, ==, "\252V\246\224s\332D=N\232\374\320\251\275\2613\274\316\211\333g\002\355\303\360\246\257z%V");
   otrng_assert(true == otrng_ec_point_valid(data_msg->ecdh));
-  /*otrng_assert(true == otrng_dh_mpi_valid(data_msg->dh));*/
+  //otrng_assert(true == otrng_dh_mpi_valid(data_msg->dh));
 
-  /*g_assert_cmpstr(*/
-  /*data_msg->mac, ==,*/
-  /*"R\346\262\035\267B\273\264\276<\037q\365C/@\tu|\235\320kT@\370\023\362");*/
+  g_assert_cmpstr(
+  (char *)data_msg->mac, ==,
+  "R\346\262\035\267B\273\264\276<\037q\365C/@\tu|\235\320kT@\370\023\362");
 
   otrng_data_message_free(data_msg);
   free(header_msg);
