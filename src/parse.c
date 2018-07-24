@@ -2,12 +2,12 @@
 #include <string.h>
 
 #include <libotr/b64.h>
-
-#include "parse.h"
 #include <libotr-ng/constants.h>
 #include <libotr-ng/data_message.h>
 #include <libotr-ng/dh.h>
 #include <libotr-ng/otrng.h>
+
+#include "parse.h"
 
 encoded_msg_t *encoded_message_new() {
   encoded_msg_t *ret = malloc(sizeof(encoded_msg_t));
@@ -47,7 +47,7 @@ int parse(data_message_s *dst, otrng_header_s *header_msg, const char *src,
   size_t dec_len = 0;
   uint8_t *decoded = NULL;
   otrl_base64_otr_decode(src, &decoded, &dec_len);
-  if (!extract_header(header_msg, decoded, dec_len)) {
+  if (!otrng_extract_header(header_msg, decoded, dec_len)) {
     return 1;
   }
 
