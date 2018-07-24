@@ -7,13 +7,14 @@ This is OTRv4 toolkit implementation.
 The libotr-n toolkit is useful for analyzing and/or forging OTRv4 messages.
 
 It makes absolutely sure that transcripts of OTRv4 conversations are really
-easy to forge after the fact (note that during an OTRv4 conversation, messages
-can't be forged without real-time access to the secret keys on the participants'
-computers, and in that case, all security has already been lost).
+easy to forge after the fact to prove offline deniability.
+
+It also makes absolutely sure that OTRv4 conversations can be online deniable
+by showing how to impersonate or use forging keys.
 
 Easily-forgeable transcripts help us provide the "Deniability" property: if
 someone claims you said something over OTR, they'll have no proof, as anyone at
-all can modify a transcript  to make it say whatever they like, and still have
+all can modify a transcript to make it say whatever they like, and still have
 all the verification come out correctly.
 
 ## Build
