@@ -25,22 +25,7 @@ if(message_type == MSG_QUERY_STRING){
     free(header_msg);
     otrng_data_message_free(data_msg);
   } else if (message_type == MSG_OTR_ERROR) {
-    printf("OTR ERROR: ");
-    const char *unreadable_msg_error = "Unreadable message";
-    const char *not_in_private_error = "Not in private state message";
-    const char *encryption_error = "Encryption error";
-    const char *malformed_error = "Malformed message";
-    char *error_msg = original_msg + strlen(ERROR_PREFIX);
-
-  if (strncmp(error_msg, "ERROR_1:", 8) == 0) {
-      printf("%s\n", unreadable_msg_error);
-    } else if (strncmp(error_msg, "ERROR_2:", 8) == 0) {
-      printf("%s\n", not_in_private_error);
-    } else if (strncmp(error_msg, "ERROR_3:", 8) == 0) {
-      printf("%s\n", encryption_error);
-    } else if (strncmp(error_msg, "ERROR_4:", 8) == 0) {
-      printf("%s\n", malformed_error);
-    }
+      print_error_msg(original_msg);
   }
 
   
