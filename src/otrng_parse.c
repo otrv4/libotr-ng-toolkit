@@ -12,8 +12,7 @@ int main(int argc, char **argv) {
 
   int message_type = otrng_get_message_type(original_msg);
   int result = 1;
-  #define WHITESPACE_TAG_BASE_BYTES 16
-  #define WHITESPACE_TAG_VERSION_BYTES 8
+
   if(message_type == MSG_PLAINTEXT) {
     printf("PLAIN TEXT: ");
     print_string(original_msg, strlen(original_msg));
