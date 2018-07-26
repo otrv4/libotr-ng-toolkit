@@ -48,7 +48,6 @@ int main(int argc, char **argv) {
       printf("\tReceiver instance tag: %u\n",
              identity_msg->receiver_instance_tag);
 
-      /*m->profile->long_term_pub_key (otrng_public_key_p)*/
       printf("\tProfile:\n");
 
       printf("\t\tVersions: ");
