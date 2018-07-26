@@ -4,4 +4,3 @@
 char *readotr(FILE *stream);
 
 #endif
-

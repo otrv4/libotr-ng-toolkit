@@ -2,9 +2,9 @@
 
 #include <libotr-ng/dake.h>
 
+#include "helper.h"
 #include "parse.h"
 #include "readotr.h"
-#include "helper.h"
 
 int main(int argc, char **argv) {
   char *original_msg = NULL;
@@ -13,13 +13,13 @@ int main(int argc, char **argv) {
   int message_type = otrng_get_message_type(original_msg);
   int result = 1;
 
-  if(message_type == MSG_PLAINTEXT) {
+  if (message_type == MSG_PLAINTEXT) {
     printf("PLAIN TEXT: ");
     print_string(original_msg, strlen(original_msg));
-  } else if(message_type == MSG_TAGGED_PLAINTEXT) {
+  } else if (message_type == MSG_TAGGED_PLAINTEXT) {
     printf("PLAIN TEXT WITH WHITESPACE TAGS: ");
     print_plaintext_formated(original_msg, strlen(original_msg));
-  }else if(message_type == MSG_QUERY_STRING){
+  } else if (message_type == MSG_QUERY_STRING) {
     printf("QUERY STRING: ");
     print_string(original_msg, strlen(original_msg));
   } else if (message_type == MSG_OTR_ENCODED) {
@@ -34,16 +34,19 @@ int main(int argc, char **argv) {
       dake_identity_message_p identity_msg;
       size_t decoded_msg_len = 0;
       uint8_t *decoded_msg = NULL;
-      if (otrl_base64_otr_decode(original_msg, &decoded_msg, &decoded_msg_len)) {
+      if (otrl_base64_otr_decode(original_msg, &decoded_msg,
+                                 &decoded_msg_len)) {
         return 1;
       }
 
-      if (!otrng_dake_identity_message_deserialize(identity_msg, decoded_msg, decoded_msg_len)) {
+      if (!otrng_dake_identity_message_deserialize(identity_msg, decoded_msg,
+                                                   decoded_msg_len)) {
         return 1;
       }
 
       printf("\tSender instance tag: %u\n", identity_msg->sender_instance_tag);
-      printf("\tReceiver instance tag: %u\n", identity_msg->receiver_instance_tag);
+      printf("\tReceiver instance tag: %u\n",
+             identity_msg->receiver_instance_tag);
 
       /*m->profile->long_term_pub_key (otrng_public_key_p)*/
       printf("\tProfile:\n");
@@ -52,21 +55,21 @@ int main(int argc, char **argv) {
       size_t n = strlen(identity_msg->profile->versions);
       print_string(identity_msg->profile->versions, n);
 
-      printf("\t\tExpires: %lu\n",identity_msg->profile->expires);
+      printf("\t\tExpires: %lu\n", identity_msg->profile->expires);
 
       if (identity_msg->profile->dsa_key_len > 0) {
         printf("\t\tDSA Key: ");
-        print_hex(identity_msg->profile->dsa_key, identity_msg->profile->dsa_key_len);
+        print_hex(identity_msg->profile->dsa_key,
+                  identity_msg->profile->dsa_key_len);
       }
 
       if (identity_msg->profile->transitional_signature) {
         printf("\t\tTransitional Signature: ");
-        print_hex(
-                identity_msg->profile->transitional_signature,
-                sizeof(identity_msg->profile->transitional_signature));
+        print_hex(identity_msg->profile->transitional_signature,
+                  sizeof(identity_msg->profile->transitional_signature));
       }
       printf("\t\tSignature: ");
-      print_hex(identity_msg->profile->signature,ED448_SIGNATURE_BYTES);
+      print_hex(identity_msg->profile->signature, ED448_SIGNATURE_BYTES);
 
       uint8_t ecdh[ED448_POINT_BYTES] = {0};
       otrng_ec_point_encode(ecdh, identity_msg->Y);
@@ -76,7 +79,8 @@ int main(int argc, char **argv) {
       size_t dh_size;
       unsigned char *dh_dump;
 
-      if (gcry_mpi_aprint(GCRYMPI_FMT_USG, &dh_dump, &dh_size, identity_msg->B)) {
+      if (gcry_mpi_aprint(GCRYMPI_FMT_USG, &dh_dump, &dh_size,
+                          identity_msg->B)) {
         return 1;
       }
 

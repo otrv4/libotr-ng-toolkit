@@ -23,7 +23,8 @@ int parse_data_message(data_message_s *body_msg, const char *original_msg) {
   }
 
   size_t read = 0;
-  if (!otrng_data_message_deserialize(body_msg, decoded_msg, decoded_msg_len, &read)) {
+  if (!otrng_data_message_deserialize(body_msg, decoded_msg, decoded_msg_len,
+                                      &read)) {
     return 1;
   }
 
