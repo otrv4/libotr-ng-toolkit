@@ -10,7 +10,12 @@ int main(int argc, char **argv) {
   int message_type = otrng_get_message_type(original_msg);
   int result = 1;
 
-if(message_type == MSG_QUERY_STRING){
+if(message_type == MSG_PLAINTEXT) {
+    printf("PLAIN TEXT: ");
+    for(int i = 0; i < strlen(original_msg); i++){
+      printf("%c", original_msg[i]);
+    }
+} else if(message_type == MSG_QUERY_STRING){
     printf("QUERY STRING: ");
     for(int i = 0; i < strlen(original_msg); i++){
       printf("%c", original_msg[i]);

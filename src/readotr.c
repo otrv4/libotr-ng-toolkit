@@ -43,16 +43,22 @@ char *readotr(FILE *stream)
     int headerlen = strlen(header);
     Buffer buf;
 
+    int is_plaintext = 0;
+    buf_new(&buf);
+
     while(seen < headerlen) {
-	int c = fgetc(stream);
-	if (c == EOF) return NULL;
-	else if (c == header[seen]) seen++;
-	else if (c == header[0]) seen = 1;
-	else seen = 0;
+        int c = fgetc(stream);
+        if (c == EOF) return NULL;
+        else if (c == header[seen]) seen++;
+        else if (c == header[0]) seen = 1;
+        else {
+            buf_putc(&buf, c);
+            is_plaintext = 1;
+            break;
+        }
     }
 
-    buf_new(&buf);
-    buf_put(&buf, header, headerlen);
+    if (!is_plaintext) buf_put(&buf, header, headerlen);
 
     /* Look for the trailing '.' */
     while(1) {
