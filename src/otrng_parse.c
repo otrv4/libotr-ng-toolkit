@@ -26,7 +26,7 @@ int main(int argc, char **argv) {
     otrng_header_s *header_msg = malloc(sizeof(otrng_header_s));
     result = parse_header(header_msg, original_msg);
 
-    if (header_msg->type == 0x35) {
+    if (header_msg->type == IDENTITY_MSG_TYPE) {
       printf("IDENTITY MESSAGE:\n");
       printf("\tType: %x\n", header_msg->type);
       printf("\tVersion: %x\n", header_msg->version);
@@ -88,11 +88,14 @@ int main(int argc, char **argv) {
       print_hex(dh_dump, dh_size);
       free(dh_dump);
       otrng_dake_identity_message_destroy(identity_msg);
-    } else {
+    } else if (header_msg->type == DATA_MSG_TYPE) {
       data_message_s *data_msg = otrng_data_message_new();
       result = parse_data_message(data_msg, original_msg);
       print_data_message(header_msg, data_msg);
       otrng_data_message_free(data_msg);
+    } else {
+      printf("Error while trying to parse encoded message\n");
+      return 1;
     }
 
     free(header_msg);
