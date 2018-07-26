@@ -36,9 +36,10 @@ void otrng_toolkit_test_parse_data_message() {
   data_message_s *data_msg = otrng_data_message_new();
   otrng_header_s *header_msg = malloc(sizeof(otrng_header_s));
 
-  g_assert_cmpint(parse(data_msg, header_msg, msg), ==, 0);
+  g_assert_cmpint(parse_header(header_msg, msg), ==, 0);
+  g_assert_cmpint(parse_data_message(data_msg, msg), ==, 0);
   g_assert_cmpint(header_msg->type, ==, DATA_MSG_TYPE);
-  g_assert_cmpint(header_msg->version, ==, OTRNG_ALLOW_V4);
+  g_assert_cmpint(header_msg->version, ==, 4);
   g_assert_cmpint(data_msg->sender_instance_tag, ==, 480412658);
   g_assert_cmpint(data_msg->receiver_instance_tag, ==, 1764592062);
   g_assert_cmpint(sizeof(data_msg->nonce), ==, DATA_MSG_NONCE_BYTES);
