@@ -15,7 +15,7 @@ int main(int argc, char **argv) {
     printf("PLAIN TEXT: ");
     print_string(original_msg, strlen(original_msg));
   } else if(message_type == MSG_TAGGED_PLAINTEXT) {
-    printf("PLAIN TEXT WITHOUT TAGS: ");
+    printf("PLAIN TEXT WITH WHITESPACE TAGS: ");
     print_plaintext_formated(original_msg, strlen(original_msg));
   }else if(message_type == MSG_QUERY_STRING){
     printf("QUERY STRING: ");
