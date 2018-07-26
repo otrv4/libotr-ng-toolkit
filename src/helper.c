@@ -20,7 +20,7 @@ void print_string(char *data, int data_len) {
 }
 
 void print_data_message(otrng_header_s *header_msg, data_message_s *data_msg){
-  printf("Data message:\n");
+  printf("DATA MESSAGE:\n");
   printf("\tType: %02x\n", header_msg->type);
   printf("\tVersion: %04x\n", header_msg->version);
   printf("\tSender instance tag: %d\n", data_msg->sender_instance_tag);
