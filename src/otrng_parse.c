@@ -87,6 +87,22 @@ int main(int argc, char **argv) {
       print_hex(dh_dump, dh_size);
       free(dh_dump);
       otrng_dake_identity_message_destroy(identity_msg);
+    } else if (header_msg->type == AUTH_R_MSG_TYPE) {
+      printf("AUTH-R MESSAGE:\n");
+      printf("\tType: %x\n", header_msg->type);
+      printf("\tVersion: %x\n", header_msg->version);
+
+      dake_auth_r_p auth_r_msg;
+      size_t decoded_msg_len = 0;
+      uint8_t *decoded_msg = NULL;
+      if (otrl_base64_otr_decode(original_msg, &decoded_msg,
+                                 &decoded_msg_len)) {
+        return 1;
+      }
+      if (!otrng_dake_auth_r_deserialize(auth_r_msg, decoded_msg,
+                                         decoded_msg_len)) {
+        return 1;
+      }
     } else if (header_msg->type == DATA_MSG_TYPE) {
       data_message_s *data_msg = otrng_data_message_new();
       result = parse_data_message(data_msg, original_msg);
