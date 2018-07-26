@@ -79,3 +79,24 @@ void print_error_msg(char *data){
       printf("%s\n", malformed_error);
     }
 }
+
+void print_plaintext_formated(char *data, int data_len){
+  static const char tag_base[] = {'\x20', '\x09', '\x20', '\x20', '\x09', '\x09',
+                                '\x09', '\x09', '\x20', '\x09', '\x20', '\x09',
+                                '\x20', '\x09', '\x20', '\x20', '\0'};
+
+size_t tag_length = WHITESPACE_TAG_BASE_BYTES + WHITESPACE_TAG_VERSION_BYTES;
+  size_t chars = data_len - tag_length;
+  char *found_at = strstr(data, tag_base);
+  string_p buff = malloc(chars + 1);
+
+  size_t bytes_before_tag = found_at - data;
+  if (!bytes_before_tag) {
+    memcpy(buff, data + tag_length, chars);
+  } else {
+    memcpy(buff, data, bytes_before_tag);
+    memcpy(buff, data + bytes_before_tag, chars - bytes_before_tag);
+  }
+
+    print_string(buff, strlen(buff));
+}

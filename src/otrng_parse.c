@@ -5,15 +5,20 @@
 
 int main(int argc, char **argv) {
   char *original_msg = NULL;
-  original_msg = readotr(stdin);
+  //original_msg = readotr(stdin);
+  original_msg = " \t  \t\t\t\t \t \t \t    \t\t \t  And some random invitation text.\0";
 
   int message_type = otrng_get_message_type(original_msg);
   int result = 1;
-
+  #define WHITESPACE_TAG_BASE_BYTES 16
+  #define WHITESPACE_TAG_VERSION_BYTES 8
   if(message_type == MSG_PLAINTEXT) {
     printf("PLAIN TEXT: ");
     print_string(original_msg, strlen(original_msg));
-  } else if(message_type == MSG_QUERY_STRING){
+  } else if(message_type == MSG_TAGGED_PLAINTEXT) {
+    printf("PLAIN TEXT WITHOUT TAGS: ");
+    print_plaintext_formated(original_msg, strlen(original_msg));
+  }else if(message_type == MSG_QUERY_STRING){
     printf("QUERY STRING: ");
     print_string(original_msg, strlen(original_msg));
   } else if (message_type == MSG_OTR_ENCODED) {
