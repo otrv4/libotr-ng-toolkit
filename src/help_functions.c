@@ -8,7 +8,14 @@ void print_hex(uint8_t data[], int data_len){
     printf("%02x", data[i]);
   }
   printf("\n");
-};
+}
+
+void print_string(char *data, int data_len) {
+    for(int i = 0; i < data_len; i++){
+      printf("%c", data[i]);
+    }
+  printf("\n");
+}
 
 void print_data_message(otrng_header_s *header_msg, data_message_s *data_msg){
   printf("Data message:\n");

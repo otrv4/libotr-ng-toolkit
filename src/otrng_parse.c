@@ -10,16 +10,12 @@ int main(int argc, char **argv) {
   int message_type = otrng_get_message_type(original_msg);
   int result = 1;
 
-if(message_type == MSG_PLAINTEXT) {
+  if(message_type == MSG_PLAINTEXT) {
     printf("PLAIN TEXT: ");
-    for(int i = 0; i < strlen(original_msg); i++){
-      printf("%c", original_msg[i]);
-    }
-} else if(message_type == MSG_QUERY_STRING){
+    print_string(original_msg, strlen(original_msg));
+  } else if(message_type == MSG_QUERY_STRING){
     printf("QUERY STRING: ");
-    for(int i = 0; i < strlen(original_msg); i++){
-      printf("%c", original_msg[i]);
-    }
+    print_string(original_msg, strlen(original_msg));
   } else if (message_type == MSG_OTR_ENCODED) {
     data_message_s *data_msg = otrng_data_message_new();
     otrng_header_s *header_msg = malloc(sizeof(otrng_header_s));
@@ -30,7 +26,7 @@ if(message_type == MSG_PLAINTEXT) {
     free(header_msg);
     otrng_data_message_free(data_msg);
   } else if (message_type == MSG_OTR_ERROR) {
-      print_error_msg(original_msg);
+    print_error_msg(original_msg);
   }
 
   
