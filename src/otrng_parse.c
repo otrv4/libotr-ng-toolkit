@@ -1,12 +1,11 @@
 #include <stdio.h>
 #include "parse.h"
 #include "readotr.h"
-#include "help_functions.h"
+#include "helper.h"
 
 int main(int argc, char **argv) {
   char *original_msg = NULL;
-  //original_msg = readotr(stdin);
-  original_msg = " \t  \t\t\t\t \t \t \t    \t\t \t  And some random invitation text.\0";
+  original_msg = readotr(stdin);
 
   int message_type = otrng_get_message_type(original_msg);
   int result = 1;

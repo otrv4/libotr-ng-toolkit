@@ -3,6 +3,8 @@
 #include <libotr-ng/constants.h>
 #include <libotr-ng/otrng.h>
 
+#include "helper.h"
+
 void print_hex(uint8_t data[], int data_len){
   for(int i=0; i < data_len; i++) {
     printf("%02x", data[i]);
