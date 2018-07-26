@@ -8,5 +8,5 @@
 #include <libotr-ng/dh.h>
 #include <libotr-ng/otrng.h>
 
-int parse_data_message(data_message_s *body_msg, otrng_header_s *header_msg, const char *original_msg);
-
+int parse_data_message(data_message_s *body_msg, const char *original_msg);
+int parse_header(otrng_header_s *header_msg, const char *original_msg);

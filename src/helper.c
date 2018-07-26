@@ -43,9 +43,7 @@ void print_data_message(otrng_header_s *header_msg, data_message_s *data_msg){
 
   size_t dh_size;
   unsigned char *dh_dump;
-  gcry_mpi_print(GCRYMPI_FMT_USG, NULL, 0, &dh_size, data_msg->dh);
-  dh_dump = malloc(dh_size);
-  gcry_mpi_print(GCRYMPI_FMT_USG, dh_dump, dh_size, NULL, data_msg->dh);
+  gcry_mpi_aprint(GCRYMPI_FMT_USG, &dh_dump, &dh_size, data_msg->dh);
   printf("\tDH: ");
   print_hex(dh_dump, dh_size);
   free(dh_dump);
