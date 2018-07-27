@@ -1,5 +1,8 @@
 #include <stdio.h>
 
+/*#include <goldilocks/common.h>*/
+/*#include <goldilocks/point_448.h>*/
+
 #include <libotr-ng/dake.h>
 
 #include "helper.h"
@@ -163,7 +166,18 @@ int main(int argc, char **argv) {
       printf("\tSender instance tag: %u\n", auth_i_msg->sender_instance_tag);
       printf("\tReceiver instance tag: %u\n",
              auth_i_msg->receiver_instance_tag);
-      // TODO: Need to print ring signature
+
+      /*printf("\tRing Signature Authentication:\n");*/
+      /*printf("\t\tc1:");*/
+      /*uint8_t c1[ED448_SCALAR_BYTES];*/
+      /*goldilocks_448_scalar_decode_long(auth_i_msg->sigma->c1, c1,
+       * ED448_SCALAR_BYTES);*/
+      /*print_hex(c1, ED448_SCALAR_BYTES);*/
+      /*printf("\t\tr1:\n");*/
+      /*printf("\t\tc2:\n");*/
+      /*printf("\t\tr2:\n");*/
+      /*printf("\t\tc3:\n");*/
+      /*printf("\t\tr3:\n");*/
 
       // TODO: Need to free auth_i_msg
     } else if (header_msg->type == DATA_MSG_TYPE) {
