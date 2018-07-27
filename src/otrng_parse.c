@@ -144,6 +144,28 @@ int main(int argc, char **argv) {
       // TODO: Need to print ring signature
       free(dh_dump);
       // TODO: Need to free auth_r_msg
+    } else if (header_msg->type == AUTH_I_MSG_TYPE) {
+      printf("AUTH-I MESSAGE:\n");
+      printf("\tType: %x\n", header_msg->type);
+      printf("\tVersion: %x\n", header_msg->version);
+
+      dake_auth_i_p auth_i_msg;
+      size_t decoded_msg_len = 0;
+      uint8_t *decoded_msg = NULL;
+      if (otrl_base64_otr_decode(original_msg, &decoded_msg,
+                                 &decoded_msg_len)) {
+        return 1;
+      }
+      if (!otrng_dake_auth_i_deserialize(auth_i_msg, decoded_msg,
+                                         decoded_msg_len)) {
+        return 1;
+      }
+      printf("\tSender instance tag: %u\n", auth_i_msg->sender_instance_tag);
+      printf("\tReceiver instance tag: %u\n",
+             auth_i_msg->receiver_instance_tag);
+      // TODO: Need to print ring signature
+
+      // TODO: Need to free auth_i_msg
     } else if (header_msg->type == DATA_MSG_TYPE) {
       data_message_s *data_msg = otrng_data_message_new();
       result = parse_data_message(data_msg, original_msg);
