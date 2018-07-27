@@ -1,4 +1,7 @@
+
 #include <stdio.h>
+
+#include <goldilocks/point_448.h>
 
 #include <libotr-ng/constants.h>
 #include <libotr-ng/otrng.h>
@@ -39,6 +42,7 @@ void print_ring_signature(ring_sig_p sigma) {
   printf("\tRing Signature Authentication:\n");
   printf("\t\tc1:");
   uint8_t c1[ED448_SCALAR_BYTES];
+
   goldilocks_448_scalar_decode_long(sigma->c1, c1, ED448_SCALAR_BYTES);
   print_hex(c1, ED448_SCALAR_BYTES);
   printf("\t\tr1:");

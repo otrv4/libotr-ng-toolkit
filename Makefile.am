@@ -6,7 +6,7 @@ ACLOCAL_AMFLAGS = -I m4
 noinst_HEADERS = src/parse.h src/readotr.h src/helper.h
 bin_PROGRAMS = otrng_parse
 
-COMMON_LD = /usr/local/lib/libotr-ng.la /usr/local/lib/libotr.la @LIBS@ @LIBGCRYPT_LIBS@
+COMMON_LD = /usr/local/lib/libotr-ng.la /usr/local/lib/libotr.la @LIBS@ @LIBGCRYPT_LIBS@ @LIBGOLDILOCKS_LIBS@
 
 otrng_parse_SOURCES = src/otrng_parse.c src/parse.c src/readotr.c src/helper.c
 otrng_parse_LDADD = $(COMMON_LD)

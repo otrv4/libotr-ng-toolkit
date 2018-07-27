@@ -1,5 +1,7 @@
 #include <stdio.h>
 
+#include <goldilocks/point_448.h>
+
 #include <libotr-ng/constants.h>
 #include <libotr-ng/otrng.h>
 
