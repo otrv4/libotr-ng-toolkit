@@ -85,7 +85,7 @@ int main(int argc, char **argv) {
       printf("\tB: ");
       print_hex(dh_dump, dh_size);
       free(dh_dump);
-      otrng_dake_identity_message_destroy(identity_msg);
+      otrng_dake_identity_message_free(identity_msg);
     } else if (header_msg->type == AUTH_R_MSG_TYPE) {
       printf("AUTH-R MESSAGE:\n");
       printf("\tType: %x\n", header_msg->type);
