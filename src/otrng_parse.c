@@ -49,7 +49,6 @@ int main(int argc, char **argv) {
              identity_msg->receiver_instance_tag);
 
       printf("\tProfile:\n");
-
       printf("\t\tVersions: ");
       size_t n = strlen(identity_msg->profile->versions);
       print_string(identity_msg->profile->versions, n);
@@ -103,6 +102,48 @@ int main(int argc, char **argv) {
                                          decoded_msg_len)) {
         return 1;
       }
+
+      printf("\tSender instance tag: %u\n", auth_r_msg->sender_instance_tag);
+      printf("\tReceiver instance tag: %u\n",
+             auth_r_msg->receiver_instance_tag);
+
+      // TODO: print profile
+      printf("\tProfile:\n");
+      printf("\t\tVersions: ");
+      size_t n = strlen(auth_r_msg->profile->versions);
+      print_string(auth_r_msg->profile->versions, n);
+
+      printf("\t\tExpires: %lu\n", auth_r_msg->profile->expires);
+
+      if (auth_r_msg->profile->dsa_key_len > 0) {
+        printf("\t\tDSA Key: ");
+        print_hex(auth_r_msg->profile->dsa_key,
+                  auth_r_msg->profile->dsa_key_len);
+      }
+
+      if (auth_r_msg->profile->transitional_signature) {
+        printf("\t\tTransitional Signature: ");
+        print_hex(auth_r_msg->profile->transitional_signature,
+                  sizeof(auth_r_msg->profile->transitional_signature));
+      }
+
+      uint8_t ecdh[ED448_POINT_BYTES] = {0};
+      otrng_ec_point_encode(ecdh, auth_r_msg->X);
+      printf("\tX: ");
+      print_hex(ecdh, ED448_POINT_BYTES);
+
+      size_t dh_size;
+      unsigned char *dh_dump;
+
+      if (gcry_mpi_aprint(GCRYMPI_FMT_USG, &dh_dump, &dh_size, auth_r_msg->A)) {
+        return 1;
+      }
+
+      printf("\tA: ");
+      print_hex(dh_dump, dh_size);
+      // TODO: Need to print ring signature
+      free(dh_dump);
+      // TODO: Need to free auth_r_msg
     } else if (header_msg->type == DATA_MSG_TYPE) {
       data_message_s *data_msg = otrng_data_message_new();
       result = parse_data_message(data_msg, original_msg);
