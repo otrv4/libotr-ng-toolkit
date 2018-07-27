@@ -6,22 +6,35 @@ matrix:
     - os: linux
       dist: trusty
       compiler: clang
+      env: TYPE=build
     - os: linux
       dist: trusty
       compiler: gcc
+      env: TYPE=build
     - os: linux
       dist: precise
       compiler: clang
+      env: TYPE=build
     - os: linux
       dist: precise
       compiler: gcc
+      env: TYPE=build
+    - os: linux
+      dist: precise
+      compiler: clang
+      env: TYPE=lint
 
 sudo: required
 
 before_install:
-  - sudo apt-get update --quiet --assume-yes
-  - sudo apt-get install splint --quiet --assume-yes
-  - sudo apt-get install valgrind --quiet --assume-yes
+  - if [[ "$TYPE" = "build" ]]; then
+        sudo apt-get update --quiet --assume-yes;
+        sudo apt-get install splint --quiet --assume-yes;
+        sudo apt-get install valgrind --quiet --assume-yes;
+    fi
+  - if [[ "$TYPE" = "lint" ]]; then
+        sudo apt-get install clang-format-3.5 --quiet --assume-yes;
+    fi
 
 before_script:
   - mkdir .deps
@@ -40,8 +53,14 @@ before_script:
   - pushd .deps/libotr-ng && ./autogen.sh && ./configure && make && sudo make install && popd
 
 script:
-  - export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
-  - ./autogen.sh && ./configure
-  - make
-  - make test
-  - sudo make install
+  - if [[ "$TYPE" = "build" ]]; then
+        export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH;
+        ./autogen.sh;
+        ./configure;
+        make;
+        make test;
+        sudo make install;
+    fi
+  - if [[ "$TYPE" = "lint" ]]; then
+        make code-style-check;
+    fi
