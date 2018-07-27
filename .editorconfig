@@ -1,0 +1,13 @@
+# These are the project configuration that has
+# to be followed in all editors.
+
+root = true
+
+[*]
+end_of_line = lf
+insert_final_newline = true
+indent_style = spaces
+indent_size = 2
+
+[Makefile]
+indent_style = tab
