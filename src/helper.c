@@ -19,6 +19,50 @@ void print_string(char *data, int data_len) {
   printf("\n");
 }
 
+void print_ECDH(char *title, goldilocks_448_point_s *point) {
+  uint8_t ecdh[ED448_POINT_BYTES] = {0};
+  otrng_ec_point_encode(ecdh, point);
+  printf("%s", title);
+  print_hex(ecdh, ED448_POINT_BYTES);
+}
+
+void print_DH(char *title, dh_public_key_p dh) {
+  size_t dh_size;
+  unsigned char *dh_dump;
+  gcry_mpi_aprint(GCRYMPI_FMT_USG, &dh_dump, &dh_size, dh);
+  printf("%s", title);
+  print_hex(dh_dump, dh_size);
+  free(dh_dump);
+}
+
+void print_ring_signature(ring_sig_p sigma) {
+  printf("\tRing Signature Authentication:\n");
+  printf("\t\tc1:");
+  uint8_t c1[ED448_SCALAR_BYTES];
+  goldilocks_448_scalar_decode_long(sigma->c1, c1, ED448_SCALAR_BYTES);
+  print_hex(c1, ED448_SCALAR_BYTES);
+  printf("\t\tr1:");
+  uint8_t r1[ED448_SCALAR_BYTES];
+  goldilocks_448_scalar_decode_long(sigma->r1, r1, ED448_SCALAR_BYTES);
+  print_hex(r1, ED448_SCALAR_BYTES);
+  printf("\t\tc2:");
+  uint8_t c2[ED448_SCALAR_BYTES];
+  goldilocks_448_scalar_decode_long(sigma->c2, c2, ED448_SCALAR_BYTES);
+  print_hex(c2, ED448_SCALAR_BYTES);
+  printf("\t\tr2:");
+  uint8_t r2[ED448_SCALAR_BYTES];
+  goldilocks_448_scalar_decode_long(sigma->r2, r2, ED448_SCALAR_BYTES);
+  print_hex(r2, ED448_SCALAR_BYTES);
+  printf("\t\tc3:");
+  uint8_t c3[ED448_SCALAR_BYTES];
+  goldilocks_448_scalar_decode_long(sigma->c3, c3, ED448_SCALAR_BYTES);
+  print_hex(c3, ED448_SCALAR_BYTES);
+  printf("\t\tr3:");
+  uint8_t r3[ED448_SCALAR_BYTES];
+  goldilocks_448_scalar_decode_long(sigma->r3, r3, ED448_SCALAR_BYTES);
+  print_hex(r3, ED448_SCALAR_BYTES);
+}
+
 void print_data_message(otrng_header_s *header_msg, data_message_s *data_msg) {
   printf("DATA MESSAGE:\n");
   printf("\tType: %02x\n", header_msg->type);
@@ -36,17 +80,9 @@ void print_data_message(otrng_header_s *header_msg, data_message_s *data_msg) {
   printf("\tRatchet id: %d\n", data_msg->ratchet_id);
   printf("\tMessage_id: %d\n", data_msg->message_id);
 
-  uint8_t ecdh[ED448_POINT_BYTES] = {0};
-  otrng_ec_point_encode(ecdh, data_msg->ecdh);
-  printf("\tECDH: ");
-  print_hex(ecdh, ED448_POINT_BYTES);
+  print_ECDH("\tECDH: ", data_msg->ecdh);
 
-  size_t dh_size;
-  unsigned char *dh_dump;
-  gcry_mpi_aprint(GCRYMPI_FMT_USG, &dh_dump, &dh_size, data_msg->dh);
-  printf("\tDH: ");
-  print_hex(dh_dump, dh_size);
-  free(dh_dump);
+  print_DH("\tDH: ", data_msg->dh);
 
   printf("\tNonce: ");
   print_hex(data_msg->nonce, DATA_MSG_NONCE_BYTES);
@@ -99,4 +135,75 @@ void print_plaintext_formated(char *data, int data_len) {
   }
 
   print_string(buff, strlen(buff));
+}
+
+void print_identity_message(dake_identity_message_p identity_msg) {
+  printf("\tSender instance tag: %u\n", identity_msg->sender_instance_tag);
+  printf("\tReceiver instance tag: %u\n", identity_msg->receiver_instance_tag);
+
+  printf("\tProfile:\n");
+  printf("\t\tVersions: ");
+  size_t n = strlen(identity_msg->profile->versions);
+  print_string(identity_msg->profile->versions, n);
+
+  printf("\t\tExpires: %lu\n", identity_msg->profile->expires);
+
+  if (identity_msg->profile->dsa_key_len > 0) {
+    printf("\t\tDSA Key: ");
+    print_hex(identity_msg->profile->dsa_key,
+              identity_msg->profile->dsa_key_len);
+  }
+
+  if (identity_msg->profile->transitional_signature) {
+    printf("\t\tTransitional Signature: ");
+    print_hex(identity_msg->profile->transitional_signature,
+              sizeof(identity_msg->profile->transitional_signature));
+  }
+
+  printf("\t\tSignature: ");
+  print_hex(identity_msg->profile->signature, ED448_SIGNATURE_BYTES);
+
+  print_ECDH("\tY: ", identity_msg->Y);
+
+  print_DH("\tB: ", identity_msg->B);
+}
+
+void print_auth_r(dake_auth_r_p auth_r_msg) {
+  printf("\tSender instance tag: %u\n", auth_r_msg->sender_instance_tag);
+  printf("\tReceiver instance tag: %u\n", auth_r_msg->receiver_instance_tag);
+
+  printf("\tProfile:\n");
+  printf("\t\tVersions: ");
+  size_t n = strlen(auth_r_msg->profile->versions);
+  print_string(auth_r_msg->profile->versions, n);
+
+  printf("\t\tExpires: %lu\n", auth_r_msg->profile->expires);
+
+  if (auth_r_msg->profile->dsa_key_len > 0) {
+    printf("\t\tDSA Key: ");
+    print_hex(auth_r_msg->profile->dsa_key, auth_r_msg->profile->dsa_key_len);
+  }
+
+  if (auth_r_msg->profile->transitional_signature) {
+    printf("\t\tTransitional Signature: ");
+    print_hex(auth_r_msg->profile->transitional_signature,
+              sizeof(auth_r_msg->profile->transitional_signature));
+  }
+
+  print_ECDH("\tX: ", auth_r_msg->X);
+
+  print_DH("\tA: ", auth_r_msg->A);
+
+  print_ring_signature(auth_r_msg->sigma);
+
+  otrng_dake_auth_r_destroy(auth_r_msg);
+}
+
+void print_auth_i(dake_auth_i_p auth_i_msg) {
+  printf("\tSender instance tag: %u\n", auth_i_msg->sender_instance_tag);
+  printf("\tReceiver instance tag: %u\n", auth_i_msg->receiver_instance_tag);
+
+  print_ring_signature(auth_i_msg->sigma);
+
+  otrng_dake_auth_i_destroy(auth_i_msg);
 }
