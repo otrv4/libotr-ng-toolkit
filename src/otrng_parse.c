@@ -144,37 +144,37 @@ int main(int argc, char **argv) {
 
       printf("\tA: ");
       print_hex(dh_dump, dh_size);
-      
-       printf("\tRing Signature Authentication:\n");
+
+      printf("\tRing Signature Authentication:\n");
       printf("\t\tc1:");
       uint8_t c1[ED448_SCALAR_BYTES];
       goldilocks_448_scalar_decode_long(auth_r_msg->sigma->c1, c1,
-        ED448_SCALAR_BYTES);
+                                        ED448_SCALAR_BYTES);
       print_hex(c1, ED448_SCALAR_BYTES);
       printf("\t\tr1:");
       uint8_t r1[ED448_SCALAR_BYTES];
       goldilocks_448_scalar_decode_long(auth_r_msg->sigma->r1, r1,
-        ED448_SCALAR_BYTES);
+                                        ED448_SCALAR_BYTES);
       print_hex(r1, ED448_SCALAR_BYTES);
       printf("\t\tc2:");
       uint8_t c2[ED448_SCALAR_BYTES];
       goldilocks_448_scalar_decode_long(auth_r_msg->sigma->c2, c2,
-        ED448_SCALAR_BYTES);
+                                        ED448_SCALAR_BYTES);
       print_hex(c2, ED448_SCALAR_BYTES);
       printf("\t\tr2:");
       uint8_t r2[ED448_SCALAR_BYTES];
       goldilocks_448_scalar_decode_long(auth_r_msg->sigma->r2, r2,
-        ED448_SCALAR_BYTES);
+                                        ED448_SCALAR_BYTES);
       print_hex(r2, ED448_SCALAR_BYTES);
       printf("\t\tc3:");
       uint8_t c3[ED448_SCALAR_BYTES];
       goldilocks_448_scalar_decode_long(auth_r_msg->sigma->c3, c3,
-        ED448_SCALAR_BYTES);
+                                        ED448_SCALAR_BYTES);
       print_hex(c3, ED448_SCALAR_BYTES);
       printf("\t\tr3:");
       uint8_t r3[ED448_SCALAR_BYTES];
       goldilocks_448_scalar_decode_long(auth_r_msg->sigma->r3, r3,
-        ED448_SCALAR_BYTES);
+                                        ED448_SCALAR_BYTES);
       print_hex(r3, ED448_SCALAR_BYTES);
 
       free(dh_dump);
@@ -203,32 +203,32 @@ int main(int argc, char **argv) {
       printf("\t\tc1:");
       uint8_t c1[ED448_SCALAR_BYTES];
       goldilocks_448_scalar_decode_long(auth_i_msg->sigma->c1, c1,
-        ED448_SCALAR_BYTES);
+                                        ED448_SCALAR_BYTES);
       print_hex(c1, ED448_SCALAR_BYTES);
       printf("\t\tr1:");
       uint8_t r1[ED448_SCALAR_BYTES];
       goldilocks_448_scalar_decode_long(auth_i_msg->sigma->r1, r1,
-        ED448_SCALAR_BYTES);
+                                        ED448_SCALAR_BYTES);
       print_hex(r1, ED448_SCALAR_BYTES);
       printf("\t\tc2:");
       uint8_t c2[ED448_SCALAR_BYTES];
       goldilocks_448_scalar_decode_long(auth_i_msg->sigma->c2, c2,
-        ED448_SCALAR_BYTES);
+                                        ED448_SCALAR_BYTES);
       print_hex(c2, ED448_SCALAR_BYTES);
       printf("\t\tr2:");
       uint8_t r2[ED448_SCALAR_BYTES];
       goldilocks_448_scalar_decode_long(auth_i_msg->sigma->r2, r2,
-        ED448_SCALAR_BYTES);
+                                        ED448_SCALAR_BYTES);
       print_hex(r2, ED448_SCALAR_BYTES);
       printf("\t\tc3:");
       uint8_t c3[ED448_SCALAR_BYTES];
       goldilocks_448_scalar_decode_long(auth_i_msg->sigma->c3, c3,
-        ED448_SCALAR_BYTES);
+                                        ED448_SCALAR_BYTES);
       print_hex(c3, ED448_SCALAR_BYTES);
       printf("\t\tr3:");
       uint8_t r3[ED448_SCALAR_BYTES];
       goldilocks_448_scalar_decode_long(auth_i_msg->sigma->r3, r3,
-        ED448_SCALAR_BYTES);
+                                        ED448_SCALAR_BYTES);
       print_hex(r3, ED448_SCALAR_BYTES);
 
       otrng_dake_auth_i_destroy(auth_i_msg);
