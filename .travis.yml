@@ -33,7 +33,8 @@ before_install:
         sudo apt-get install valgrind --quiet --assume-yes;
     fi
   - if [[ "$TYPE" = "lint" ]]; then
-        sudo apt-get install clang-format-3.9 --quiet --assume-yes;
+        sudo apt-get update --quiet --assume-yes;
+        sudo apt-get install clang-format --quiet --assume-yes;
     fi
 
 before_script:
