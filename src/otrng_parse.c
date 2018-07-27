@@ -75,7 +75,8 @@ int main(int argc, char **argv) {
 
     free(header_msg);
   } else if (message_type == MSG_OTR_ERROR) {
-    print_error_msg(original_msg);
+    printf("OTR ERROR: ");
+    print_string(original_msg, strlen(original_msg));
   } else {
     printf("Error: not valid OTRv4 message!\n");
     return 1;

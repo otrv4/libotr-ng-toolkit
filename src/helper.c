@@ -101,25 +101,6 @@ void print_data_message(otrng_header_s *header_msg, data_message_s *data_msg) {
   otrng_data_message_free(data_msg);
 }
 
-void print_error_msg(char *data) {
-  printf("OTR ERROR: ");
-  const char *unreadable_msg_error = "Unreadable message";
-  const char *not_in_private_error = "Not in private state message";
-  const char *encryption_error = "Encryption error";
-  const char *malformed_error = "Malformed message";
-  char *error_msg = data + strlen(ERROR_PREFIX);
-
-  if (strncmp(error_msg, "ERROR_1:", 8) == 0) {
-    printf("%s\n", unreadable_msg_error);
-  } else if (strncmp(error_msg, "ERROR_2:", 8) == 0) {
-    printf("%s\n", not_in_private_error);
-  } else if (strncmp(error_msg, "ERROR_3:", 8) == 0) {
-    printf("%s\n", encryption_error);
-  } else if (strncmp(error_msg, "ERROR_4:", 8) == 0) {
-    printf("%s\n", malformed_error);
-  }
-}
-
 void print_plaintext_formated(char *data, int data_len) {
   static const char tag_base[] = {
       '\x20', '\x09', '\x20', '\x20', '\x09', '\x09', '\x09', '\x09', '\x20',
