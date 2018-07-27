@@ -35,6 +35,9 @@ void otrng_toolkit_test_parse_data_message() {
       "BmpHqcB4VvSUUNquzo3N2uhxl1P6Qo14kY9fh3Uac=.";
   data_message_s *data_msg = otrng_data_message_new();
   otrng_header_s *header_msg = malloc(sizeof(otrng_header_s));
+  if (!header_msg) {
+    return;
+  }
 
   g_assert_cmpint(parse_header(header_msg, msg), ==, 0);
   g_assert_cmpint(parse_data_message(data_msg, msg), ==, 0);

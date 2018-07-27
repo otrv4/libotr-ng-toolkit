@@ -125,6 +125,10 @@ void print_plaintext_formated(char *data, int data_len) {
   size_t chars = data_len - tag_length;
   char *found_at = strstr(data, tag_base);
   string_p buff = malloc(chars + 1);
+  if (!buff) {
+    // TODO: maybe this function should return a int to check status
+    return;
+  }
 
   size_t bytes_before_tag = found_at - data;
   if (!bytes_before_tag) {

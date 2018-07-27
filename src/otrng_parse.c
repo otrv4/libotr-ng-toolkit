@@ -27,6 +27,10 @@ int main(int argc, char **argv) {
 
   } else if (message_type == MSG_OTR_ENCODED) {
     otrng_header_s *header_msg = malloc(sizeof(otrng_header_s));
+    if (!header_msg) {
+      return 1;
+    }
+
     result = parse_header(header_msg, original_msg);
 
     if (header_msg->type == IDENTITY_MSG_TYPE) {
