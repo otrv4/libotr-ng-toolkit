@@ -144,9 +144,41 @@ int main(int argc, char **argv) {
 
       printf("\tA: ");
       print_hex(dh_dump, dh_size);
-      // TODO: Need to print ring signature
+      
+       printf("\tRing Signature Authentication:\n");
+      printf("\t\tc1:");
+      uint8_t c1[ED448_SCALAR_BYTES];
+      goldilocks_448_scalar_decode_long(auth_r_msg->sigma->c1, c1,
+        ED448_SCALAR_BYTES);
+      print_hex(c1, ED448_SCALAR_BYTES);
+      printf("\t\tr1:");
+      uint8_t r1[ED448_SCALAR_BYTES];
+      goldilocks_448_scalar_decode_long(auth_r_msg->sigma->r1, r1,
+        ED448_SCALAR_BYTES);
+      print_hex(r1, ED448_SCALAR_BYTES);
+      printf("\t\tc2:");
+      uint8_t c2[ED448_SCALAR_BYTES];
+      goldilocks_448_scalar_decode_long(auth_r_msg->sigma->c2, c2,
+        ED448_SCALAR_BYTES);
+      print_hex(c2, ED448_SCALAR_BYTES);
+      printf("\t\tr2:");
+      uint8_t r2[ED448_SCALAR_BYTES];
+      goldilocks_448_scalar_decode_long(auth_r_msg->sigma->r2, r2,
+        ED448_SCALAR_BYTES);
+      print_hex(r2, ED448_SCALAR_BYTES);
+      printf("\t\tc3:");
+      uint8_t c3[ED448_SCALAR_BYTES];
+      goldilocks_448_scalar_decode_long(auth_r_msg->sigma->c3, c3,
+        ED448_SCALAR_BYTES);
+      print_hex(c3, ED448_SCALAR_BYTES);
+      printf("\t\tr3:");
+      uint8_t r3[ED448_SCALAR_BYTES];
+      goldilocks_448_scalar_decode_long(auth_r_msg->sigma->r3, r3,
+        ED448_SCALAR_BYTES);
+      print_hex(r3, ED448_SCALAR_BYTES);
+
       free(dh_dump);
-      // TODO: Need to free auth_r_msg
+      otrng_dake_auth_r_destroy(auth_r_msg);
     } else if (header_msg->type == AUTH_I_MSG_TYPE) {
       printf("AUTH-I MESSAGE:\n");
       printf("\tType: %x\n", header_msg->type);
@@ -167,19 +199,39 @@ int main(int argc, char **argv) {
       printf("\tReceiver instance tag: %u\n",
              auth_i_msg->receiver_instance_tag);
 
-      /*printf("\tRing Signature Authentication:\n");*/
-      /*printf("\t\tc1:");*/
-      /*uint8_t c1[ED448_SCALAR_BYTES];*/
-      /*goldilocks_448_scalar_decode_long(auth_i_msg->sigma->c1, c1,
-       * ED448_SCALAR_BYTES);*/
-      /*print_hex(c1, ED448_SCALAR_BYTES);*/
-      /*printf("\t\tr1:\n");*/
-      /*printf("\t\tc2:\n");*/
-      /*printf("\t\tr2:\n");*/
-      /*printf("\t\tc3:\n");*/
-      /*printf("\t\tr3:\n");*/
+      printf("\tRing Signature Authentication:\n");
+      printf("\t\tc1:");
+      uint8_t c1[ED448_SCALAR_BYTES];
+      goldilocks_448_scalar_decode_long(auth_i_msg->sigma->c1, c1,
+        ED448_SCALAR_BYTES);
+      print_hex(c1, ED448_SCALAR_BYTES);
+      printf("\t\tr1:");
+      uint8_t r1[ED448_SCALAR_BYTES];
+      goldilocks_448_scalar_decode_long(auth_i_msg->sigma->r1, r1,
+        ED448_SCALAR_BYTES);
+      print_hex(r1, ED448_SCALAR_BYTES);
+      printf("\t\tc2:");
+      uint8_t c2[ED448_SCALAR_BYTES];
+      goldilocks_448_scalar_decode_long(auth_i_msg->sigma->c2, c2,
+        ED448_SCALAR_BYTES);
+      print_hex(c2, ED448_SCALAR_BYTES);
+      printf("\t\tr2:");
+      uint8_t r2[ED448_SCALAR_BYTES];
+      goldilocks_448_scalar_decode_long(auth_i_msg->sigma->r2, r2,
+        ED448_SCALAR_BYTES);
+      print_hex(r2, ED448_SCALAR_BYTES);
+      printf("\t\tc3:");
+      uint8_t c3[ED448_SCALAR_BYTES];
+      goldilocks_448_scalar_decode_long(auth_i_msg->sigma->c3, c3,
+        ED448_SCALAR_BYTES);
+      print_hex(c3, ED448_SCALAR_BYTES);
+      printf("\t\tr3:");
+      uint8_t r3[ED448_SCALAR_BYTES];
+      goldilocks_448_scalar_decode_long(auth_i_msg->sigma->r3, r3,
+        ED448_SCALAR_BYTES);
+      print_hex(r3, ED448_SCALAR_BYTES);
 
-      // TODO: Need to free auth_i_msg
+      otrng_dake_auth_i_destroy(auth_i_msg);
     } else if (header_msg->type == DATA_MSG_TYPE) {
       data_message_s *data_msg = otrng_data_message_new();
       result = parse_data_message(data_msg, original_msg);
