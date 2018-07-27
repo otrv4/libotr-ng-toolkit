@@ -4,7 +4,7 @@
 
 #include <libotr-ng/otrng.h>
 
-#include "../parse.c"
+#include "../decode.c"
 #include "test_helpers.h"
 
 void otrng_toolkit_test_parse_data_message() {
@@ -39,8 +39,8 @@ void otrng_toolkit_test_parse_data_message() {
     return;
   }
 
-  g_assert_cmpint(parse_header(header_msg, msg), ==, 0);
-  g_assert_cmpint(parse_data_message(data_msg, msg), ==, 0);
+  g_assert_cmpint(decode_header(header_msg, msg), ==, 0);
+  g_assert_cmpint(decode_data_message(data_msg, msg), ==, 0);
   g_assert_cmpint(header_msg->type, ==, DATA_MSG_TYPE);
   g_assert_cmpint(header_msg->version, ==, 4);
   g_assert_cmpint(data_msg->sender_instance_tag, ==, 480412658);
