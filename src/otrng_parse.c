@@ -2,8 +2,8 @@
 
 #include <libotr-ng/dake.h>
 
+#include "decode.h"
 #include "helper.h"
-#include "parse.h"
 #include "readotr.h"
 
 int main(int argc, char **argv) {
@@ -31,7 +31,7 @@ int main(int argc, char **argv) {
       return 1;
     }
 
-    result = parse_header(header_msg, original_msg);
+    result = decode_header(header_msg, original_msg);
 
     if (header_msg->type == IDENTITY_MSG_TYPE) {
       printf("IDENTITY MESSAGE:\n");
@@ -39,7 +39,7 @@ int main(int argc, char **argv) {
       printf("\tVersion: %x\n", header_msg->version);
 
       dake_identity_message_p identity_msg;
-      result = parse_identity_message(identity_msg, original_msg);
+      result = decode_identity_message(identity_msg, original_msg);
 
       print_identity_message(identity_msg);
 
@@ -49,7 +49,7 @@ int main(int argc, char **argv) {
       printf("\tVersion: %x\n", header_msg->version);
 
       dake_auth_r_p auth_r_msg;
-      result = parse_auth_r_message(auth_r_msg, original_msg);
+      result = decode_auth_r_message(auth_r_msg, original_msg);
 
       print_auth_r(auth_r_msg);
 
@@ -59,13 +59,13 @@ int main(int argc, char **argv) {
       printf("\tVersion: %x\n", header_msg->version);
 
       dake_auth_i_p auth_i_msg;
-      result = parse_auth_i_message(auth_i_msg, original_msg);
+      result = decode_auth_i_message(auth_i_msg, original_msg);
 
       print_auth_i(auth_i_msg);
 
     } else if (header_msg->type == DATA_MSG_TYPE) {
       data_message_s *data_msg = otrng_data_message_new();
-      result = parse_data_message(data_msg, original_msg);
+      result = decode_data_message(data_msg, original_msg);
       print_data_message(header_msg, data_msg);
       otrng_data_message_free(data_msg);
     } else {

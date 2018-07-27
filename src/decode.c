@@ -1,6 +1,6 @@
-#include "parse.h"
+#include "decode.h"
 
-int parse_header(otrng_header_s *header_msg, const char *original_msg) {
+int decode_header(otrng_header_s *header_msg, const char *original_msg) {
   size_t decoded_msg_len = 0;
   uint8_t *decoded_msg = NULL;
   if (otrl_base64_otr_decode(original_msg, &decoded_msg, &decoded_msg_len)) {
@@ -14,7 +14,7 @@ int parse_header(otrng_header_s *header_msg, const char *original_msg) {
   return 0;
 }
 
-int parse_data_message(data_message_s *body_msg, const char *original_msg) {
+int decode_data_message(data_message_s *body_msg, const char *original_msg) {
 
   size_t decoded_msg_len = 0;
   uint8_t *decoded_msg = NULL;
@@ -31,8 +31,8 @@ int parse_data_message(data_message_s *body_msg, const char *original_msg) {
   return 0;
 }
 
-int parse_identity_message(dake_identity_message_p identity_msg,
-                           const char *original_msg) {
+int decode_identity_message(dake_identity_message_p identity_msg,
+                            const char *original_msg) {
 
   size_t decoded_msg_len = 0;
   uint8_t *decoded_msg = NULL;
@@ -47,7 +47,7 @@ int parse_identity_message(dake_identity_message_p identity_msg,
   return 0;
 }
 
-int parse_auth_r_message(dake_auth_r_p auth_r_msg, const char *original_msg) {
+int decode_auth_r_message(dake_auth_r_p auth_r_msg, const char *original_msg) {
   size_t decoded_msg_len = 0;
   uint8_t *decoded_msg = NULL;
   if (otrl_base64_otr_decode(original_msg, &decoded_msg, &decoded_msg_len)) {
@@ -60,7 +60,7 @@ int parse_auth_r_message(dake_auth_r_p auth_r_msg, const char *original_msg) {
   return 0;
 }
 
-int parse_auth_i_message(dake_auth_i_p auth_i_msg, const char *original_msg) {
+int decode_auth_i_message(dake_auth_i_p auth_i_msg, const char *original_msg) {
   size_t decoded_msg_len = 0;
   uint8_t *decoded_msg = NULL;
   if (otrl_base64_otr_decode(original_msg, &decoded_msg, &decoded_msg_len)) {
