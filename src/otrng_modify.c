@@ -67,7 +67,7 @@ int main(int argc, char **argv) {
 
   char *old_msg_txt = argv[2];
   char *new_msg_txt = argv[3];
-  int offset = (int)argv[4];
+  int offset = strtol(argv[4], NULL, 10);
 
   if (strlen(old_msg_txt) != strlen(new_msg_txt)) {
     puts("Old message text size must be equal to new message text size");
