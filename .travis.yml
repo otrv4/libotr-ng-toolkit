@@ -64,12 +64,10 @@ before_script:
   - pushd .deps/libotr-ng && ./autogen.sh && ./configure && make && sudo make install && popd
 
 script:
+  - export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH;
   - ./autogen.sh;
   - ./configure;
-  - if [[ "$TYPE" = "build" ]]; then
-        export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH;
-        make ci;
-    fi
+  - make ci;
   - if [[ "$TYPE" = "lint" ]]; then
         make code-style-doctor;
     fi
