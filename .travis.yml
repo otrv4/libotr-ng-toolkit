@@ -14,19 +14,15 @@ matrix:
     - os: linux
       dist: trusty
       compiler: clang
-      env: TYPE=build
     - os: linux
       dist: trusty
       compiler: gcc
-      env: TYPE=build
     - os: linux
       dist: precise
       compiler: clang
-      env: TYPE=build
     - os: linux
       dist: precise
       compiler: gcc
-      env: TYPE=build
     - os: linux
       dist: trusty
       compiler: clang
@@ -45,12 +41,9 @@ notifications:
         - "%{repository_slug}(%{author}): %{message} %{build_url}"
 
 before_install:
-  - if [[ "$TYPE" = "build" ]]; then
-        sudo apt-get update --quiet --assume-yes;
-        sudo apt-get install splint --quiet --assume-yes;
-    fi
+  - sudo apt-get update --quiet --assume-yes;
+  - sudo apt-get install splint --quiet --assume-yes;
   - if [[ "$TYPE" = "lint" ]]; then
-        sudo apt-get update --quiet --assume-yes;
         sudo apt-get install clang-format-3.5 --quiet --assume-yes;
     fi
 
@@ -78,5 +71,5 @@ script:
         make test;
     fi
   - if [[ "$TYPE" = "lint" ]]; then
-        make code-style-check;
+        make code-style-doctor;
     fi

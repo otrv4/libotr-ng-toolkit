@@ -24,5 +24,5 @@ coverage-check: test
 code-style:
 	clang-format -style=llvm -i src/*.h src/*.c src/**/*.h src/**/*.c
 
-code-style-check: code-style
+code-style-doctor: code-style
 	git diff --exit-code .
