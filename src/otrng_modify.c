@@ -65,6 +65,29 @@ int main(int argc, char **argv) {
     return 1;
   }
 
+  char *old_msg_txt = argv[2];
+  char *new_msg_txt = argv[3];
+  int offset = (int)argv[4];
+
+  if (strlen(old_msg_txt) != strlen(new_msg_txt)) {
+    puts("Old message text size must be equal to new message text size");
+    return 1;
+  }
+
+  char *original_msg = argv[5];
+
+  if (original_msg == NULL) {
+    puts("Missing a data message");
+    return 1;
+  }
+
+  int message_type = otrng_get_message_type(original_msg);
+
+  if (message_type != MSG_OTR_ENCODED) {
+    puts("The OTR message is not an otr encoded message");
+    return 1;
+  }
+
   }
   return result;
 }
