@@ -68,7 +68,7 @@ script:
   - ./configure;
   - if [[ "$TYPE" = "build" ]]; then
         export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH;
-        make ci
+        make ci;
     fi
   - if [[ "$TYPE" = "lint" ]]; then
         make code-style-doctor;
