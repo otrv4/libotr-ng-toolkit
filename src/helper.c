@@ -135,7 +135,7 @@ void print_identity_message(dake_identity_message_p identity_msg) {
   size_t n = strlen(identity_msg->profile->versions);
   print_string(identity_msg->profile->versions, n);
 
-  printf("\t\tExpires: %lu\n", identity_msg->profile->expires);
+  printf("\t\tExpires: %llu\n", identity_msg->profile->expires);
 
   if (identity_msg->profile->dsa_key_len > 0) {
     printf("\t\tDSA Key: ");
@@ -166,7 +166,7 @@ void print_auth_r(dake_auth_r_p auth_r_msg) {
   size_t n = strlen(auth_r_msg->profile->versions);
   print_string(auth_r_msg->profile->versions, n);
 
-  printf("\t\tExpires: %lu\n", auth_r_msg->profile->expires);
+  printf("\t\tExpires: %llu\n", auth_r_msg->profile->expires);
 
   if (auth_r_msg->profile->dsa_key_len > 0) {
     printf("\t\tDSA Key: ");
