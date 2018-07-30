@@ -1,4 +1,6 @@
+#include "decode.h"
 #include "helper.h"
+#include "readotr.h"
 
 static int char_to_hex(char c) {
   if (c >= '0' && c <= '9')
@@ -41,16 +43,28 @@ int argv_to_uncoded(unsigned char **uncoded, int *uncoded_len, char *arg) {
 }
 
 int main(int argc, char **argv) {
-  int result = 1;
+  int result = 0;
 
   int mac_len;
   unsigned char *mac;
 
+  if (argc != 6) {
+    puts("Incorrect number of arguments");
+    return 1;
+  }
+
   result = argv_to_uncoded(&mac, &mac_len, argv[1]);
+
+  if (result != 0) {
+    puts("An error ocurred!");
+    return result;
+  }
 
   if (mac_len != 64) {
     puts("Wrong MAC size");
-    result = 1;
+    return 1;
+  }
+
   }
   return result;
 }
