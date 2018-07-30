@@ -9,7 +9,7 @@ COMMON_LD = $(libdir)/libotr-ng.la $(libdir)/libotr.la @LIBS@ @LIBGCRYPT_LIBS@ @
 
 otrng_parse_SOURCES = src/otrng_parse.c src/decode.c src/readotr.c src/helper.c
 otrng_parse_LDADD = $(COMMON_LD)
-otrng_mackey_SOURCES = src/otrng_mackey.c
+otrng_mackey_SOURCES = src/otrng_mackey.c src/helper.c
 otrng_mackey_LDADD = $(COMMON_LD)
 
 ci: test mem-check
