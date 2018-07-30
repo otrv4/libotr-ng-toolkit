@@ -10,13 +10,19 @@ COMMON_LD = $(libdir)/libotr-ng.la $(libdir)/libotr.la @LIBS@ @LIBGCRYPT_LIBS@ @
 otrng_parse_SOURCES = src/otrng_parse.c src/decode.c src/readotr.c src/helper.c
 otrng_parse_LDADD = $(COMMON_LD)
 
-ci: test mem-check coverage-check install uninstall
+ci: test mem-check
 
 test: check
 	$(top_builddir)/src/test/test
 
+VALGRIND_SUPPRESSIONS = \
+	valgrind.supp
+
+VALGRIND_ARGS = --track-origins=yes --quiet --error-exitcode=2 --leak-check=full --read-var-info=yes \
+	--suppressions=$(VALGRIND_SUPPRESSIONS)
+
 mem-check: check
-	valgrind --error-exitcode=2 --track-origins=yes --trace-children=yes --leak-check=full --suppressions=valgrind.supp $(top_builddir)/src/test/test
+	valgrind $(VALGRIND_ARGS) $(top_builddir)/src/test/test
 
 coverage-check: test
 	@make check-code-coverage
