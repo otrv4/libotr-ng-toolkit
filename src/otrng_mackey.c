@@ -11,43 +11,36 @@
 
 static uint8_t usage_mac_key = 0x17;
 
-static int ctoh(char c) {
-  if (c >= '0' && c <= '9')
-    return (c - '0');
-  if (c >= 'a' && c <= 'f')
-    return (c - 'a' + 10);
-  if (c >= 'A' && c <= 'F')
-    return (c - 'A' + 10);
-  return -1;
-}
-
-void argv_to_buf(unsigned char **bufp, size_t *lenp, char *arg) {
+void argv_to_buf(unsigned char **dst, size_t *written, char *arg) {
   unsigned char *buf;
-  size_t len, i;
-  *bufp = NULL;
-  *lenp = 0;
-  len = strlen(arg);
-  if (len % 2) {
+  *dst = NULL;
+  *written = 0;
+  size_t size = strlen(arg);
+
+  if (size % 2) {
     fprintf(stderr, "Argument ``%s'' must have even length.\n", arg);
     return;
   }
-  buf = malloc(len / 2);
-  if (buf == NULL && len > 0) {
+
+  buf = malloc(size / 2);
+  if (buf == NULL) {
     fprintf(stderr, "Out of memory!\n");
     return;
   }
-  for (i = 0; i < len / 2; ++i) {
-    int hi = ctoh(arg[2 * i]);
-    int lo = ctoh(arg[2 * i + 1]);
-    if (hi < 0 || lo < 0) {
-      free(buf);
-      fprintf(stderr, "Illegal hex char in argument ``%s''.\n", arg);
-      return;
-    }
-    buf[i] = (hi << 4) + lo;
+
+  char *b = malloc(2);
+  for (int i = 0; i < size / 2; i++) {
+    printf("arg: %s\n", arg);
+    printf("arg len: %zu\n", strlen(arg));
+    strncpy(b, arg, 2);
+    arg += 2;
+    buf[i] = (int)strtol(b, NULL, 16);
+    printf("%s -> %d\n", b, buf[i]);
   }
-  *bufp = buf;
-  *lenp = len / 2;
+  free(b);
+
+  *dst = buf;
+  *written = size / 2;
 }
 
 void shake_256_kdf1(uint8_t *dst, size_t dstlen, uint8_t usage,
