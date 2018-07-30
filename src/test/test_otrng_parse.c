@@ -39,17 +39,58 @@ void otrng_toolkit_test_parse_data_message() {
     return;
   }
 
+  uint8_t nonce[DATA_MSG_NONCE_BYTES] = {
+      0xaa, 0x56, 0xa6, 0x94, 0x73, 0xda, 0x44, 0x3d, 0x4e, 0x9a, 0xfc, 0xd0,
+      0xa9, 0xbd, 0xb1, 0x33, 0xbc, 0xce, 0x89, 0xdb, 0x67, 0x02, 0xed, 0xc3,
+  };
+  uint8_t mac[DATA_MSG_MAC_BYTES] = {
+      0xa8, 0xa4, 0xa1, 0xff, 0x6c, 0x37, 0x29, 0x30, 0xd2, 0xe8, 0x0b,
+      0x7b, 0x45, 0xd0, 0x49, 0x05, 0xe1, 0x22, 0xd8, 0x3c, 0xbc, 0x6d,
+      0xfd, 0x36, 0x54, 0xfe, 0x20, 0xe5, 0x8d, 0x37, 0xf7, 0x2e, 0x7b,
+      0xfb, 0x35, 0x35, 0x02, 0xb5, 0xee, 0x37, 0xa8, 0x19, 0x7c, 0x43,
+      0x80, 0x4e, 0x39, 0x58, 0xdf, 0x03, 0x32, 0x51, 0x0d, 0x05, 0x22,
+      0x3c, 0x40, 0x91, 0x11, 0x2a, 0x5b, 0x45, 0xcc, 0xac,
+  };
+
   g_assert_cmpint(decode_header(header_msg, msg), ==, 0);
   g_assert_cmpint(decode_data_message(data_msg, msg), ==, 0);
   g_assert_cmpint(header_msg->type, ==, DATA_MSG_TYPE);
   g_assert_cmpint(header_msg->version, ==, 4);
   g_assert_cmpint(data_msg->sender_instance_tag, ==, 480412658);
   g_assert_cmpint(data_msg->receiver_instance_tag, ==, 1764592062);
-  g_assert_cmpint(sizeof(data_msg->nonce), ==, DATA_MSG_NONCE_BYTES);
-  otrng_assert(true == otrng_ec_point_valid(data_msg->ecdh));
-  // otrng_assert(true == otrng_dh_mpi_valid(data_msg->dh));
-  g_assert_cmpint(sizeof(data_msg->mac), ==, DATA_MSG_MAC_BYTES);
+  otrng_toolkit_assert_cmpmem(data_msg->nonce, nonce, DATA_MSG_NONCE_BYTES);
+  otrng_toolkit_assert(otrng_ec_point_valid(data_msg->ecdh) == 1);
+  // TODO: this segfaults
+  // otrng_toolkit_assert(otrng_dh_mpi_valid(data_msg->dh) == 1);
+  otrng_toolkit_assert_cmpmem(data_msg->mac, mac, DATA_MSG_MAC_BYTES);
 
   otrng_data_message_free(data_msg);
   free(header_msg);
+}
+
+void otrng_toolkit_test_parse_identity_message() {
+  const char *msg =
+      "?OTR:AAQ16j7KWgAAAAAAAAAEAAHqPspaAAIAEOQKxW36YA3xat70+FogpP+"
+      "58B0x9sEFeMpsEFeM35Vq01InkAmEHE4HLUWRgymjS7aOX0G6aoz4gAAEAAAAAzM0AAAFAAA"
+      "AAFtx1G30j7wBCbrDMb8gTNFDkNiqqbUV6fLCjErpQ9CjpYEZybd8jAl2go2i5pjhZ+"
+      "eVO2kIxyF567MCV4BU/Z5utiN5lT9JDWXkpZgTQpas/IKYrSAJAe0awXskxQoKrAA/"
+      "pbTasCXLLDWSyqYQXgqo1gIQNgByMJLIwvH7daO8WcznLC2OAKvizY2MN2nWGn8ZNr2L7ZX+"
+      "m+BlLFvC19DwVuqP7K5a2PP/"
+      "NhBdcgAAAAGAjGBp2urSLgeuyMxWBDyrLdDijIph5cocjsEBT9I2Xk4tmbz9zNDxk9a/"
+      "G5tlti/Qmn5ApkMVO7Zw1l7/eoHkD3w/nkYHo7oXrwLcAI7pzgaPY7Yln+HgD1jA/"
+      "4TdA5GQpAFvlNcz+wKM69c2PCAuPxgwuYBIEhXeRlolZ4A3Ekz6Um7TsPEDhlTeG/"
+      "rjj8fbc+Ezmbe0filEfchYh7Y150N0ufwtA0HD2eAfp9L1CYAO/"
+      "1Iwgri9v7togUltozUI+h9xyED/"
+      "Pya3up6LYeNO1G9BsIZHdep9hB4RATOo1VQ3kGW3wAtqH4gKQ/"
+      "1L94IpD5WKKIZFuQpDVurB1tjr3DB9LtJbrq6ePnA/"
+      "xroDB07uLzwYoYpOx1ydAz9m1iweqIMvfAaGfiii+yWx2olo/"
+      "KzoqcysEEZwRCKBGjostHgXGJ0OrWWsvB/lFOD/V4go4wihzkzc6vCoG51xYIYxK1OkOC/"
+      "MtWZa3c6KArc3tUUcp1Orbs7sYvpNZWBHm1rt.";
+
+  dake_identity_message_p identity_msg;
+  int result = decode_identity_message(identity_msg, msg);
+  otrng_toolkit_assert(result == 0);
+
+  g_assert_cmpint(identity_msg->sender_instance_tag, ==, 3929983578);
+  g_assert_cmpint(identity_msg->receiver_instance_tag, ==, 0);
 }

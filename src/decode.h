@@ -8,6 +8,8 @@
 #include <libotr-ng/dh.h>
 #include <libotr-ng/otrng.h>
 
+// TODO: if this are going to be exported, they should have the otrng_toolkit
+// TODO: define the return errors
 int decode_header(otrng_header_s *header_msg, const char *original_msg);
 int decode_data_message(data_message_s *body_msg, const char *original_msg);
 int decode_identity_message(dake_identity_message_p identity_msg,
