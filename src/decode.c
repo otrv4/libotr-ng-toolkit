@@ -42,10 +42,8 @@ int decode_identity_message(dake_identity_message_p identity_msg,
 
   if (!otrng_dake_identity_message_deserialize(identity_msg, decoded_msg,
                                                decoded_msg_len)) {
-    free(decoded_msg);
     return 1;
   }
-  free(decoded_msg);
   return 0;
 }
 
@@ -57,10 +55,8 @@ int decode_auth_r_message(dake_auth_r_p auth_r_msg, const char *original_msg) {
   }
   if (!otrng_dake_auth_r_deserialize(auth_r_msg, decoded_msg,
                                      decoded_msg_len)) {
-    free(decoded_msg);
     return 1;
   }
-  free(decoded_msg);
   return 0;
 }
 
