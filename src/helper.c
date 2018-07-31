@@ -126,10 +126,13 @@ void print_plaintext_formated(char *data, int data_len) {
   print_string(buff, strlen(buff));
 }
 
-void print_identity_message(dake_identity_message_p identity_msg) {
+void print_identity_message(otrng_header_s *header_msg,
+                            dake_identity_message_p identity_msg) {
+  printf("IDENTITY MESSAGE:\n");
+  printf("\tType: %x\n", header_msg->type);
+  printf("\tVersion: %x\n", header_msg->version);
   printf("\tSender instance tag: %u\n", identity_msg->sender_instance_tag);
   printf("\tReceiver instance tag: %u\n", identity_msg->receiver_instance_tag);
-
   printf("\tProfile:\n");
   printf("\t\tVersions: ");
   size_t n = strlen(identity_msg->profile->versions);
@@ -157,7 +160,10 @@ void print_identity_message(dake_identity_message_p identity_msg) {
   print_DH("\tB: ", identity_msg->B);
 }
 
-void print_auth_r(dake_auth_r_p auth_r_msg) {
+void print_auth_r(otrng_header_s *header_msg, dake_auth_r_p auth_r_msg) {
+  printf("AUTH-R MESSAGE:\n");
+  printf("\tType: %x\n", header_msg->type);
+  printf("\tVersion: %x\n", header_msg->version);
   printf("\tSender instance tag: %u\n", auth_r_msg->sender_instance_tag);
   printf("\tReceiver instance tag: %u\n", auth_r_msg->receiver_instance_tag);
 
@@ -188,12 +194,13 @@ void print_auth_r(dake_auth_r_p auth_r_msg) {
   otrng_dake_auth_r_destroy(auth_r_msg);
 }
 
-void print_auth_i(dake_auth_i_p auth_i_msg) {
+void print_auth_i(otrng_header_s *header_msg, dake_auth_i_p auth_i_msg) {
+  printf("AUTH-I MESSAGE:\n");
+  printf("\tType: %x\n", header_msg->type);
+  printf("\tVersion: %x\n", header_msg->version);
   printf("\tSender instance tag: %u\n", auth_i_msg->sender_instance_tag);
   printf("\tReceiver instance tag: %u\n", auth_i_msg->receiver_instance_tag);
-
   print_ring_signature(auth_i_msg->sigma);
-
   otrng_dake_auth_i_destroy(auth_i_msg);
 }
 
