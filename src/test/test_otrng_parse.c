@@ -128,4 +128,6 @@ void otrng_toolkit_test_parse_auth_r_message() {
 
   g_assert_cmpint(auth_r_msg->sender_instance_tag, ==, 480412658);
   g_assert_cmpint(auth_r_msg->receiver_instance_tag, ==, 1764592062);
+  g_assert_cmpint(auth_r_msg->profile->expires, ==, 1533767845);
+  g_assert_cmpint(auth_r_msg->profile->dsa_key_len, ==, 0);
 }
