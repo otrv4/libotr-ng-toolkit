@@ -4,7 +4,7 @@ ACLOCAL_AMFLAGS = -I m4
 @CODE_COVERAGE_RULES@
 
 noinst_HEADERS = src/decode.h src/readotr.h src/helper.h
-bin_PROGRAMS = otrng_parse otrng_mackey, otrng_modify
+bin_PROGRAMS = otrng_parse otrng_mackey otrng_modify
 
 COMMON_LD = $(libdir)/libotr-ng.la $(libdir)/libotr.la @LIBS@ @LIBGCRYPT_LIBS@ @LIBGOLDILOCKS_LIBS@
 
