@@ -196,3 +196,37 @@ void print_auth_i(dake_auth_i_p auth_i_msg) {
 
   otrng_dake_auth_i_destroy(auth_i_msg);
 }
+
+void argv_to_buf(unsigned char **dst, size_t *written, char *arg) {
+  unsigned char *buf;
+  *dst = NULL;
+  *written = 0;
+  size_t size = strlen(arg);
+
+  if (size % 2) {
+    fprintf(stderr, "Argument ``%s'' must have even length.\n", arg);
+    return;
+  }
+
+  buf = malloc(size / 2);
+  if (buf == NULL) {
+    fprintf(stderr, "Out of memory!\n");
+    return;
+  }
+
+  char *b = malloc(2);
+  char *end;
+  for (int i = 0; i < size / 2; i++) {
+    strncpy(b, arg, 2);
+    arg += 2;
+    buf[i] = (int)strtol(b, &end, 16);
+    if (*end) {
+      fprintf(stderr, "Error when trying to convert key!\n");
+      return;
+    }
+  }
+  free(b);
+
+  *dst = buf;
+  *written = size / 2;
+}
