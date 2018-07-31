@@ -131,3 +131,23 @@ void otrng_toolkit_test_parse_auth_r_message() {
   g_assert_cmpint(auth_r_msg->profile->expires, ==, 1533767845);
   g_assert_cmpint(auth_r_msg->profile->dsa_key_len, ==, 0);
 }
+
+void otrng_toolkit_test_parse_auth_i_message() {
+  const char *msg =
+      "?OTR:AAQ3aS2Jvhyig/"
+      "IFhoIvacC5tLMc9aDQI7YyKZeksJfGXDnn5oPKtRFjXD849oObOtn1aUXQ4xwHiZDQsEDyeC"
+      "y2F5fgOHNyb7aJB3r0s5wwhUmKmN7ljOAGwoMs2lnsnMm98AeeQRpG7lW/"
+      "PR9kqst4OIFD53QHRO8Ho99iIaLCBCes04o0MfaNwhPJmjmcDbFY/"
+      "7bpGyNxlnENXaXW9vPXDGFoWDJta/smyutsrs3myiQfBo84lR1DMj0nex/"
+      "IJJOOdS2hCqA+"
+      "ANaNwF3sGXQ74PvymOvAamBql8b7oxurROzVhLsKBzxYLngxtSUeAUhu6giZyllljXcDjy3X"
+      "cE9ZcoxRHyl4/83E8l1+wXeGhVx44U0npPMI/"
+      "q4ptIOM8Z0vCGAxSUtPodJ2abepqYTdsAnSYAssngz+kTuj/"
+      "XCXVU2z4Lo8boDQetfrP0LJjk6fJtKh9Mq08z8=.";
+  dake_auth_i_p auth_i_msg;
+  int result = decode_auth_i_message(auth_i_msg, msg);
+  otrng_toolkit_assert(result == 0);
+
+  g_assert_cmpint(auth_i_msg->sender_instance_tag, ==, 1764592062);
+  g_assert_cmpint(auth_i_msg->receiver_instance_tag, ==, 480412658);
+}
