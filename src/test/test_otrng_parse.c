@@ -94,3 +94,38 @@ void otrng_toolkit_test_parse_identity_message() {
   g_assert_cmpint(identity_msg->sender_instance_tag, ==, 3929983578);
   g_assert_cmpint(identity_msg->receiver_instance_tag, ==, 0);
 }
+
+void otrng_toolkit_test_parse_auth_r_message() {
+  const char *msg =
+      "?OTR:AAQ2HKKD8mktib4AAAAEAAEcooPyAAIAEJ7HWugLaW5KhW5M2X8Wsa18P2RdU+"
+      "hCC0X/uPtF1LbNMVPVQ2mq/q1SHPOC7La+DE65cRQ5/"
+      "8JhAAAEAAAAAzM0AAAFAAAAAFtrcKUAgkfG3DHjFWUK8hk1Jf9wdOQ03xI10ZXiZzj21k6Wq"
+      "0UAtbNrvMavetxfuEhrVGgu8ird+KF2X4ATcrtXttxBl8uol3S7gKP1J12GWRnpl3b7lL+"
+      "rVcKt2q3Cxk5k6w9D+4btmjSpTCQxukxOmYORGAAWFCGKSTvKd1NXIxTSK+/"
+      "SRaoJ606mW2TR6tlWjNZ8yGMaEQVZDTx2J0MH1Ju8wfUk8v+"
+      "0lbR7awAAAAGAMvUK5YC3mzepve3LgFzcQ0w4m2BxBy/"
+      "Z0LF8m8jkLMMwiklwVzcktpxD2NK7gltZCPCZP4D11IrjGuEeXip9h7168zXVixTSwmFgCev"
+      "IA/fi2nlrsKkl/pGXnDTNiYejcH65PeXi/"
+      "PgdxWCWMbQD1Bc1ZWn7HcfSPhDELRWq6tElCyE7cJ2pWde4drSGGF61OOmQGgT2cThBy6lju"
+      "2V1NaoTv6LBO1ki+444/0jT09GUhfSoxAPTtYBjNyr54V5JpCW0N1uBwwuB0MMzfSO7V/"
+      "XiwdorIREMmj2Xf/"
+      "7N1r1zhLxxG6JZ4WwhahSbuArOVVwrKCvx4rI0XNvHS79MD53456gUtKan0NrDD/"
+      "2Af2DVZeTEr2S6tzEkcFc421p6p4tlLy3stWk8rOUVsHoGD9ksHQ3EnUl77KE/"
+      "t3yIU8ej3CrRntCbn/0fTiR7WkQ4kJa4UFHzrDK5ErbJ6/RlYP/R07NtwUxXF7iSrcg0zx/"
+      "porBlmOtSup/"
+      "D9DvO2HIzU52vtUnnlbl9QqjW7EZcRNj2AnCCX4pAnUAgeLqy2BmJmiYdReo47AfyvTt7VRu"
+      "1Ce2DpMLPtD84NCxSGqzJt2QpcMGihSFpAmPewhe7uJM2hP9Ko00eXNYu7h/"
+      "NQKtVf18YuMOdYXQc7UFeehfiLjUQjAK2OrGx76XqeSGDK7B+ZA1D10MuOASpIq4+"
+      "qqcFMT6StCZWdRZ3qTDpKFBxsfVydNuxz0gV0wlhhlIjXIIoJ9LdwkSlvhLEgdJaWZcYtqcz"
+      "Wsva9M3rJeURLLefxJewgSsBsitppTYYaoxgpRoQvnz6Z6dc3DbUZ5n6R5lFxssSMorV+"
+      "T965uYCVoordt3K7lTOM85zeqBITE/"
+      "bGLtzFGuMnzaEJnoKFJET0RZjgFyjQkvB+adNI9zA+"
+      "uRivslUAX2P38Pvl4OIfnunkkZKdfDyTxY1FR4LiSX0LZ8w.";
+
+  dake_auth_r_p auth_r_msg;
+  int result = decode_auth_r_message(auth_r_msg, msg);
+  otrng_toolkit_assert(result == 0);
+
+  g_assert_cmpint(auth_r_msg->sender_instance_tag, ==, 480412658);
+  g_assert_cmpint(auth_r_msg->receiver_instance_tag, ==, 1764592062);
+}
