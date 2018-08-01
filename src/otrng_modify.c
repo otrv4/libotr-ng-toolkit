@@ -60,6 +60,8 @@ int main(int argc, char **argv) {
     return 1;
   }
 
+  free(header_msg);
+
   data_message_s *data_msg = otrng_data_message_new();
   result = decode_data_message(data_msg, original_msg);
 
@@ -68,7 +70,7 @@ int main(int argc, char **argv) {
     return 1;
   }
 
-  for (int i = 0; i < strlen(old_msg_txt) && offset + 1 < data_msg->enc_msg_len;
+  for (int i = 0; i < strlen(old_msg_txt) && offset + i < data_msg->enc_msg_len;
        i++) {
     data_msg->enc_msg[offset + i] ^= (old_msg_txt[i] ^ new_msg_txt[i]);
   }
