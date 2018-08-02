@@ -13,10 +13,13 @@
 
 #include <libotr-ng/data_message.h>
 #include <libotr-ng/key_management.h>
-#include <libotr-ng/shake.h>
 #include <libotr-ng/random.h>
+#include <libotr-ng/shake.h>
 
-static uint8_t usage_message_key = 0x16;
+#include "decode.h"
+#include "helper.h"
+
+// static uint8_t usage_message_key = 0x16;
 
 int decrypt_data_message(uint8_t *plain, const msg_enc_key_p enc_key,
                          const data_message_s *msg) {
@@ -30,13 +33,30 @@ int decrypt_data_message(uint8_t *plain, const msg_enc_key_p enc_key,
   return 0;
 }
 
-  int err = crypto_stream_xor(plain, msg->enc_msg, msg->enc_msg_len, msg->nonce,
-                              enc_key);
+int encrypt_data_message(data_message_s *data_msg, const uint8_t *message,
+                         const msg_enc_key_p enc_key) {
+
+  random_bytes(data_msg->nonce, sizeof(data_msg->nonce));
+
+  size_t msg_len = sizeof(message);
+  uint8_t *enc_msg = malloc(msg_len);
+
+  int err =
+      crypto_stream_xor(enc_msg, message, msg_len, data_msg->nonce, enc_key);
 
   if (err) {
-    free(plain);
+    free(enc_msg);
     return 1;
   }
+
+  data_msg->enc_msg_len = msg_len;
+  data_msg->enc_msg = enc_msg;
+
+  msg_mac_key_p mac_key = {0};
+  otrng_data_message_authenticator(data_msg->mac, sizeof(msg_mac_key_p),
+                                   mac_key, data_msg->enc_msg,
+                                   data_msg->enc_msg_len);
+
   return 0;
 }
 
@@ -75,9 +95,12 @@ void arg_to_buf(uint8_t **dst, size_t *written, char *arg) {
 }
 
 int main(int argc, char **argv) {
-  if (argc < 3) {
-    puts("Wrong number of arguments");
-    return 1;
+
+  uint8_t *new_txt_msg = NULL;
+
+  printf("Argc size: %d\n", argc);
+  if (argc == 4) {
+    new_txt_msg = (uint8_t *)argv[3];
   }
 
   size_t len_chain_key;
@@ -91,10 +114,19 @@ int main(int argc, char **argv) {
     return 1;
   }
 
+  //  printf("ratchet: %s\n", argv[1]);
+
   msg_enc_key_p enc_key;
   memset(enc_key, 0, sizeof(enc_key));
 
   shake_256_kdf1(enc_key, sizeof(msg_enc_key_p), 0x16, chain_key, 64);
+
+  /*printf("\n");
+  printf("encryption: ");
+  for (int i = 0; i < sizeof(enc_key); i++) {
+    printf("%02x", enc_key[i]);
+  }
+  printf("\n");*/
 
   data_message_s *data_msg = otrng_data_message_new();
   if (decode_data_message(data_msg, original_msg)) {
@@ -110,6 +142,13 @@ int main(int argc, char **argv) {
   decrypt_data_message(plain, enc_key, data_msg);
 
   printf("Decrypted message: %s\n", plain);
+
+  data_message_s *enc_data_msg = otrng_data_message_new();
+  if (new_txt_msg != NULL) {
+    printf("The text: %s\n", new_txt_msg);
+    encrypt_data_message(enc_data_msg, new_txt_msg, enc_key);
+  }
+
   free(plain);
   return 0;
 }
