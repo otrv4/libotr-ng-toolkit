@@ -1,13 +1,3 @@
-/*It takes three inputs: the chain key,
-  the OTRv4 message and a new plain text message (optional). If a new
-  message is included, the original text is replaced with the new message and
-  a new MAC tag is attached to the data message.
-
-  To achieve this:
-  - Decrypt the data message with the corresponding message key derived from
-    the given chain key.
-  - If a new message is given, replace the message with that one, encrypt it
-    and create its mac accordingly. */
 #include <stdio.h>
 #include <string.h>
 
@@ -19,7 +9,7 @@
 #include "decode.h"
 #include "helper.h"
 
-// static uint8_t usage_message_key = 0x16;
+static uint8_t usage_message_key = 0x16;
 
 int decrypt_data_message(uint8_t *plain, const msg_enc_key_p enc_key,
                          const data_message_s *msg) {
@@ -28,34 +18,27 @@ int decrypt_data_message(uint8_t *plain, const msg_enc_key_p enc_key,
                               enc_key);
 
   if (err) {
+    fprintf(stderr, "Error on decrypt!\n");
     return 1;
   }
   return 0;
 }
 
-int encrypt_data_message(data_message_s *data_msg, const uint8_t *message,
-                         const msg_enc_key_p enc_key) {
+int encrypt_data_message(data_message_s *data_msg, const uint8_t *msg,
+                         size_t msg_len, const msg_enc_key_p enc_key) {
 
-  random_bytes(data_msg->nonce, sizeof(data_msg->nonce));
-
-  size_t msg_len = sizeof(message);
   uint8_t *enc_msg = malloc(msg_len);
 
-  int err =
-      crypto_stream_xor(enc_msg, message, msg_len, data_msg->nonce, enc_key);
+  int err = crypto_stream_xor(enc_msg, msg, msg_len, data_msg->nonce, enc_key);
 
   if (err) {
+    fprintf(stderr, "Error on encrypt!\n");
     free(enc_msg);
     return 1;
   }
 
   data_msg->enc_msg_len = msg_len;
   data_msg->enc_msg = enc_msg;
-
-  msg_mac_key_p mac_key = {0};
-  otrng_data_message_authenticator(data_msg->mac, sizeof(msg_mac_key_p),
-                                   mac_key, data_msg->enc_msg,
-                                   data_msg->enc_msg_len);
 
   return 0;
 }
@@ -95,42 +78,34 @@ void arg_to_buf(uint8_t **dst, size_t *written, char *arg) {
 }
 
 int main(int argc, char **argv) {
-
   uint8_t *new_txt_msg = NULL;
+  size_t new_txt_msg_len = 0;
 
-  printf("Argc size: %d\n", argc);
   if (argc == 4) {
     new_txt_msg = (uint8_t *)argv[3];
+    new_txt_msg_len = strlen(argv[3]);
   }
 
   size_t len_chain_key;
   uint8_t *chain_key;
   char *original_msg = argv[2];
 
-  arg_to_buf(&chain_key, &len_chain_key, argv[1]);
+  argv_to_buf(&chain_key, &len_chain_key, argv[1]);
 
   if (len_chain_key != CHAIN_KEY_BYTES) {
-    puts("Chain key with the wrong size");
+    fprintf(stderr, "Chain key with the wrong size");
     return 1;
   }
-
-  //  printf("ratchet: %s\n", argv[1]);
 
   msg_enc_key_p enc_key;
   memset(enc_key, 0, sizeof(enc_key));
 
-  shake_256_kdf1(enc_key, sizeof(msg_enc_key_p), 0x16, chain_key, 64);
-
-  /*printf("\n");
-  printf("encryption: ");
-  for (int i = 0; i < sizeof(enc_key); i++) {
-    printf("%02x", enc_key[i]);
-  }
-  printf("\n");*/
+  shake_256_kdf1(enc_key, sizeof(msg_enc_key_p), usage_message_key, chain_key,
+                 64);
 
   data_message_s *data_msg = otrng_data_message_new();
   if (decode_data_message(data_msg, original_msg)) {
-    puts("Error decoding message");
+    fprintf(stderr, "Error decoding message");
     return 1;
   }
 
@@ -140,15 +115,37 @@ int main(int argc, char **argv) {
   }
 
   decrypt_data_message(plain, enc_key, data_msg);
-
   printf("Decrypted message: %s\n", plain);
 
-  data_message_s *enc_data_msg = otrng_data_message_new();
-  if (new_txt_msg != NULL) {
-    printf("The text: %s\n", new_txt_msg);
-    encrypt_data_message(enc_data_msg, new_txt_msg, enc_key);
-  }
-
   free(plain);
+
+  if (new_txt_msg != NULL) {
+    encrypt_data_message(data_msg, new_txt_msg, new_txt_msg_len, enc_key);
+
+    uint8_t *serialized_msg = NULL;
+    size_t serialized_msg_len = 0;
+
+    if (!otrng_data_message_body_asprintf(&serialized_msg, &serialized_msg_len,
+                                          data_msg)) {
+      fprintf(stderr, "Error on serialization of new data message!");
+      return 1;
+    }
+    uint8_t *serialialized_msg_with_mac =
+        malloc(serialized_msg_len + DATA_MSG_MAC_BYTES);
+
+    memcpy(serialialized_msg_with_mac, serialized_msg, serialized_msg_len);
+    free(serialized_msg);
+
+    otrng_data_message_authenticator(
+        serialialized_msg_with_mac + serialized_msg_len, DATA_MSG_MAC_BYTES,
+        data_msg->mac, serialialized_msg_with_mac, serialized_msg_len);
+
+    char *encoded_data_msg = otrl_base64_otr_encode(
+        serialialized_msg_with_mac, serialized_msg_len + DATA_MSG_MAC_BYTES);
+
+    printf("New data message: %s\n", encoded_data_msg);
+    free(serialialized_msg_with_mac);
+  }
+  otrng_data_message_free(data_msg);
   return 0;
 }
