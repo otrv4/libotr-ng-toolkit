@@ -20,22 +20,23 @@ int main(int argc, char **argv) {
     new_txt_msg_len = strlen(argv[3]);
   }
 
-  size_t len_chain_key;
-  uint8_t *chain_key;
+  msg_enc_key_p enc_key;
+  size_t len_given_key;
+  uint8_t *given_key;
   char *original_msg = argv[2];
 
-  argv_to_buf(&chain_key, &len_chain_key, argv[1]);
+  argv_to_buf(&given_key, &len_given_key, argv[1]);
 
-  if (len_chain_key != CHAIN_KEY_BYTES) {
-    fprintf(stderr, "Chain key with the wrong size");
-    return 1;
+  if (len_given_key == CHAIN_KEY_BYTES) {
+
+    memset(enc_key, 0, sizeof(enc_key));
+    shake_256_kdf1(enc_key, sizeof(msg_enc_key_p), usage_message_key, given_key,
+                   64);
+  } else if (len_given_key == ENC_KEY_BYTES) {
+    memcpy(enc_key, given_key, len_given_key);
+  } else {
+    fprintf(stderr, "Key with wrong size");
   }
-
-  msg_enc_key_p enc_key;
-  memset(enc_key, 0, sizeof(enc_key));
-
-  shake_256_kdf1(enc_key, sizeof(msg_enc_key_p), usage_message_key, chain_key,
-                 64);
 
   data_message_s *data_msg = otrng_data_message_new();
   if (decode_data_message(data_msg, original_msg)) {
