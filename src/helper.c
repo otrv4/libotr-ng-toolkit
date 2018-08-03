@@ -5,6 +5,7 @@
 
 #include <libotr-ng/constants.h>
 #include <libotr-ng/otrng.h>
+#include <libotr/b64.h>
 
 #include "helper.h"
 
@@ -236,4 +237,46 @@ void argv_to_buf(unsigned char **dst, size_t *written, char *arg) {
 
   *dst = buf;
   *written = size / 2;
+}
+
+int decrypt_data_message(uint8_t *plain, const msg_enc_key_p enc_key,
+                         const data_message_s *msg) {
+
+  int err = crypto_stream_xor(plain, msg->enc_msg, msg->enc_msg_len, msg->nonce,
+                              enc_key);
+
+  if (err) {
+    fprintf(stderr, "Error on decrypt!\n");
+    return 1;
+  }
+  return 0;
+}
+
+int encrypt_data_message(data_message_s *data_msg, const uint8_t *msg,
+                         size_t msg_len, const msg_enc_key_p enc_key) {
+
+  uint8_t *enc_msg = malloc(msg_len);
+
+  int err = crypto_stream_xor(enc_msg, msg, msg_len, data_msg->nonce, enc_key);
+
+  if (err) {
+    fprintf(stderr, "Error on encrypt!\n");
+    free(enc_msg);
+    return 1;
+  }
+
+  data_msg->enc_msg_len = msg_len;
+  data_msg->enc_msg = enc_msg;
+
+  return 0;
+}
+
+void serialize_and_remac(char **encoded_data_msg, uint8_t *msg_with_mac,
+                         size_t msg_len, uint8_t *new_mac) {
+
+  otrng_data_message_authenticator(msg_with_mac + msg_len, DATA_MSG_MAC_BYTES,
+                                   new_mac, msg_with_mac, msg_len);
+
+  *encoded_data_msg =
+      otrl_base64_otr_encode(msg_with_mac, msg_len + DATA_MSG_MAC_BYTES);
 }

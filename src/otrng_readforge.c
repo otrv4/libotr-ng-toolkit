@@ -11,72 +11,6 @@
 
 static uint8_t usage_message_key = 0x16;
 
-int decrypt_data_message(uint8_t *plain, const msg_enc_key_p enc_key,
-                         const data_message_s *msg) {
-
-  int err = crypto_stream_xor(plain, msg->enc_msg, msg->enc_msg_len, msg->nonce,
-                              enc_key);
-
-  if (err) {
-    fprintf(stderr, "Error on decrypt!\n");
-    return 1;
-  }
-  return 0;
-}
-
-int encrypt_data_message(data_message_s *data_msg, const uint8_t *msg,
-                         size_t msg_len, const msg_enc_key_p enc_key) {
-
-  uint8_t *enc_msg = malloc(msg_len);
-
-  int err = crypto_stream_xor(enc_msg, msg, msg_len, data_msg->nonce, enc_key);
-
-  if (err) {
-    fprintf(stderr, "Error on encrypt!\n");
-    free(enc_msg);
-    return 1;
-  }
-
-  data_msg->enc_msg_len = msg_len;
-  data_msg->enc_msg = enc_msg;
-
-  return 0;
-}
-
-void arg_to_buf(uint8_t **dst, size_t *written, char *arg) {
-  uint8_t *buf;
-  *dst = 0;
-  *written = 0;
-  size_t size = strlen(arg);
-
-  if (size % 2) {
-    fprintf(stderr, "Argument ``%s'' must have even length.\n", arg);
-    return;
-  }
-
-  buf = malloc(size / 2);
-  if (buf == NULL) {
-    fprintf(stderr, "Out of memory!\n");
-    return;
-  }
-
-  char *b = malloc(2);
-  char *end;
-  for (int i = 0; i < size / 2; i++) {
-    strncpy(b, arg, 2);
-    arg += 2;
-    buf[i] = (int)strtol(b, &end, 16);
-    if (*end) {
-      fprintf(stderr, "Error when trying to convert key!\n");
-      return;
-    }
-  }
-  free(b);
-
-  *dst = buf;
-  *written = size / 2;
-}
-
 int main(int argc, char **argv) {
   uint8_t *new_txt_msg = NULL;
   size_t new_txt_msg_len = 0;
@@ -132,16 +66,16 @@ int main(int argc, char **argv) {
     }
     uint8_t *serialialized_msg_with_mac =
         malloc(serialized_msg_len + DATA_MSG_MAC_BYTES);
+    if (!serialialized_msg_with_mac) {
+      return 1;
+    }
 
     memcpy(serialialized_msg_with_mac, serialized_msg, serialized_msg_len);
     free(serialized_msg);
 
-    otrng_data_message_authenticator(
-        serialialized_msg_with_mac + serialized_msg_len, DATA_MSG_MAC_BYTES,
-        data_msg->mac, serialialized_msg_with_mac, serialized_msg_len);
-
-    char *encoded_data_msg = otrl_base64_otr_encode(
-        serialialized_msg_with_mac, serialized_msg_len + DATA_MSG_MAC_BYTES);
+    char *encoded_data_msg = NULL;
+    serialize_and_remac(&encoded_data_msg, serialialized_msg_with_mac,
+                        serialized_msg_len, data_msg->mac);
 
     printf("New data message: %s\n", encoded_data_msg);
     free(serialialized_msg_with_mac);
