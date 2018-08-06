@@ -93,6 +93,7 @@ void otrng_toolkit_test_parse_identity_message() {
 
   g_assert_cmpint(identity_msg->sender_instance_tag, ==, 3929983578);
   g_assert_cmpint(identity_msg->receiver_instance_tag, ==, 0);
+  otrng_dake_identity_message_destroy(identity_msg);
 }
 
 void otrng_toolkit_test_parse_auth_r_message() {
@@ -130,6 +131,7 @@ void otrng_toolkit_test_parse_auth_r_message() {
   g_assert_cmpint(auth_r_msg->receiver_instance_tag, ==, 1764592062);
   g_assert_cmpint(auth_r_msg->profile->expires, ==, 1533767845);
   g_assert_cmpint(auth_r_msg->profile->dsa_key_len, ==, 0);
+  otrng_dake_auth_r_destroy(auth_r_msg);
 }
 
 void otrng_toolkit_test_parse_auth_i_message() {
@@ -150,4 +152,5 @@ void otrng_toolkit_test_parse_auth_i_message() {
 
   g_assert_cmpint(auth_i_msg->sender_instance_tag, ==, 1764592062);
   g_assert_cmpint(auth_i_msg->receiver_instance_tag, ==, 480412658);
+  otrng_dake_auth_i_destroy(auth_i_msg);
 }
