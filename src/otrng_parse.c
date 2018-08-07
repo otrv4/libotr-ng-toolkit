@@ -30,10 +30,17 @@ int main(int argc, char **argv) {
 
     if (!header_msg) {
       fprintf(stderr, "Error allocating memory\n");
+      free(header_msg);
       return 1;
     }
 
     result = decode_header(header_msg, original_msg);
+
+    if (result != 0) {
+      fprintf(stderr, "Error on decode the header");
+      free(header_msg);
+      return result;
+    }
 
     if (header_msg->type == IDENTITY_MSG_TYPE) {
       dake_identity_message_p identity_msg;
@@ -42,11 +49,13 @@ int main(int argc, char **argv) {
       if (result != 0) {
         fprintf(stderr, "Error on decode identity message\n");
         otrng_dake_identity_message_destroy(identity_msg);
+        free(header_msg);
         return result;
       }
 
       print_identity_message(header_msg, identity_msg);
       otrng_dake_identity_message_destroy(identity_msg);
+      free(header_msg);
 
     } else if (header_msg->type == AUTH_R_MSG_TYPE) {
       dake_auth_r_p auth_r_msg;
@@ -55,6 +64,7 @@ int main(int argc, char **argv) {
       if (result != 0) {
         fprintf(stderr, "Error on decode auth-r message\n");
         otrng_dake_auth_r_destroy(auth_r_msg);
+        free(header_msg);
         return result;
       }
 
@@ -68,6 +78,7 @@ int main(int argc, char **argv) {
       if (result != 0) {
         fprintf(stderr, "Error on decode auth-i message\n");
         otrng_dake_auth_i_destroy(auth_i_msg);
+        free(header_msg);
         return result;
       }
 
@@ -80,6 +91,8 @@ int main(int argc, char **argv) {
 
       if (result != 0) {
         fprintf(stderr, "Error on decode data message\n");
+        otrng_data_message_free(data_msg);
+        free(header_msg);
         return result;
       }
 
@@ -88,6 +101,7 @@ int main(int argc, char **argv) {
 
     } else {
       fprintf(stderr, "Error while trying to parse encoded message\n");
+      free(header_msg);
       return 1;
     }
 
