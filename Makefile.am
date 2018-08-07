@@ -6,7 +6,10 @@ ACLOCAL_AMFLAGS = -I m4
 noinst_HEADERS = src/decode.h src/readotr.h src/helper.h
 bin_PROGRAMS = otrng_parse otrng_mackey otrng_modify otrng_readforge
 
-COMMON_LD = $(libdir)/libotr-ng.la $(libdir)/libotr.la @LIBS@ @LIBGCRYPT_LIBS@ @LIBGOLDILOCKS_LIBS@
+COMMON_LD = $(libdir)/libotr-ng.la $(libdir)/libotr.la @LIBS@ \
+                                                       @LIBGCRYPT_LIBS@ \
+                                                       @LIBGOLDILOCKS_LIBS@ \
+                                                       @LIBSODIUM_LIBS@
 
 otrng_parse_SOURCES = src/otrng_parse.c src/decode.c src/readotr.c src/helper.c
 otrng_parse_LDADD = $(COMMON_LD)
