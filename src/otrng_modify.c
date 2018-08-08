@@ -25,7 +25,8 @@ int main(int argc, char **argv) {
   int offset = strtol(argv[4], NULL, 10);
 
   if (strlen(old_msg_txt) != strlen(new_msg_txt)) {
-    fprintf(stderr, "Old message text size must be equal to new message text size");
+    fprintf(stderr,
+            "Old message text size must be equal to new message text size");
     return 1;
   }
 
@@ -60,23 +61,21 @@ int main(int argc, char **argv) {
     return 1;
   }
 
-
   data_message_s *data_msg = otrng_data_message_new();
   result = decode_data_message(data_msg, original_msg);
 
   if (result != 0) {
-    fprintf(stderr,"Error decoding data message");
+    fprintf(stderr, "Error decoding data message");
     otrng_data_message_free(data_msg);
     return 1;
   }
 
-  //Check the mac?
+  // Check the mac?
 
   for (int i = 0; i < strlen(old_msg_txt) && offset + i < data_msg->enc_msg_len;
        ++i) {
     data_msg->enc_msg[offset + i] ^= (old_msg_txt[i] ^ new_msg_txt[i]);
   }
-
 
   char *encoded_msg = NULL;
   serialize_and_remac(&encoded_msg, data_msg, mac);

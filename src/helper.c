@@ -278,7 +278,8 @@ int encrypt_data_message(data_message_s *data_msg, const uint8_t *msg,
   return 0;
 }
 
-void serialize_and_remac(char **encoded_data_msg, data_message_s *data_msg, uint8_t *new_mac) {
+void serialize_and_remac(char **encoded_data_msg, data_message_s *data_msg,
+                         uint8_t *new_mac) {
 
   uint8_t *msg = NULL;
   size_t msg_len = 0;

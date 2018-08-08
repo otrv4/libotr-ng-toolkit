@@ -52,7 +52,6 @@ int readforge(uint8_t **plain_text, char **encoded_data_msg,
     }
 
     serialize_and_remac(encoded_data_msg, data_msg, data_msg->mac);
-
   }
   otrng_data_message_free(data_msg);
 
