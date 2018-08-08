@@ -7,6 +7,7 @@ addons:
         packages:
             - lcov
             - valgrind
+            - libglib2.0-dev
 
 matrix:
   fast_finish: true
