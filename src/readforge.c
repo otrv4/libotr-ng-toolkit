@@ -51,20 +51,8 @@ int readforge(uint8_t **plain_text, char **encoded_data_msg,
       return 1;
     }
 
-    uint8_t *serialialized_msg_with_mac =
-        malloc(serialized_msg_len + DATA_MSG_MAC_BYTES);
-    if (!serialialized_msg_with_mac) {
-      fprintf(stderr, "Memory error");
-      return 1;
-    }
+    serialize_and_remac(encoded_data_msg, data_msg, data_msg->mac);
 
-    memcpy(serialialized_msg_with_mac, serialized_msg, serialized_msg_len);
-    free(serialized_msg);
-
-    serialize_and_remac(encoded_data_msg, serialialized_msg_with_mac,
-                        serialized_msg_len, data_msg->mac);
-
-    free(serialialized_msg_with_mac);
   }
   otrng_data_message_free(data_msg);
 

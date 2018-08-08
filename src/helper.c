@@ -278,14 +278,25 @@ int encrypt_data_message(data_message_s *data_msg, const uint8_t *msg,
   return 0;
 }
 
-void serialize_and_remac(char **encoded_data_msg, uint8_t *msg_with_mac,
-                         size_t msg_len, uint8_t *new_mac) {
+void serialize_and_remac(char **encoded_data_msg, data_message_s *data_msg, uint8_t *new_mac) {
 
-  otrng_data_message_authenticator(msg_with_mac + msg_len, DATA_MSG_MAC_BYTES,
-                                   new_mac, msg_with_mac, msg_len);
+  uint8_t *msg = NULL;
+  size_t msg_len = 0;
+
+  otrng_data_message_body_asprintf(&msg, &msg_len, data_msg);
+
+  size_t encoded_data_msg_len = msg_len + DATA_MSG_MAC_BYTES;
+
+  uint8_t *enc_msg = malloc(encoded_data_msg_len);
+
+  memcpy(enc_msg, msg, msg_len);
+  free(msg);
+
+  otrng_data_message_authenticator(enc_msg + msg_len, DATA_MSG_MAC_BYTES,
+                                   new_mac, enc_msg, msg_len);
 
   *encoded_data_msg =
-      otrl_base64_otr_encode(msg_with_mac, msg_len + DATA_MSG_MAC_BYTES);
+      otrl_base64_otr_encode(enc_msg, msg_len + DATA_MSG_MAC_BYTES);
 }
 
 void calculate_mac(msg_mac_key_p mac_key, unsigned char *buff) {
