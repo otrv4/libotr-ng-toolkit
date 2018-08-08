@@ -5,9 +5,12 @@
 
 #include <libotr-ng/constants.h>
 #include <libotr-ng/otrng.h>
+#include <libotr-ng/shake.h>
 #include <libotr/b64.h>
 
 #include "helper.h"
+
+static uint8_t usage_mac_key = 0x17;
 
 void print_hex(uint8_t data[], int data_len) {
   for (int i = 0; i < data_len; i++) {
@@ -213,24 +216,30 @@ void argv_to_buf(unsigned char **dst, size_t *written, char *arg) {
 
   if (size % 2) {
     fprintf(stderr, "Argument ``%s'' must have even length.\n", arg);
-    return;
+    exit(1);
   }
 
   buf = malloc(size / 2);
   if (buf == NULL) {
     fprintf(stderr, "Out of memory!\n");
-    return;
+    exit(1);
   }
 
-  char *b = malloc(2);
+  char *b = malloc(3);
+  if (b == NULL) {
+    fprintf(stderr, "Out of memory!\n");
+    exit(1);
+  }
+
   char *end;
   for (int i = 0; i < size / 2; i++) {
     strncpy(b, arg, 2);
+    b[2] = 0;
     arg += 2;
     buf[i] = (int)strtol(b, &end, 16);
     if (*end) {
       fprintf(stderr, "Error when trying to convert key!\n");
-      return;
+      exit(1);
     }
   }
   free(b);
@@ -279,4 +288,12 @@ void serialize_and_remac(char **encoded_data_msg, uint8_t *msg_with_mac,
 
   *encoded_data_msg =
       otrl_base64_otr_encode(msg_with_mac, msg_len + DATA_MSG_MAC_BYTES);
+}
+
+void calculate_mac(msg_mac_key_p mac_key, unsigned char *buff) {
+
+  memset(mac_key, 0, sizeof(msg_mac_key_p));
+
+  shake_256_kdf1(mac_key, sizeof(msg_mac_key_p), usage_mac_key, buff,
+                 sizeof(msg_enc_key_p));
 }

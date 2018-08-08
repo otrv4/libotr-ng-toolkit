@@ -20,3 +20,4 @@ int decrypt_data_message(uint8_t *plain, const msg_enc_key_p enc_key,
                          const data_message_s *msg);
 void serialize_and_remac(char **encoded_data_msg, uint8_t *msg_with_mac,
                          size_t msg_len, uint8_t *new_mac);
+void calculate_mac(msg_mac_key_p mac_key, unsigned char *buff);
