@@ -3,7 +3,7 @@ ACLOCAL_AMFLAGS = -I m4
 
 @CODE_COVERAGE_RULES@
 
-noinst_HEADERS = src/decode.h src/readotr.h src/helper.h
+noinst_HEADERS = src/decode.h src/readotr.h src/helper.h src/readforge.c
 bin_PROGRAMS = otrng_parse otrng_mackey otrng_modify otrng_readforge
 
 COMMON_LD = $(libdir)/libotr-ng.la $(libdir)/libotr.la @LIBS@ \
@@ -17,7 +17,7 @@ otrng_mackey_SOURCES = src/otrng_mackey.c src/helper.c
 otrng_mackey_LDADD = $(COMMON_LD)
 otrng_modify_SOURCES = src/otrng_modify.c src/decode.c src/readotr.c src/helper.c
 otrng_modify_LDADD = $(COMMON_LD)
-otrng_readforge_SOURCES = src/otrng_readforge.c src/decode.c src/readotr.c src/helper.c
+otrng_readforge_SOURCES = src/otrng_readforge.c src/decode.c src/readotr.c src/helper.c src/readforge.c
 otrng_readforge_LDADD = $(COMMON_LD)
 ci: test mem-check
 

@@ -5,7 +5,7 @@
 
 #include "test_otrng_mackey.c"
 #include "test_otrng_parse.c"
-//#include "test_otrng_remac.c"
+#include "test_otrng_readforge.c"
 
 int main(int argc, char **argv) {
 
@@ -26,9 +26,11 @@ int main(int argc, char **argv) {
                   otrng_toolkit_test_parse_auth_r_message);
   g_test_add_func("/toolkit/parse_auth_i_msg",
                   otrng_toolkit_test_parse_auth_i_message);
+
   g_test_add_func("/toolkit/calculate_mac",
                   otrng_toolkit_test_calculate_mac_key);
-  //  g_test_add_func("/toolkit/remac", otrng_toolkit_test_parse_data_message);
+
+  g_test_add_func("/toolkit/read_and_forge", otrng_toolkit_test_read_and_forge);
 
   return g_test_run();
 }

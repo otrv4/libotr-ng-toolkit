@@ -1,0 +1,28 @@
+#include "../helper.c"
+#include "../readforge.c"
+#include "test_helpers.h"
+
+void otrng_toolkit_test_read_and_forge() {
+  char *ratchet_key =
+      "e67646f68b88c76f247ad0725759274399d512870ac8b44def5e3d30d66e357e69d87ea7"
+      "0564e190511d89454d65ef5c2bef69170de01ec9cd97087af592754b";
+  char *msg =
+      "?OTR:AAQDAAABAgAAAQEAAAAAAAAAAAEAAAAA4Bu8GueVNqynkUTbqEeDIqkJ/"
+      "nAZg5wg6qYyYZPbS2xRZJjUpiRg4xITK29OJE6fgwaZNwRHZZoAAAABgNDbnCRqmxbuwbuAx"
+      "LVcV8wLDDTVl7sinfc9f6ScruU3y1fS60cPgN8X1gp6OZFe7lPNQAABtNvuII+Xjo63LKi/"
+      "n259F8pKZ0Q2nd17VGgCrNPgxSV655nj3q0V+P3c6mgf+"
+      "2sbEJekayVipWFZ5M5CqDUCRC9bEEqqPH+9azTS2j+Arak51TRw/"
+      "rrgURcIRMjdqfnhW4viqnygOR2SJcd0dnWUw8bHUX6z/"
+      "uFXIun9455jBVAyjmJCIspi+"
+      "Fjkh8vsEGH8heSve8w88flGK9pOii7f3E1I7kAho2sHTTByhCMWr10XLcn91iUABuycSKCRu"
+      "bFRbM/"
+      "JyQDmr16DG86Ukc13j3imXsR63uftxqOTozq0VVzNt0FH35+UHmzaB137a4eFWSpB+"
+      "dvMUp907x0ZPv3tAb9oXTTiCk6IqtfLKsuto2h0fb76sJ+/"
+      "mTT60Clv6esgpuIruN4l1vu9HnYjDm9+"
+      "clTSPuGa9N7yqzwmOLnQ2UWoM0QKOr5M95sD4bQ77pMg6bi4Ii1RI8vXH3red9/"
+      "J+nZYLQAAAAhV8HH6Ri38BeXAcEVLQdWb5AGLlvync+NYz/"
+      "EwX0xqsg+nwkVcmoOn9zImEQKA9PEtYv+I0WbqCVbQk1ZMnGFIYYf/lcfqNOg=.";
+  char *encoded_data_msg = NULL;
+  readforge(&encoded_data_msg, ratchet_key, msg, NULL);
+  g_assert_cmpstr(encoded_data_msg, ==, "dsa");
+}
