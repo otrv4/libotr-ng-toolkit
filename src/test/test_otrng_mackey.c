@@ -1,4 +1,4 @@
-#include "../helper.c"
+#include "../helper.h"
 #include "test_helpers.h"
 
 void otrng_toolkit_test_calculate_mac_key() {

@@ -17,14 +17,19 @@ int main(int argc, char **argv) {
     new_txt_msg = (uint8_t *)argv[3];
   }
 
-  char *original_msg = argv[2];
+  char *raw_msg = argv[2];
   char *mac_key = argv[1];
 
   char *encoded_data_msg = NULL;
+  uint8_t *plain;
 
-  if (readforge(&encoded_data_msg, mac_key, original_msg, new_txt_msg)) {
+  if (readforge(&plain, &encoded_data_msg, mac_key, raw_msg, new_txt_msg)) {
     return 1;
   }
+
+  printf("Decrypted message: %s\n", plain);
+
+  free(plain);
 
   if (encoded_data_msg) {
     printf("New data message: %s\n", encoded_data_msg);

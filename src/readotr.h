@@ -1,6 +1,4 @@
-#ifndef __READOTR_H__
-#define __READOTR_H__
-
+#ifndef READOTR_H
+#define READOTR_H
 char *readotr(FILE *stream);
-
 #endif

@@ -2,7 +2,7 @@
 #include "../readforge.c"
 #include "test_helpers.h"
 
-void otrng_toolkit_test_read_and_forge() {
+void otrng_toolkit_test_read_and_forge_ratchet_key() {
   char *ratchet_key =
       "e67646f68b88c76f247ad0725759274399d512870ac8b44def5e3d30d66e357e69d87ea7"
       "0564e190511d89454d65ef5c2bef69170de01ec9cd97087af592754b";
@@ -23,6 +23,9 @@ void otrng_toolkit_test_read_and_forge() {
       "J+nZYLQAAAAhV8HH6Ri38BeXAcEVLQdWb5AGLlvync+NYz/"
       "EwX0xqsg+nwkVcmoOn9zImEQKA9PEtYv+I0WbqCVbQk1ZMnGFIYYf/lcfqNOg=.";
   char *encoded_data_msg = NULL;
-  readforge(&encoded_data_msg, ratchet_key, msg, NULL);
-  g_assert_cmpstr(encoded_data_msg, ==, "dsa");
+  uint8_t *plain_text;
+  readforge(&plain_text, &encoded_data_msg, ratchet_key, msg, NULL);
+  g_assert_true(encoded_data_msg == NULL);
+  /*g_assert_true(plain_text == NULL);*/
+  otrng_toolkit_assert_cmpmem(plain_text, "dummy", sizeof("dummy"));
 }

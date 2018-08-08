@@ -30,7 +30,8 @@ int main(int argc, char **argv) {
   g_test_add_func("/toolkit/calculate_mac",
                   otrng_toolkit_test_calculate_mac_key);
 
-  g_test_add_func("/toolkit/read_and_forge", otrng_toolkit_test_read_and_forge);
+  g_test_add_func("/toolkit/read_and_forge",
+                  otrng_toolkit_test_read_and_forge_ratchet_key);
 
   return g_test_run();
 }

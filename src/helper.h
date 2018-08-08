@@ -5,6 +5,11 @@
 #include <libotr-ng/constants.h>
 #include <libotr-ng/otrng.h>
 
+#ifndef HELPER_H
+#define HELPER_H
+static const uint8_t usage_mac_key = 0x17;
+static const uint8_t usage_message_key = 0x16;
+
 void print_hex(uint8_t data[], int data_len);
 void print_string(char *data, int data_len);
 void print_data_message(otrng_header_s *header_msg, data_message_s *data_msg);
@@ -21,3 +26,4 @@ int decrypt_data_message(uint8_t *plain, const msg_enc_key_p enc_key,
 void serialize_and_remac(char **encoded_data_msg, uint8_t *msg_with_mac,
                          size_t msg_len, uint8_t *new_mac);
 void calculate_mac(msg_mac_key_p mac_key, unsigned char *buff);
+#endif

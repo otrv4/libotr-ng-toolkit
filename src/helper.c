@@ -10,8 +10,6 @@
 
 #include "helper.h"
 
-static uint8_t usage_mac_key = 0x17;
-
 void print_hex(uint8_t data[], int data_len) {
   for (int i = 0; i < data_len; i++) {
     printf("%02x", data[i]);

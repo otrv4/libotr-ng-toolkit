@@ -5,7 +5,6 @@
 
 #ifndef TEST_HELPERS
 #define TEST_HELPERS
-
 #define otrng_toolkit_assert(expr)                                             \
   do {                                                                         \
     if                                                                         \

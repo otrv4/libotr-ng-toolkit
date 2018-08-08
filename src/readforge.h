@@ -8,5 +8,8 @@
 #include "decode.h"
 #include "helper.h"
 
-int readforge(char **encoded_data_msg, char *raw_ratchet_key, char *raw_msg,
-              uint8_t *new_txt_msg);
+#ifndef READFORGE_H
+#define READFORGE_H
+int readforge(uint8_t **plain_text, char **encoded_data_msg,
+              char *raw_ratchet_key, char *raw_msg, uint8_t *new_txt_msg);
+#endif
