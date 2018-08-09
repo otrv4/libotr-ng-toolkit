@@ -4,9 +4,9 @@
 #include "test_helpers.h"
 
 #include "test_otrng_mackey.c"
+#include "test_otrng_modify.c"
 #include "test_otrng_parse.c"
 #include "test_otrng_readforge.c"
-#include "test_otrng_modify.c"
 
 int main(int argc, char **argv) {
 
@@ -40,7 +40,6 @@ int main(int argc, char **argv) {
   g_test_add_func("/toolkit/read_and_forge_encryption_key_new_msg",
                   otrng_toolkit_test_read_and_forge_encryption_key_new_msg);
 
-  g_test_add_func("/toolkit/modify_message_and_mac",
-                  otrng_toolkit_test_modify);
+  g_test_add_func("/toolkit/modify_message_and_mac", otrng_toolkit_test_modify);
   return g_test_run();
 }
