@@ -27,6 +27,8 @@ void otrng_toolkit_test_read_and_forge_ratchet_key() {
   readforge(&plain_text, &encoded_data_msg, ratchet_key, msg, NULL);
   otrng_toolkit_assert_cmpmem(plain_text, "dummy", sizeof("dummy"));
   otrng_toolkit_assert(encoded_data_msg == NULL);
+  free(plain_text);
+  free(encoded_data_msg);
 }
 
 void otrng_toolkit_test_read_and_forge_ratchet_key_new_msg() {
@@ -71,6 +73,8 @@ void otrng_toolkit_test_read_and_forge_ratchet_key_new_msg() {
   readforge(&plain_text, &encoded_data_msg, ratchet_key, msg, new_msg);
   otrng_toolkit_assert_cmpmem(plain_text, "dummy", sizeof("dummy"));
   g_assert_cmpstr(encoded_data_msg, ==, expected_new_data_msg);
+  free(plain_text);
+  free(encoded_data_msg);
 }
 
 void otrng_toolkit_test_read_and_forge_encryption_key() {
@@ -97,6 +101,8 @@ void otrng_toolkit_test_read_and_forge_encryption_key() {
   readforge(&plain_text, &encoded_data_msg, encryption_key, msg, NULL);
   otrng_toolkit_assert_cmpmem(plain_text, "dummy", sizeof("dummy"));
   otrng_toolkit_assert(encoded_data_msg == NULL);
+  free(plain_text);
+  free(encoded_data_msg);
 }
 
 void otrng_toolkit_test_read_and_forge_encryption_key_new_msg() {
@@ -140,4 +146,6 @@ void otrng_toolkit_test_read_and_forge_encryption_key_new_msg() {
   readforge(&plain_text, &encoded_data_msg, encryption_key, msg, new_msg);
   otrng_toolkit_assert_cmpmem(plain_text, "dummy", sizeof("dummy"));
   g_assert_cmpstr(encoded_data_msg, ==, expected_new_data_msg);
+  free(plain_text);
+  free(encoded_data_msg);
 }
