@@ -32,8 +32,12 @@ int main(int argc, char **argv) {
 
   g_test_add_func("/toolkit/read_and_forge_ratchet_key",
                   otrng_toolkit_test_read_and_forge_ratchet_key);
+  g_test_add_func("/toolkit/read_and_forge_ratchet_key_new_msg",
+                  otrng_toolkit_test_read_and_forge_ratchet_key_new_msg);
   g_test_add_func("/toolkit/read_and_forge_encryption_key",
                   otrng_toolkit_test_read_and_forge_encryption_key);
+  g_test_add_func("/toolkit/read_and_forge_encryption_key_new_msg",
+                  otrng_toolkit_test_read_and_forge_encryption_key_new_msg);
 
   return g_test_run();
 }
