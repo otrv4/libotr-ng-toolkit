@@ -63,8 +63,8 @@ void otrng_toolkit_test_read_and_forge_ratchet_key_new_msg() {
       "dvMUp907x0ZPv3tAb9oXTTiCk6IqtfLKsuto2h0fb76sJ+/"
       "mTT60Clv6esgpuIruN4l1vu9HnYjDm9+"
       "clTSPuGa9N7yqzwmOLnQ2UWoM0QKOr5M95sD4bQ77pMg6bi4Ii1RI8vXH3red9/"
-      "J+nZYLQAAAAhU6GzjRi2XB08JjJdAcEMRg5eRN5uIspHL1gUEngqzdkwoTc7NiVsX2Y5+"
-      "LqH6HSqwycrdKnQmGoZGycc7Pfgv1D24A3E1vGM=.";
+      "J+nZYLQAAAAhU6GzjRi2OZ2L4gwM6kmAo6TJKhjsjf5/"
+      "9KzGTCQTKt7UFXQQTkZE13sbHAUaCZlVzpBJttRyzlsF+qzkq2oKAmfxGa9sbQVA=.";
   char *encoded_data_msg = NULL;
   uint8_t *new_msg = (uint8_t *)"empty";
   uint8_t *plain_text;
@@ -132,8 +132,8 @@ void otrng_toolkit_test_read_and_forge_encryption_key_new_msg() {
       "dvMUp907x0ZPv3tAb9oXTTiCk6IqtfLKsuto2h0fb76sJ+/"
       "mTT60Clv6esgpuIruN4l1vu9HnYjDm9+"
       "clTSPuGa9N7yqzwmOLnQ2UWoM0QKOr5M95sD4bQ77pMg6bi4Ii1RI8vXH3red9/"
-      "J+nZYLQAAAAhU6GzjRi2XB08JjJdAcEMRg5eRN5uIspHL1gUEngqzdkwoTc7NiVsX2Y5+"
-      "LqH6HSqwycrdKnQmGoZGycc7Pfgv1D24A3E1vGM=.";
+      "J+nZYLQAAAAhU6GzjRi2OZ2L4gwM6kmAo6TJKhjsjf5/"
+      "9KzGTCQTKt7UFXQQTkZE13sbHAUaCZlVzpBJttRyzlsF+qzkq2oKAmfxGa9sbQVA=.";
   char *encoded_data_msg = NULL;
   uint8_t *plain_text;
   uint8_t *new_msg = (uint8_t *)"empty";
