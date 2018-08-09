@@ -226,6 +226,7 @@ void argv_to_buf(unsigned char **dst, size_t *written, char *arg) {
   char *b = malloc(3);
   if (b == NULL) {
     fprintf(stderr, "Out of memory!\n");
+    free(buf);
     exit(1);
   }
 
@@ -236,14 +237,18 @@ void argv_to_buf(unsigned char **dst, size_t *written, char *arg) {
     arg += 2;
     buf[i] = (int)strtol(b, &end, 16);
     if (*end) {
+      free(b);
+      free(buf);
       fprintf(stderr, "Error when trying to convert key!\n");
       exit(1);
     }
   }
-  free(b);
 
   *dst = buf;
   *written = size / 2;
+
+  free(b);
+  free(buf);
 }
 
 int decrypt_data_message(uint8_t *plain, const msg_enc_key_p enc_key,
@@ -289,6 +294,10 @@ void serialize_and_remac(char **encoded_data_msg, data_message_s *data_msg,
   size_t encoded_data_msg_len = msg_len + DATA_MSG_MAC_BYTES;
 
   uint8_t *enc_msg = malloc(encoded_data_msg_len);
+  if (!enc_msg) {
+    fprintf(stderr, "Out of memory!\n");
+    exit(1);
+  }
 
   memcpy(enc_msg, msg, msg_len);
   free(msg);
@@ -298,6 +307,7 @@ void serialize_and_remac(char **encoded_data_msg, data_message_s *data_msg,
 
   *encoded_data_msg =
       otrl_base64_otr_encode(enc_msg, msg_len + DATA_MSG_MAC_BYTES);
+  free(enc_msg);
 }
 
 void calculate_mac(msg_mac_key_p mac_key, unsigned char *buff) {
