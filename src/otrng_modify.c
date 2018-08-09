@@ -70,8 +70,6 @@ int main(int argc, char **argv) {
     return 1;
   }
 
-  // Check the mac?
-
   for (int i = 0; i < strlen(old_msg_txt) && offset + i < data_msg->enc_msg_len;
        ++i) {
     data_msg->enc_msg[offset + i] ^= (old_msg_txt[i] ^ new_msg_txt[i]);
@@ -82,5 +80,7 @@ int main(int argc, char **argv) {
   printf("New data message: %s\n", encoded_msg);
 
   otrng_data_message_free(data_msg);
+  free(encoded_msg);
+  free(mac);
   return result;
 }
