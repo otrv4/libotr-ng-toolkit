@@ -5,8 +5,8 @@ ACLOCAL_AMFLAGS = -I m4
 
 bin_PROGRAMS = otrng_parse otrng_mackey otrng_modify otrng_readforge
 
-COMMON_LD = src/libotr_ng_toolkit.la $(libdir)/libotr-ng.la $(libdir)/libotr.la @LIBS@
-COMMON_FLAGS = @LIBOTRNG_CFLAGS@
+COMMON_LD = src/libotr_ng_toolkit.la @LIBS@ @LIBOTR_LIBS@
+COMMON_FLAGS = @LIBOTRNG_CFLAGS@ @LIBOTR_CFLAGS@
 
 otrng_parse_SOURCES = src/otrng_parse.c
 otrng_parse_LDADD = $(COMMON_LD)

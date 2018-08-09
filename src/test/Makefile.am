@@ -12,4 +12,4 @@ test_LDFLAGS = $(AM_LDFLAGS) $(GLIB_LIBS) $(CODE_COVERAGE_LIBS) @LIBGOLDILOCKS_L
                                                                 @LIBOTRNG_LIBS@ \
                                                                 @LIBOTR_LIBS@ \
                                                                 @LIBSODIUM_LIBS@
-test_LDADD = $(top_srcdir)/src/libotr_ng_parse.la
+test_LDADD = $(top_srcdir)/src/libotr_ng_toolkit.la
