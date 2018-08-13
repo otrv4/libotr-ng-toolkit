@@ -19,7 +19,7 @@ void print_identity_message(otrng_header_s *header_msg,
 void print_auth_r(otrng_header_s *header_msg, dake_auth_r_p auth_r_msg);
 void print_auth_i(otrng_header_s *header_msg, dake_auth_i_p auth_i_msg);
 void argv_to_buf(unsigned char **dst, size_t *written, char *arg);
-int encrypt_data_message(data_message_s *data_msg, const uint8_t *msg,
+int encrypt_data_message(data_message_s *data_msg, const char *msg,
                          size_t msg_len, const msg_enc_key_p enc_key);
 int decrypt_data_message(uint8_t *plain, const msg_enc_key_p enc_key,
                          const data_message_s *msg);

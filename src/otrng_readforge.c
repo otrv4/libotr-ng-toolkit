@@ -11,17 +11,17 @@
 #include "readforge.h"
 
 int main(int argc, char **argv) {
-  uint8_t *new_txt_msg = NULL;
+  char *new_txt_msg = NULL;
 
   if (argc == 4) {
-    new_txt_msg = (uint8_t *)argv[3];
+    new_txt_msg = argv[3];
   }
 
   char *raw_msg = argv[2];
   char *mac_key = argv[1];
 
   char *encoded_data_msg = NULL;
-  uint8_t *plain;
+  char *plain;
 
   if (readforge(&plain, &encoded_data_msg, mac_key, raw_msg, new_txt_msg)) {
     return 1;

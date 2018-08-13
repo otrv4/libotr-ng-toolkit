@@ -263,12 +263,13 @@ int decrypt_data_message(uint8_t *plain, const msg_enc_key_p enc_key,
   return 0;
 }
 
-int encrypt_data_message(data_message_s *data_msg, const uint8_t *msg,
+int encrypt_data_message(data_message_s *data_msg, const char *msg,
                          size_t msg_len, const msg_enc_key_p enc_key) {
 
   uint8_t *enc_msg = malloc(msg_len);
 
-  int err = crypto_stream_xor(enc_msg, msg, msg_len, data_msg->nonce, enc_key);
+  int err = crypto_stream_xor(enc_msg, (uint8_t *)msg, msg_len, data_msg->nonce,
+                              enc_key);
 
   if (err) {
     fprintf(stderr, "Error on encrypt!\n");
