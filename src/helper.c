@@ -26,7 +26,7 @@ void print_string(char *data, int data_len) {
 
 void print_ECDH(char *title, goldilocks_448_point_s *point) {
   uint8_t ecdh[ED448_POINT_BYTES] = {0};
-  otrng_ec_point_encode(ecdh, sizeof(ecdh), point);
+  otrng_ec_point_encode(ecdh, ED448_POINT_BYTES, point);
   printf("%s", title);
   print_hex(ecdh, ED448_POINT_BYTES);
 }
