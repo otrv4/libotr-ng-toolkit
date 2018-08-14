@@ -99,6 +99,8 @@ int readforge(char **plain_text, char **encoded_data_msg, char *raw_ratchet_key,
   }
 
   // 1) Extract TLVs from plain_text to add them back into the new encrypted msg
+  free(data_msg->enc_msg);
+  data_msg->enc_msg = NULL;
 
   if (forge(encoded_data_msg, new_txt_msg, data_msg, enc_key)) {
     otrng_data_message_free(data_msg);

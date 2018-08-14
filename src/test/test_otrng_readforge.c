@@ -75,7 +75,7 @@ void otrng_toolkit_test_read_and_forge_ratchet_key_new_msg() {
   g_assert_cmpint(
       readforge(&plain_text, &encoded_data_msg, ratchet_key, msg, new_msg), ==,
       0);
-  otrng_toolkit_assert_cmpmem(plain_text, "dummy", strlen((char *)plain_text));
+  otrng_toolkit_assert_cmpmem(plain_text, "dummy", strlen(plain_text));
   /*g_assert_cmpstr(encoded_data_msg, ==, expected_new_data_msg);*/
   free(plain_text);
   free(encoded_data_msg);
