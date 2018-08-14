@@ -62,17 +62,12 @@ int main(int argc, char **argv) {
   }
 
   data_message_s *data_msg = otrng_data_message_new();
-  result = decode_data_message(data_msg, original_msg);
+  result =
+      modify_message(data_msg, original_msg, old_msg_txt, new_msg_txt, offset);
 
   if (result != 0) {
-    fprintf(stderr, "Error decoding data message");
-    otrng_data_message_free(data_msg);
-    return 1;
-  }
-
-  for (int i = 0; i < strlen(old_msg_txt) && offset + i < data_msg->enc_msg_len;
-       ++i) {
-    data_msg->enc_msg[offset + i] ^= (old_msg_txt[i] ^ new_msg_txt[i]);
+    fprintf(stderr, "Error modifying message");
+    return result;
   }
 
   char *encoded_msg = NULL;

@@ -1,5 +1,6 @@
 #include "../decode.h"
 #include "../helper.h"
+#include "../readforge.h"
 #include "test_helpers.h"
 
 void otrng_toolkit_test_modify() {
@@ -8,46 +9,35 @@ void otrng_toolkit_test_modify() {
   char *new_msg_txt = "asdfg";
   int offset = 0;
   char *original_msg =
-      "?OTR:AAQDAAABAgAAAQEAAAAAAAAAAAEAAAAA4Bu8GueVNqynkUTbqEeDIqkJ/"
-      "nAZg5wg6qYyYZPbS2xRZJjUpiRg4xITK29OJE6fgwaZNwRHZZoAAAABgNDbnCRqmxbuwbuAx"
-      "LVcV8wLDDTVl7sinfc9f6ScruU3y1fS60cPgN8X1gp6OZFe7lPNQAABtNvuII+Xjo63LKi/"
-      "n259F8pKZ0Q2nd17VGgCrNPgxSV655nj3q0V+P3c6mgf+"
-      "2sbEJekayVipWFZ5M5CqDUCRC9bEEqqPH+9azTS2j+Arak51TRw/"
-      "rrgURcIRMjdqfnhW4viqnygOR2SJcd0dnWUw8bHUX6z/"
-      "uFXIun9455jBVAyjmJCIspi+"
-      "Fjkh8vsEGH8heSve8w88flGK9pOii7f3E1I7kAho2sHTTByhCMWr10XLcn91iUABuycSKCRu"
-      "bFRbM/"
-      "JyQDmr16DG86Ukc13j3imXsR63uftxqOTozq0VVzNt0FH35+UHmzaB137a4eFWSpB+"
-      "dvMUp907x0ZPv3tAb9oXTTiCk6IqtfLKsuto2h0fb76sJ+/"
-      "mTT60Clv6esgpuIruN4l1vu9HnYjDm9+"
-      "clTSPuGa9N7yqzwmOLnQ2UWoM0QKOr5M95sD4bQ77pMg6bi4Ii1RI8vXH3red9/"
-      "J+nZYLQAAAP9Z4HD7UC2/SZZ2CSOF/eakZp1uWp9HizWYCkkixpWl6Pv/"
-      "KKB24LZklnDmtbKutY4HIDLdLN4H2caEztfLSWkP53lN249SIk9L3CTiSvxRr5JvKvRJcV5A"
-      "/WE89JO6/"
-      "wUUf1ngxFkHa9kaoUabWk2TA93OmoElYgsikdd0lnnAhy+PwvUFOv9o6wP+"
-      "2O9Ius6r7Nqkw2hOK0M1n5hoyNpCqvwnYY6yFuLXSliV00V7qloJOZLBWdNwaKoJJ6KZdsLB"
-      "xPVksY/"
-      "8uYnub3yUiHNfTlNRUkUziDxtGG2aQequd5yi1A9xvTtGENwFjW4zAMtErra510Gq239W6g4"
-      "YHCNwt1+"
-      "h16g3kTQa64ZdyqBCoXcPWrwB1mTSnMrLFwE7ZKAIRxwS3jD3vfI9flAWy4bfVb5IZc/"
-      "s0cGq8FtwrALKZvrqSADDfc0WxD7aVlaFB2Z0dh6XDiyhrnuANM2eGpiFcSL3amLWW8M049C"
-      "/jzjxXDsHctD5ooUJMumr60TZPtI8NISl/FDF1XV3waBoXg9OkfVUz9CIVM+Dft/o1Kdzjs/"
-      "2Dm/"
-      "EalfJuNlnV8SYjt247VyAvONQiGThslg8UvYJuKuxTH7ZgvJBw1zzE1VS8rNuynaG7Kq5Lux"
-      "auOfV59N41c+"
-      "Ts96adP56R55sXXLYR6hJvcZVJVypWKA64e19wbWOJTj0HwoMSBLRqWb3fqweqP+"
-      "LJVq94KurkFttEh3myrEKEy9u6O1zqe9Cn0hgEE3DY283n3wBfJCeD9Gz3g==.";
+      "?OTR:"
+      "AAQDAAABAgAAAQEAAAAAAAAAAAIAAAACh6nreccn9NeZxqtS2FZTDt3yWlvQS8EVPyQnJMtg"
+      "do7jufww87CBNqkLQOU9KpBMorOIVpCuiFmAAAABgHF8Lp9+OG5XvhLwJ/"
+      "s00ameYt+ZkZuVe+hIuhusVXTkACAa38r7JJzSiFXIPx35vrXcY+"
+      "F076ysFmnH08mkwuMygtm2Kh0LOqbunpNPHE361PDSP6M1Y0bhYM2r/"
+      "ZSXJ4+"
+      "td8lk2wS0gnB69ZZuNtJ6Q1F071XfkTYZN1Z3oh2VvH6PlejWN2JGF1k8qVvAyC3vuXNos62"
+      "edrNZVev8VG2vNovztr28cY24405o8K32MhaBMhfkk1VjYDKrcZ9yC6tpOV9gciqEPK5fHuz"
+      "rt0MJGFKLSFr6o2nH79sWOjfQXAt7mzIpfO+dYN+"
+      "mV5m0x71ViP6Q56OXure0joAncMnItnEm0Nh2od1vnEgaYKwAXejg+"
+      "h3xAktExgqTfQEyCMpCWS4VgzOKrTkubu5m/IuQ8D7i/"
+      "Ai1Jw9eojQO4p6xivCS0jN3TIk3WWsdJuEd0PlUEK1sNFTACpaGFuQ98MFUvWvQTlqAIjT7t"
+      "hBQRYzHX4+aHvLwFrJ3fL4PkW+wzI4ZD4klZfk7ZyPA1ZsSmPUCJVJdfPKnVgAAAP+"
+      "WOTHGcGBujO1wpT0eraa2+7tBQU+AguQXsbqOn3kOQvvR35T+"
+      "DL2Ie7u7X8dnWytIOVWytJzFDeD0jER5tX63+"
+      "WnIkQ51Q7vMQNqEsAH8pOXM0iZYoP15hwmj4ply2yFl5VC+"
+      "kMTZZJfkZ6A2iMFA87tHVJLngu3TSI+OLeav66WzT82edQvs5cMcVSW5+i+"
+      "NMBYfJP4ec1IFih9wdV7LeWRQoz882w4iTGFfoNEZgMnXRTYd2fQcjyus654fzMLntWepUqJ"
+      "7zIKpxOBPF0f1r3sG3eu/"
+      "0x2Bs2XoX6qNNPdONeGdAIqxR8DIucWjCbNf3lEUYELKxpKUMZddNoHu5mYKkMoVc5/"
+      "h6sxxG0FuLYKH4ghSCTy+3KIzcQKs25x6gBRE4PKL/"
+      "uCzAK3H59DPi4PSWy2JEAfSaYCZ8ofg.";
   char *buff_mac =
-      "50073a41e8083fd8b0c977dd99d465e2e28a70c2c50d4dd4fad10238d4e0dc6b33a31b08"
-      "815728e2103c7762df3d478c3fde27bb4b13a2d7d0d7117b28d9ac90";
-
+      "534b1b4e089a0ec41662979371a16c2add523e10b549f7bda9c20dfd5032473f";
+  char *raw_enc_key =
+      "f40ea18fc41cabbf982c41b42bf37d2a171f21070a68248b5157003a2f99df49";
   data_message_s *data_msg = otrng_data_message_new();
-  decode_data_message(data_msg, original_msg);
 
-  for (int i = 0; i < strlen(old_msg_txt) && offset + i < data_msg->enc_msg_len;
-       ++i) {
-    data_msg->enc_msg[offset + i] ^= (old_msg_txt[i] ^ new_msg_txt[i]);
-  }
+  modify_message(data_msg, original_msg, old_msg_txt, new_msg_txt, offset);
 
   char *encoded_msg = NULL;
   size_t mac_len;
@@ -56,9 +46,19 @@ void otrng_toolkit_test_modify() {
   argv_to_buf(&mac, &mac_len, buff_mac);
   serialize_and_remac(&encoded_msg, data_msg, mac);
 
-  otrng_toolkit_assert(1 == 1);
+  data_message_s *new_data_msg = otrng_data_message_new();
+  decode_data_message(new_data_msg, encoded_msg);
+
+  // The following lines are here just to make an effetive test
+  char *modified_txt = NULL;
+  msg_enc_key_p enc_key;
+
+  read(&modified_txt, enc_key, raw_enc_key, encoded_msg, new_data_msg);
+
+  otrng_toolkit_assert_cmpmem(modified_txt, new_msg_txt, strlen(modified_txt));
 
   otrng_data_message_free(data_msg);
-  free(encoded_msg);
-  free(mac);
+
+  otrng_data_message_free(new_data_msg);
+  free(modified_txt);
 }

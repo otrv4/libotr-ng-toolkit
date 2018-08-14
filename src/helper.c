@@ -8,6 +8,7 @@
 #include <libotr-ng/shake.h>
 #include <libotr/b64.h>
 
+#include "decode.h"
 #include "helper.h"
 
 void print_hex(uint8_t data[], int data_len) {
@@ -317,4 +318,23 @@ void calculate_mac(msg_mac_key_p mac_key, unsigned char *buff) {
 
   shake_256_kdf1(mac_key, sizeof(msg_mac_key_p), usage_mac_key, buff,
                  sizeof(msg_enc_key_p));
+}
+
+int modify_message(data_message_s *data_msg, char *original_msg,
+                   char *old_msg_txt, char *new_msg_txt, int offset) {
+
+  int result = decode_data_message(data_msg, original_msg);
+
+  if (result != 0) {
+    fprintf(stderr, "Error decoding data message");
+    otrng_data_message_free(data_msg);
+    return result;
+  }
+
+  for (int i = 0; i < strlen(old_msg_txt) && offset + i < data_msg->enc_msg_len;
+       ++i) {
+    data_msg->enc_msg[offset + i] ^= (old_msg_txt[i] ^ new_msg_txt[i]);
+  }
+
+  return result;
 }
