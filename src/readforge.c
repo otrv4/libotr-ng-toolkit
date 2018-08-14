@@ -49,13 +49,6 @@ int read(char **plain_text, msg_enc_key_p enc_key, char *raw_ratchet_key,
   memcpy(*plain_text, plain, l);
   free(plain);
 
-  // size_t l = strnlen((char*) plain, data_msg->enc_msg_len);
-  //*plain_text = otrng_strndup((const char*) plain, l);
-
-  /*printf("strlen -> %zu\n", strlen((char*)plain));*/
-  /*printf("1 - sizeof plain_text %zu\n", sizeof(plain_text));*/
-  /**plain_text = otrng_memdup((uint8_t*)(char*)plain, strlen((char*)plain));*/
-  /*printf("2 - sizeof plain_text %zu\n", sizeof(plain_text));*/
   return 0;
 }
 
@@ -64,16 +57,6 @@ int forge(char **encoded_data_msg, char *new_txt_msg, data_message_s *data_msg,
 
   if (new_txt_msg != NULL) {
     encrypt_data_message(data_msg, new_txt_msg, sizeof(new_txt_msg), enc_key);
-
-    /*uint8_t *serialized_msg = NULL;*/
-    /*size_t serialized_msg_len = 0;*/
-
-    /*if (!otrng_data_message_body_asprintf(&serialized_msg,
-     * &serialized_msg_len,*/
-    /*data_msg)) {*/
-    /*fprintf(stderr, "Error on serialization of new data message!");*/
-    /*return 1;*/
-    /*}*/
 
     serialize_and_remac(encoded_data_msg, data_msg, data_msg->mac);
   }
