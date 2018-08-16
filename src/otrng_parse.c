@@ -6,10 +6,11 @@
 #include "helper.h"
 #include "readotr.h"
 
-int print_message(char *original_msg) {
-
-  int message_type = otrng_get_message_type(original_msg);
+int parse_message(char *original_msg) {
+  int message_type = 0;
   int result = 0;
+
+  message_type = otrng_get_message_type(original_msg);
 
   if (message_type == MSG_PLAINTEXT) {
     printf("PLAIN TEXT: ");
@@ -115,24 +116,27 @@ int print_message(char *original_msg) {
   return result;
 }
 
+static void usage(const char *progname) {
+  fprintf(
+      stderr,
+      "Usage: %s\n"
+      "Read Off-the-Record (OTR) Key Exchange and/or Data messages from stdin\n"
+      "and display their contents in a more readable format.\n",
+      progname);
+  exit(1);
+}
+
 int main(int argc, char **argv) {
-
-  if (argc != 1) {
-    fprintf(stderr,
-            "Usage: %s\n"
-            "Read Off-the-Record (OTR) Key Exchange and/or Data messages from "
-            "stdin\n"
-            "and display their contents in a more readable format.\n",
-            argv[0]);
-    exit(1);
-  }
-
-  char *original_msg = NULL;
+  char *message = NULL;
   int result = 0;
 
-  while ((original_msg = readotr(stdin)) != NULL) {
-    print_message(original_msg);
-    free(original_msg);
+  if (argc != 1) {
+    usage(argv[0]);
+  }
+
+  while ((message = readotr(stdin)) != NULL) {
+    parse_message(message);
+    free(message);
   }
 
   return result;

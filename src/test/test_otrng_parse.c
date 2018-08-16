@@ -1,7 +1,3 @@
-#include <glib.h>
-#include <stdbool.h>
-#include <string.h>
-
 #include <libotr-ng/otrng.h>
 
 #include "../decode.c"
