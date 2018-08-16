@@ -1,12 +1,5 @@
 noinst_LTLIBRARIES = libotr_ng_toolkit.la
 
-if DEBUG
-  AM_CFLAGS =-I$(top_srcdir)/src -Wall -g -O0
-else
-  AM_CFLAGS =-I$(top_srcdir)/src -Wall -O3
-endif
-
-
 libotr_ng_toolkit_la_SOURCES = decode.c helper.c readotr.c readforge.c
 libotr_ng_toolkit_la_CFLAGS = $(AM_CFLAGS) @LIBGOLDILOCKS_CFLAGS@ \
                                          @LIBGCRYPT_CFLAGS@ \
