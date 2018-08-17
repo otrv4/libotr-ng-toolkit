@@ -2,12 +2,12 @@
 
 #include "helper.h"
 
-//int main(int argc, char **argv) {
+// int main(int argc, char **argv) {
 //  if (argc != 2) {
 //    fprintf(stderr,
 //            "Usage: %s aeskey\n"
-//            "Calculate and display the MAC key derived from a given AES key.\n",
-//            argv[0]);
+//            "Calculate and display the MAC key derived from a given AES
+//            key.\n", argv[0]);
 //    exit(1);
 //    printf("argv[1] %s\n", argv[1]);
 //  }

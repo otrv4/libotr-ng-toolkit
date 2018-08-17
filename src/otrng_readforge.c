@@ -10,7 +10,7 @@
 #include "helper.h"
 #include "readforge.h"
 
-//int main(int argc, char **argv) {
+// int main(int argc, char **argv) {
 //  char *new_txt_msg = NULL;
 //
 //  if (argc == 4) {

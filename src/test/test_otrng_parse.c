@@ -5,64 +5,65 @@
 
 void otrng_toolkit_test_parse_data_message() {
   return;
-//  const char *msg =
-//      "?OTR:AAQDHKKD8mktib4AAAAAAQAAAAQAAAAA3tx0zejuaJ/"
-//      "lluHxdK+xETw2t9nxWJgjbZWjiDHD6ibwJdyURAJenucUz9pHMkrwxfEpldE+"
-//      "sr2AAAABgINwoW3ufscly5eMIqj+"
-//      "HxuayAKNFr0woDbJX203VcHqmI29zC6GbVMwXS4HV8jMxtIulwpX1V/"
-//      "biQa0mQRqfdRLCnKHtrkhPly212rZzajHUF34TGaznfW/rB68+VELAYy9P9gEg/"
-//      "Vjup7qDBd7JWlIXYbrKt5vqfXlgyKWNlLUQrRc8ppwzrP5jnPh+"
-//      "dB5tcEXvx7nISAC3Hjlt83JmEGIDuSqzi4K4WdeNwB9wfU90ITaEdt+"
-//      "1lqeYcd9XBfLIxQhJFyqFrYURt/1dC0DyhIGHCi95GTtnOp8qTlzp69/egWDYg/"
-//      "SCLDKMiAA3RSliUMlEsXQZNNOTvY5oVsZir4P4ur5bo+mACgLkS+"
-//      "zt78p6saLIEYDRwIgnKJ2GSN3Tqkij4Xz4O297Ug3YzUn/mg9pFmAXkPbJwFH/"
-//      "929cz88HznqENfPIcVbFyJfGsFmXIJc2wWROLhLCtgy4F20ShwH4aWwdEA/"
-//      "vqi9E2dxsL2XSGbG60zNTEVb+"
-//      "Q9BQMawm6pWppRz2kQ9Tpr80Km9sTO8zonbZwLtwwAAAP8hxmJj8/"
-//      "HHIm1KPYKa3SFHEeJFwbgvHOqFTNNeEdmwhw/"
-//      "nF1JBFfqZh7R2sjFYfYoxa28Njs4osVm4UsrPPbFhZQzkifL/gIL+M8yZTLgLdd/3w/"
-//      "tlNj2+RLjYiwk6aQ1PFGYj/"
-//      "iIKbYRwtKtLwm2o2ruKCsj8G0D9G3HumiW7SPNEjuzav7KUFOigY80dd/"
-//      "2Gp2aq8Jd1oTrxICDJFlStKgWGki+M8gZeYUngVoBJNv+ZSzr64iT3mEwVXbPT+"
-//      "12TYeJNJHLWbZ6fOt6lNlT37ZFYURzgD3XEdd884aZeUQlkdFln+XA4Cut4/"
-//      "DM1XiWMlKBQpecVOtHwShQ2MtKopKH/bDcpMNLoC3tF0EkF4SLYPLxt/TZU/"
-//      "iDljTf3Lnv7NTUCte43qBl8Q4BOOVjfAzJRDQUiPECRESpbRcysg20XklPJJAyXfhvQByjW6"
-//      "6Df3JUQU7wEvvG2BEqSuMGq1XLNS9xAhW9NUNBizwg/"
-//      "dMplb6j3hqVIwMUshgO7RooM6RtxYHS6+BnEVolr5ksd2EIHgxrxH2ER+X9EKZkFM/"
-//      "BmpHqcB4VvSUUNquzo3N2uhxl1P6Qo14kY9fh3Uac=.";
-//  data_message_s *data_msg = otrng_data_message_new();
-//  otrng_header_s *header_msg = malloc(sizeof(otrng_header_s));
-//  if (!header_msg) {
-//    return;
-//  }
-//
-//  uint8_t nonce[DATA_MSG_NONCE_BYTES] = {
-//      0xaa, 0x56, 0xa6, 0x94, 0x73, 0xda, 0x44, 0x3d, 0x4e, 0x9a, 0xfc, 0xd0,
-//      0xa9, 0xbd, 0xb1, 0x33, 0xbc, 0xce, 0x89, 0xdb, 0x67, 0x02, 0xed, 0xc3,
-//  };
-//  uint8_t mac[DATA_MSG_MAC_BYTES] = {
-//      0xa8, 0xa4, 0xa1, 0xff, 0x6c, 0x37, 0x29, 0x30, 0xd2, 0xe8, 0x0b,
-//      0x7b, 0x45, 0xd0, 0x49, 0x05, 0xe1, 0x22, 0xd8, 0x3c, 0xbc, 0x6d,
-//      0xfd, 0x36, 0x54, 0xfe, 0x20, 0xe5, 0x8d, 0x37, 0xf7, 0x2e, 0x7b,
-//      0xfb, 0x35, 0x35, 0x02, 0xb5, 0xee, 0x37, 0xa8, 0x19, 0x7c, 0x43,
-//      0x80, 0x4e, 0x39, 0x58, 0xdf, 0x03, 0x32, 0x51, 0x0d, 0x05, 0x22,
-//      0x3c, 0x40, 0x91, 0x11, 0x2a, 0x5b, 0x45, 0xcc, 0xac,
-//  };
-//
-//  g_assert_cmpint(decode_header(header_msg, msg), ==, 0);
-//  g_assert_cmpint(decode_data_message(data_msg, msg), ==, 0);
-//  g_assert_cmpint(header_msg->type, ==, DATA_MSG_TYPE);
-//  g_assert_cmpint(header_msg->version, ==, 4);
-//  g_assert_cmpint(data_msg->sender_instance_tag, ==, 480412658);
-//  g_assert_cmpint(data_msg->receiver_instance_tag, ==, 1764592062);
-//  otrng_toolkit_assert_cmpmem(data_msg->nonce, nonce, DATA_MSG_NONCE_BYTES);
-//  otrng_toolkit_assert(otrng_ec_point_valid(data_msg->ecdh) == 1);
-//  // TODO: this segfaults
-//  // otrng_toolkit_assert(otrng_dh_mpi_valid(data_msg->dh) == 1);
-//  otrng_toolkit_assert_cmpmem(data_msg->mac, mac, DATA_MSG_MAC_BYTES);
-//
-//  otrng_data_message_free(data_msg);
-//  free(header_msg);
+  //  const char *msg =
+  //      "?OTR:AAQDHKKD8mktib4AAAAAAQAAAAQAAAAA3tx0zejuaJ/"
+  //      "lluHxdK+xETw2t9nxWJgjbZWjiDHD6ibwJdyURAJenucUz9pHMkrwxfEpldE+"
+  //      "sr2AAAABgINwoW3ufscly5eMIqj+"
+  //      "HxuayAKNFr0woDbJX203VcHqmI29zC6GbVMwXS4HV8jMxtIulwpX1V/"
+  //      "biQa0mQRqfdRLCnKHtrkhPly212rZzajHUF34TGaznfW/rB68+VELAYy9P9gEg/"
+  //      "Vjup7qDBd7JWlIXYbrKt5vqfXlgyKWNlLUQrRc8ppwzrP5jnPh+"
+  //      "dB5tcEXvx7nISAC3Hjlt83JmEGIDuSqzi4K4WdeNwB9wfU90ITaEdt+"
+  //      "1lqeYcd9XBfLIxQhJFyqFrYURt/1dC0DyhIGHCi95GTtnOp8qTlzp69/egWDYg/"
+  //      "SCLDKMiAA3RSliUMlEsXQZNNOTvY5oVsZir4P4ur5bo+mACgLkS+"
+  //      "zt78p6saLIEYDRwIgnKJ2GSN3Tqkij4Xz4O297Ug3YzUn/mg9pFmAXkPbJwFH/"
+  //      "929cz88HznqENfPIcVbFyJfGsFmXIJc2wWROLhLCtgy4F20ShwH4aWwdEA/"
+  //      "vqi9E2dxsL2XSGbG60zNTEVb+"
+  //      "Q9BQMawm6pWppRz2kQ9Tpr80Km9sTO8zonbZwLtwwAAAP8hxmJj8/"
+  //      "HHIm1KPYKa3SFHEeJFwbgvHOqFTNNeEdmwhw/"
+  //      "nF1JBFfqZh7R2sjFYfYoxa28Njs4osVm4UsrPPbFhZQzkifL/gIL+M8yZTLgLdd/3w/"
+  //      "tlNj2+RLjYiwk6aQ1PFGYj/"
+  //      "iIKbYRwtKtLwm2o2ruKCsj8G0D9G3HumiW7SPNEjuzav7KUFOigY80dd/"
+  //      "2Gp2aq8Jd1oTrxICDJFlStKgWGki+M8gZeYUngVoBJNv+ZSzr64iT3mEwVXbPT+"
+  //      "12TYeJNJHLWbZ6fOt6lNlT37ZFYURzgD3XEdd884aZeUQlkdFln+XA4Cut4/"
+  //      "DM1XiWMlKBQpecVOtHwShQ2MtKopKH/bDcpMNLoC3tF0EkF4SLYPLxt/TZU/"
+  //      "iDljTf3Lnv7NTUCte43qBl8Q4BOOVjfAzJRDQUiPECRESpbRcysg20XklPJJAyXfhvQByjW6"
+  //      "6Df3JUQU7wEvvG2BEqSuMGq1XLNS9xAhW9NUNBizwg/"
+  //      "dMplb6j3hqVIwMUshgO7RooM6RtxYHS6+BnEVolr5ksd2EIHgxrxH2ER+X9EKZkFM/"
+  //      "BmpHqcB4VvSUUNquzo3N2uhxl1P6Qo14kY9fh3Uac=.";
+  //  data_message_s *data_msg = otrng_data_message_new();
+  //  otrng_header_s *header_msg = malloc(sizeof(otrng_header_s));
+  //  if (!header_msg) {
+  //    return;
+  //  }
+  //
+  //  uint8_t nonce[DATA_MSG_NONCE_BYTES] = {
+  //      0xaa, 0x56, 0xa6, 0x94, 0x73, 0xda, 0x44, 0x3d, 0x4e, 0x9a, 0xfc,
+  //      0xd0, 0xa9, 0xbd, 0xb1, 0x33, 0xbc, 0xce, 0x89, 0xdb, 0x67, 0x02,
+  //      0xed, 0xc3,
+  //  };
+  //  uint8_t mac[DATA_MSG_MAC_BYTES] = {
+  //      0xa8, 0xa4, 0xa1, 0xff, 0x6c, 0x37, 0x29, 0x30, 0xd2, 0xe8, 0x0b,
+  //      0x7b, 0x45, 0xd0, 0x49, 0x05, 0xe1, 0x22, 0xd8, 0x3c, 0xbc, 0x6d,
+  //      0xfd, 0x36, 0x54, 0xfe, 0x20, 0xe5, 0x8d, 0x37, 0xf7, 0x2e, 0x7b,
+  //      0xfb, 0x35, 0x35, 0x02, 0xb5, 0xee, 0x37, 0xa8, 0x19, 0x7c, 0x43,
+  //      0x80, 0x4e, 0x39, 0x58, 0xdf, 0x03, 0x32, 0x51, 0x0d, 0x05, 0x22,
+  //      0x3c, 0x40, 0x91, 0x11, 0x2a, 0x5b, 0x45, 0xcc, 0xac,
+  //  };
+  //
+  //  g_assert_cmpint(decode_header(header_msg, msg), ==, 0);
+  //  g_assert_cmpint(decode_data_message(data_msg, msg), ==, 0);
+  //  g_assert_cmpint(header_msg->type, ==, DATA_MSG_TYPE);
+  //  g_assert_cmpint(header_msg->version, ==, 4);
+  //  g_assert_cmpint(data_msg->sender_instance_tag, ==, 480412658);
+  //  g_assert_cmpint(data_msg->receiver_instance_tag, ==, 1764592062);
+  //  otrng_toolkit_assert_cmpmem(data_msg->nonce, nonce, DATA_MSG_NONCE_BYTES);
+  //  otrng_toolkit_assert(otrng_ec_point_valid(data_msg->ecdh) == 1);
+  //  // TODO: this segfaults
+  //  // otrng_toolkit_assert(otrng_dh_mpi_valid(data_msg->dh) == 1);
+  //  otrng_toolkit_assert_cmpmem(data_msg->mac, mac, DATA_MSG_MAC_BYTES);
+  //
+  //  otrng_data_message_free(data_msg);
+  //  free(header_msg);
 }
 
 void otrng_toolkit_test_parse_identity_message() {

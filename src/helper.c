@@ -286,7 +286,7 @@ void calculate_mac(msg_mac_key_p mac_key, unsigned char *buff) {
                  sizeof(msg_enc_key_p));
 }
 
-//int modify_message(data_message_s *data_msg, char *original_msg,
+// int modify_message(data_message_s *data_msg, char *original_msg,
 //                   char *old_msg_txt, char *new_msg_txt, int offset) {
 //
 //  int result = decode_data_message(data_msg, original_msg);
@@ -297,7 +297,8 @@ void calculate_mac(msg_mac_key_p mac_key, unsigned char *buff) {
 //    return result;
 //  }
 //
-//  for (int i = 0; i < strlen(old_msg_txt) && offset + i < data_msg->enc_msg_len;
+//  for (int i = 0; i < strlen(old_msg_txt) && offset + i <
+//  data_msg->enc_msg_len;
 //       ++i) {
 //    data_msg->enc_msg[offset + i] ^= (old_msg_txt[i] ^ new_msg_txt[i]);
 //  }

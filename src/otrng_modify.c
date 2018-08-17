@@ -2,7 +2,7 @@
 #include "helper.h"
 #include "readotr.h"
 
-//int main(int argc, char **argv) {
+// int main(int argc, char **argv) {
 //  int result = 0;
 //
 //  size_t mac_len;
@@ -63,7 +63,8 @@
 //
 //  data_message_s *data_msg = otrng_data_message_new();
 //  result =
-//      modify_message(data_msg, original_msg, old_msg_txt, new_msg_txt, offset);
+//      modify_message(data_msg, original_msg, old_msg_txt, new_msg_txt,
+//      offset);
 //
 //  if (result != 0) {
 //    fprintf(stderr, "Error modifying message");
