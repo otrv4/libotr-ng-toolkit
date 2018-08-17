@@ -33,6 +33,14 @@ void dump_mpi(FILE *stream, const char *title, gcry_mpi_t val) {
   free(d);
 }
 
+/* Dump an point to a FILE * */
+void dump_point(FILE *stream, const char *title,
+                goldilocks_448_point_s *point) {
+  uint8_t ecdh[ED448_POINT_BYTES] = {0};
+  otrng_ec_point_encode(ecdh, ED448_POINT_BYTES, point);
+  dump_data(stream, title, ecdh, ED448_POINT_BYTES);
+}
+
 void dump_data_message(data_message_s *data_msg) {
   if (data_msg->flags >= 0) {
     dump_int(stdout, "\tFlags", data_msg->flags);
@@ -44,7 +52,7 @@ void dump_data_message(data_message_s *data_msg) {
   dump_int(stdout, "\tPrevious chain key number", data_msg->previous_chain_n);
   dump_int(stdout, "\tRatchet id", data_msg->ratchet_id);
   dump_int(stdout, "\tMessage id", data_msg->message_id);
-  // TODO: add the ecdh
+  dump_point(stdout, "\tPublic ECDH Key", data_msg->ecdh);
   dump_mpi(stdout, "\tPublic DH Key", data_msg->dh);
   dump_data(stdout, "\tNonce", data_msg->nonce, DATA_MSG_NONCE_BYTES);
   dump_data(stdout, "\tEncrypted message", data_msg->enc_msg,
