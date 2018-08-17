@@ -70,40 +70,6 @@ void print_ring_signature(ring_sig_p sigma) {
   print_hex(r3, ED448_SCALAR_BYTES);
 }
 
-void print_data_message(otrng_header_s *header_msg, data_message_s *data_msg) {
-  printf("DATA MESSAGE:\n");
-  printf("\tType: %02x\n", header_msg->type);
-  printf("\tVersion: %04x\n", header_msg->version);
-  printf("\tSender instance tag: %d\n", data_msg->sender_instance_tag);
-  printf("\tReceiver instance tag: %d\n", data_msg->receiver_instance_tag);
-
-  if (data_msg->flags == 1) {
-    printf("\tFlags: IGNORE_UNREADABLE \n");
-  } else {
-    printf("\tFlags: \n");
-  }
-
-  printf("\tPrevious chain n#: %d\n", data_msg->previous_chain_n);
-  printf("\tRatchet id: %d\n", data_msg->ratchet_id);
-  printf("\tMessage_id: %d\n", data_msg->message_id);
-
-  print_ECDH("\tECDH: ", data_msg->ecdh);
-
-  print_DH("\tDH: ", data_msg->dh);
-
-  printf("\tNonce: ");
-  print_hex(data_msg->nonce, DATA_MSG_NONCE_BYTES);
-
-  printf("\tEncrypted message: ");
-  print_hex(data_msg->enc_msg, data_msg->enc_msg_len);
-
-  printf("\tMAC: ");
-  print_hex(data_msg->mac, DATA_MSG_MAC_BYTES);
-
-  free(header_msg);
-  otrng_data_message_free(data_msg);
-}
-
 void print_plaintext_formated(char *data, int data_len) {
   static const char tag_base[] = {
       '\x20', '\x09', '\x20', '\x20', '\x09', '\x09', '\x09', '\x09', '\x20',
@@ -141,7 +107,7 @@ void print_identity_message(otrng_header_s *header_msg,
   size_t n = strlen(identity_msg->profile->versions);
   print_string(identity_msg->profile->versions, n);
 
-  printf("\t\tExpires: %lu\n", identity_msg->profile->expires);
+  printf("\t\tExpires: %llu\n", identity_msg->profile->expires);
 
   if (identity_msg->profile->dsa_key_len > 0) {
     printf("\t\tDSA Key: ");
@@ -175,7 +141,7 @@ void print_auth_r(otrng_header_s *header_msg, dake_auth_r_p auth_r_msg) {
   size_t n = strlen(auth_r_msg->profile->versions);
   print_string(auth_r_msg->profile->versions, n);
 
-  printf("\t\tExpires: %lu\n", auth_r_msg->profile->expires);
+  printf("\t\tExpires: %llu\n", auth_r_msg->profile->expires);
 
   if (auth_r_msg->profile->dsa_key_len > 0) {
     printf("\t\tDSA Key: ");
@@ -320,21 +286,21 @@ void calculate_mac(msg_mac_key_p mac_key, unsigned char *buff) {
                  sizeof(msg_enc_key_p));
 }
 
-int modify_message(data_message_s *data_msg, char *original_msg,
-                   char *old_msg_txt, char *new_msg_txt, int offset) {
-
-  int result = decode_data_message(data_msg, original_msg);
-
-  if (result != 0) {
-    fprintf(stderr, "Error decoding data message");
-    otrng_data_message_free(data_msg);
-    return result;
-  }
-
-  for (int i = 0; i < strlen(old_msg_txt) && offset + i < data_msg->enc_msg_len;
-       ++i) {
-    data_msg->enc_msg[offset + i] ^= (old_msg_txt[i] ^ new_msg_txt[i]);
-  }
-
-  return result;
-}
+//int modify_message(data_message_s *data_msg, char *original_msg,
+//                   char *old_msg_txt, char *new_msg_txt, int offset) {
+//
+//  int result = decode_data_message(data_msg, original_msg);
+//
+//  if (result != 0) {
+//    fprintf(stderr, "Error decoding data message");
+//    otrng_data_message_free(data_msg);
+//    return result;
+//  }
+//
+//  for (int i = 0; i < strlen(old_msg_txt) && offset + i < data_msg->enc_msg_len;
+//       ++i) {
+//    data_msg->enc_msg[offset + i] ^= (old_msg_txt[i] ^ new_msg_txt[i]);
+//  }
+//
+//  return result;
+//}
