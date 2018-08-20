@@ -33,17 +33,25 @@ void dump_mpi(FILE *stream, const char *title, gcry_mpi_t val) {
   free(d);
 }
 
-/* Dump an point to a FILE * */
+/* Dump an scalar to a FILE */
+void dump_scalar(FILE *stream, const char *title,
+                goldilocks_448_scalar_p scalar) {
+  uint8_t ser_scalar[ED448_SCALAR_BYTES] = {0};
+  otrng_ec_scalar_encode(ser_scalar, scalar);
+  dump_data(stream, title, ser_scalar, ED448_SCALAR_BYTES);
+}
+
+/* Dump an point to a FILE */
 void dump_point(FILE *stream, const char *title,
-                goldilocks_448_point_s *point) {
-  uint8_t ecdh[ED448_POINT_BYTES] = {0};
-  otrng_ec_point_encode(ecdh, ED448_POINT_BYTES, point);
-  dump_data(stream, title, ecdh, ED448_POINT_BYTES);
+                goldilocks_448_point_p point) {
+  uint8_t ser_point[ED448_POINT_BYTES] = {0};
+  otrng_ec_point_encode(ser_point, ED448_POINT_BYTES, point);
+  dump_data(stream, title, ser_point, ED448_POINT_BYTES);
 }
 
 /* Dump a client profile to a FILE * */
 void dump_client_profile(FILE *stream, const char *title,
-                         client_profile_s *profile) {
+                         client_profile_p profile) {
   fprintf(stream, "%s: ", title);
   fprintf(stream, "\n");
   dump_int(stdout, "\t\tOwner instance", profile->sender_instance_tag);
@@ -62,6 +70,19 @@ void dump_client_profile(FILE *stream, const char *title,
             ED448_SIGNATURE_BYTES);
 }
 
+/* Dump a ring signature to a FILE */
+void dump_ring_signature(FILE *stream, const char *title,
+                         ring_sig_p ring_sig) {
+  fprintf(stream, "%s: ", title);
+  fprintf(stream, "\n");
+  dump_scalar(stream, "\t\tRSig C1", ring_sig->c1);
+  dump_scalar(stream, "\t\tRSig R1", ring_sig->r1);
+  dump_scalar(stream, "\t\tRSig C2", ring_sig->c2);
+  dump_scalar(stream, "\t\tRSig R2", ring_sig->r2);
+  dump_scalar(stream, "\t\tRSig C3", ring_sig->c3);
+  dump_scalar(stream, "\t\tRSig R3", ring_sig->r3);
+}
+
 void dump_identity_message(dake_identity_message_p identity_msg) {
   dump_int(stdout, "\tSender instance", identity_msg->sender_instance_tag);
   dump_int(stdout, "\tReceiver instance", identity_msg->receiver_instance_tag);
@@ -77,7 +98,7 @@ void dump_auth_r_message(dake_auth_r_p auth_r_msg) {
   dump_client_profile(stdout, "\tClient Profile", auth_r_msg->profile);
   dump_point(stdout, "\tPublic ECDH X key", auth_r_msg->X);
   dump_mpi(stdout, "\tPublic DH A Key", auth_r_msg->A);
-  // TODO: printf sigma
+  dump_ring_signature(stdout, "\tRing Sig", auth_r_msg->sigma);
   otrng_dake_auth_r_destroy(auth_r_msg);
 }
 
@@ -116,7 +137,7 @@ int decode_encoded_message(const char *message) {
     return 1;
   }
 
-  printf("\n HEADRER %d \n", header.type);
+  printf("\nHeader: %d \n", header.type);
   switch (header.type) {
   case IDENTITY_MSG_TYPE:
     printf("Identity Message:\n");
