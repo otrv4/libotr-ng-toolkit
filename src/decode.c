@@ -47,7 +47,7 @@ void dump_client_profile(FILE *stream, const char *title,
   fprintf(stream, "%s: ", title);
   fprintf(stream, "\n");
   dump_int(stdout, "\t\tOwner instance", profile->sender_instance_tag);
-  // TODO: add long-term pub key
+  dump_point(stream, "\t\tPublic longterm key", profile->long_term_pub_key);
   dump_data(stream, "\t\tVersions", (unsigned char *)profile->versions,
             strlen(profile->versions));
   dump_int(stream, "\t\tExpiration", profile->expires);
@@ -58,6 +58,8 @@ void dump_client_profile(FILE *stream, const char *title,
     dump_data(stream, "\t\tTransitional Signature",
               profile->transitional_signature, OTRv3_DSA_SIG_BYTES);
   }
+  dump_data(stream, "\t\tEdDSA Signature", profile->signature,
+            ED448_SIGNATURE_BYTES);
 }
 
 void dump_identity_message(dake_identity_message_p identity_msg) {
@@ -67,6 +69,16 @@ void dump_identity_message(dake_identity_message_p identity_msg) {
   dump_point(stdout, "\tPublic ECDH Y key", identity_msg->Y);
   dump_mpi(stdout, "\tPublic DH B Key", identity_msg->B);
   otrng_dake_identity_message_destroy(identity_msg);
+}
+
+void dump_auth_r_message(dake_auth_r_p auth_r_msg) {
+  dump_int(stdout, "\tSender instance", auth_r_msg->sender_instance_tag);
+  dump_int(stdout, "\tReceiver instance", auth_r_msg->receiver_instance_tag);
+  dump_client_profile(stdout, "\tClient Profile", auth_r_msg->profile);
+  dump_point(stdout, "\tPublic ECDH X key", auth_r_msg->X);
+  dump_mpi(stdout, "\tPublic DH A Key", auth_r_msg->A);
+  // TODO: printf sigma
+  otrng_dake_auth_r_destroy(auth_r_msg);
 }
 
 void dump_data_message(data_message_s *data_msg) {
@@ -119,6 +131,15 @@ int decode_encoded_message(const char *message) {
     printf("\n");
 
   case AUTH_R_MSG_TYPE:
+    printf("Auth R Message:\n");
+    dake_auth_r_p auth_r_msg;
+    if (!otrng_dake_auth_r_deserialize(auth_r_msg, decoded, dec_len)) {
+      printf("Invalid Auth R Message\n\n");
+      return 1;
+    }
+    dump_short(stdout, "\tVersion", header.version);
+    dump_auth_r_message(auth_r_msg);
+    printf("\n");
   case AUTH_I_MSG_TYPE:
   case NON_INT_AUTH_MSG_TYPE:
   case DATA_MSG_TYPE:
