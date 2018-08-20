@@ -102,6 +102,13 @@ void dump_auth_r_message(dake_auth_r_p auth_r_msg) {
   otrng_dake_auth_r_destroy(auth_r_msg);
 }
 
+void dump_auth_i_message(dake_auth_i_p auth_i_msg) {
+  dump_int(stdout, "\tSender instance", auth_i_msg->sender_instance_tag);
+  dump_int(stdout, "\tReceiver instance", auth_i_msg->receiver_instance_tag);
+  dump_ring_signature(stdout, "\tRing Sig", auth_i_msg->sigma);
+  otrng_dake_auth_i_destroy(auth_i_msg);
+}
+
 void dump_data_message(data_message_s *data_msg) {
   if (data_msg->flags >= 0) {
     dump_int(stdout, "\tFlags", data_msg->flags);
@@ -161,7 +168,18 @@ int decode_encoded_message(const char *message) {
     dump_short(stdout, "\tVersion", header.version);
     dump_auth_r_message(auth_r_msg);
     printf("\n");
+
   case AUTH_I_MSG_TYPE:
+    printf("Auth I Message:\n");
+    dake_auth_i_p auth_i_msg;
+    if (!otrng_dake_auth_i_deserialize(auth_i_msg, decoded, dec_len)) {
+      printf("Invalid Auth I Message\n\n");
+      return 1;
+    }
+    dump_short(stdout, "\tVersion", header.version);
+    dump_auth_i_message(auth_i_msg);
+    printf("\n");
+
   case NON_INT_AUTH_MSG_TYPE:
   case DATA_MSG_TYPE:
     printf("Data Message:\n");
