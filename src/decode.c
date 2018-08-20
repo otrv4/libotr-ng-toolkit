@@ -107,6 +107,21 @@ void dump_auth_i_message(dake_auth_i_p auth_i_msg) {
   otrng_dake_auth_i_destroy(auth_i_msg);
 }
 
+void dump_non_interactive_auth_message(
+    dake_non_interactive_auth_message_p non_int_auth_msg) {
+  dump_int(stdout, "\tSender instance", non_int_auth_msg->sender_instance_tag);
+  dump_int(stdout, "\tReceiver instance",
+           non_int_auth_msg->receiver_instance_tag);
+  dump_client_profile(stdout, "\tClient Profile", non_int_auth_msg->profile);
+  dump_point(stdout, "\tPublic ECDH X key", non_int_auth_msg->X);
+  dump_mpi(stdout, "\tPublic DH A Key", non_int_auth_msg->A);
+  dump_ring_signature(stdout, "\tRing Sig", non_int_auth_msg->sigma);
+  dump_int(stdout, "\tPrekey message ID", non_int_auth_msg->prekey_message_id);
+  dump_data(stdout, "\t\tAuth MAC", non_int_auth_msg->auth_mac,
+            DATA_MSG_MAC_BYTES);
+  otrng_dake_non_interactive_auth_message_destroy(non_int_auth_msg);
+}
+
 void dump_data_message(data_message_s *data_msg) {
   if (data_msg->flags >= 0) {
     dump_int(stdout, "\tFlags", data_msg->flags);
@@ -179,6 +194,17 @@ int decode_encoded_message(const char *message) {
     printf("\n");
 
   case NON_INT_AUTH_MSG_TYPE:
+    printf("Non-Interactive Auth Message:\n");
+    dake_non_interactive_auth_message_p non_int_auth_msg;
+    if (!otrng_dake_non_interactive_auth_message_deserialize(
+            non_int_auth_msg, decoded, dec_len)) {
+      printf("Invalid Auth I Message\n\n");
+      return 1;
+    }
+    dump_short(stdout, "\tVersion", header.version);
+    dump_non_interactive_auth_message(non_int_auth_msg);
+    printf("\n");
+
   case DATA_MSG_TYPE:
     printf("Data Message:\n");
     data_message_s *data_msg = otrng_data_message_new();
