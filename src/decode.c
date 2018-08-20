@@ -35,15 +35,14 @@ void dump_mpi(FILE *stream, const char *title, gcry_mpi_t val) {
 
 /* Dump an scalar to a FILE */
 void dump_scalar(FILE *stream, const char *title,
-                goldilocks_448_scalar_p scalar) {
+                 goldilocks_448_scalar_p scalar) {
   uint8_t ser_scalar[ED448_SCALAR_BYTES] = {0};
   otrng_ec_scalar_encode(ser_scalar, scalar);
   dump_data(stream, title, ser_scalar, ED448_SCALAR_BYTES);
 }
 
 /* Dump an point to a FILE */
-void dump_point(FILE *stream, const char *title,
-                goldilocks_448_point_p point) {
+void dump_point(FILE *stream, const char *title, goldilocks_448_point_p point) {
   uint8_t ser_point[ED448_POINT_BYTES] = {0};
   otrng_ec_point_encode(ser_point, ED448_POINT_BYTES, point);
   dump_data(stream, title, ser_point, ED448_POINT_BYTES);
@@ -71,8 +70,7 @@ void dump_client_profile(FILE *stream, const char *title,
 }
 
 /* Dump a ring signature to a FILE */
-void dump_ring_signature(FILE *stream, const char *title,
-                         ring_sig_p ring_sig) {
+void dump_ring_signature(FILE *stream, const char *title, ring_sig_p ring_sig) {
   fprintf(stream, "%s: ", title);
   fprintf(stream, "\n");
   dump_scalar(stream, "\t\tRSig C1", ring_sig->c1);
