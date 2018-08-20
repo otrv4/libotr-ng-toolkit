@@ -193,12 +193,14 @@ int decode_encoded_message(const char *message) {
     dump_auth_i_message(auth_i_msg);
     printf("\n");
 
+  // TODO: here we also need the prekey message and the other DAKE msgs from the
+  // server
   case NON_INT_AUTH_MSG_TYPE:
     printf("Non-Interactive Auth Message:\n");
     dake_non_interactive_auth_message_p non_int_auth_msg;
     if (!otrng_dake_non_interactive_auth_message_deserialize(
             non_int_auth_msg, decoded, dec_len)) {
-      printf("Invalid Auth I Message\n\n");
+      printf("Invalid Non-Interactive Auth Message\n\n");
       return 1;
     }
     dump_short(stdout, "\tVersion", header.version);
