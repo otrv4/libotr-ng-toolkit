@@ -11,63 +11,11 @@
 #include "decode.h"
 #include "helper.h"
 
-void print_hex(uint8_t data[], int data_len) {
-  for (int i = 0; i < data_len; i++) {
-    printf("%02x", data[i]);
-  }
-  printf("\n");
-}
-
 void print_string(char *data, int data_len) {
   for (int i = 0; i < data_len; i++) {
     printf("%c", data[i]);
   }
   printf("\n");
-}
-
-void print_ECDH(char *title, goldilocks_448_point_s *point) {
-  uint8_t ecdh[ED448_POINT_BYTES] = {0};
-  otrng_ec_point_encode(ecdh, ED448_POINT_BYTES, point);
-  printf("%s", title);
-  print_hex(ecdh, ED448_POINT_BYTES);
-}
-
-void print_DH(char *title, dh_public_key_p dh) {
-  size_t dh_size;
-  unsigned char *dh_dump;
-  gcry_mpi_aprint(GCRYMPI_FMT_USG, &dh_dump, &dh_size, dh);
-  printf("%s", title);
-  print_hex(dh_dump, dh_size);
-  free(dh_dump);
-}
-
-void print_ring_signature(ring_sig_p sigma) {
-  printf("\tRing Signature Authentication:\n");
-  printf("\t\tc1:");
-  uint8_t c1[ED448_SCALAR_BYTES];
-
-  goldilocks_448_scalar_decode_long(sigma->c1, c1, ED448_SCALAR_BYTES);
-  print_hex(c1, ED448_SCALAR_BYTES);
-  printf("\t\tr1:");
-  uint8_t r1[ED448_SCALAR_BYTES];
-  goldilocks_448_scalar_decode_long(sigma->r1, r1, ED448_SCALAR_BYTES);
-  print_hex(r1, ED448_SCALAR_BYTES);
-  printf("\t\tc2:");
-  uint8_t c2[ED448_SCALAR_BYTES];
-  goldilocks_448_scalar_decode_long(sigma->c2, c2, ED448_SCALAR_BYTES);
-  print_hex(c2, ED448_SCALAR_BYTES);
-  printf("\t\tr2:");
-  uint8_t r2[ED448_SCALAR_BYTES];
-  goldilocks_448_scalar_decode_long(sigma->r2, r2, ED448_SCALAR_BYTES);
-  print_hex(r2, ED448_SCALAR_BYTES);
-  printf("\t\tc3:");
-  uint8_t c3[ED448_SCALAR_BYTES];
-  goldilocks_448_scalar_decode_long(sigma->c3, c3, ED448_SCALAR_BYTES);
-  print_hex(c3, ED448_SCALAR_BYTES);
-  printf("\t\tr3:");
-  uint8_t r3[ED448_SCALAR_BYTES];
-  goldilocks_448_scalar_decode_long(sigma->r3, r3, ED448_SCALAR_BYTES);
-  print_hex(r3, ED448_SCALAR_BYTES);
 }
 
 void print_plaintext_formated(char *data, int data_len) {
@@ -93,16 +41,6 @@ void print_plaintext_formated(char *data, int data_len) {
   }
 
   print_string(buff, strlen(buff));
-}
-
-void print_auth_i(otrng_header_s *header_msg, dake_auth_i_p auth_i_msg) {
-  printf("AUTH-I MESSAGE:\n");
-  printf("\tType: %x\n", header_msg->type);
-  printf("\tVersion: %x\n", header_msg->version);
-  printf("\tSender instance tag: %u\n", auth_i_msg->sender_instance_tag);
-  printf("\tReceiver instance tag: %u\n", auth_i_msg->receiver_instance_tag);
-  print_ring_signature(auth_i_msg->sigma);
-  otrng_dake_auth_i_destroy(auth_i_msg);
 }
 
 void argv_to_buf(unsigned char **dst, size_t *written, char *arg) {
