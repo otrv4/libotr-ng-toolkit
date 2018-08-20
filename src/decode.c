@@ -41,6 +41,34 @@ void dump_point(FILE *stream, const char *title,
   dump_data(stream, title, ecdh, ED448_POINT_BYTES);
 }
 
+/* Dump a client profile to a FILE * */
+void dump_client_profile(FILE *stream, const char *title,
+                         client_profile_s *profile) {
+  fprintf(stream, "%s: ", title);
+  fprintf(stream, "\n");
+  dump_int(stdout, "\t\tOwner instance", profile->sender_instance_tag);
+  // TODO: add long-term pub key
+  dump_data(stream, "\t\tVersions", (unsigned char *)profile->versions,
+            strlen(profile->versions));
+  dump_int(stream, "\t\tExpiration", profile->expires);
+  if (profile->dsa_key_len > 0) {
+    dump_data(stream, "\t\tDSA key", profile->dsa_key, profile->dsa_key_len);
+  }
+  if (profile->transitional_signature) {
+    dump_data(stream, "\t\tTransitional Signature",
+              profile->transitional_signature, OTRv3_DSA_SIG_BYTES);
+  }
+}
+
+void dump_identity_message(dake_identity_message_p identity_msg) {
+  dump_int(stdout, "\tSender instance", identity_msg->sender_instance_tag);
+  dump_int(stdout, "\tReceiver instance", identity_msg->receiver_instance_tag);
+  dump_client_profile(stdout, "\tClient Profile", identity_msg->profile);
+  dump_point(stdout, "\tPublic ECDH Y key", identity_msg->Y);
+  dump_mpi(stdout, "\tPublic DH B Key", identity_msg->B);
+  otrng_dake_identity_message_destroy(identity_msg);
+}
+
 void dump_data_message(data_message_s *data_msg) {
   if (data_msg->flags >= 0) {
     dump_int(stdout, "\tFlags", data_msg->flags);
@@ -76,8 +104,20 @@ int decode_encoded_message(const char *message) {
     return 1;
   }
 
+  printf("\n HEADRER %d \n", header.type);
   switch (header.type) {
   case IDENTITY_MSG_TYPE:
+    printf("Identity Message:\n");
+    dake_identity_message_p identity_msg;
+    if (!otrng_dake_identity_message_deserialize(identity_msg, decoded,
+                                                 dec_len)) {
+      printf("Invalid Identity Message\n\n");
+      return 1;
+    }
+    dump_short(stdout, "\tVersion", header.version);
+    dump_identity_message(identity_msg);
+    printf("\n");
+
   case AUTH_R_MSG_TYPE:
   case AUTH_I_MSG_TYPE:
   case NON_INT_AUTH_MSG_TYPE:
@@ -93,6 +133,7 @@ int decode_encoded_message(const char *message) {
     dump_short(stdout, "\tVersion", header.version);
     dump_data_message(data_msg);
     printf("\n");
+
   default:
     return 1;
   }
