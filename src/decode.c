@@ -1,16 +1,16 @@
 #include "decode.h"
 
-/* Dump an unsigned int to a FILE * */
+/* Dump an unsigned int to a FILE */
 void dump_int(FILE *stream, const char *title, unsigned int val) {
   fprintf(stream, "%s: %u\n", title, val);
 }
 
-/* Dump a short int to a FILE * */
+/* Dump a short int to a FILE */
 void dump_short(FILE *stream, const char *title, unsigned short val) {
   fprintf(stream, "%s: %u\n", title, val);
 }
 
-/* Dump data to a FILE * */
+/* Dump data to a FILE */
 void dump_data(FILE *stream, const char *title, const unsigned char *data,
                size_t datalen) {
   size_t i;
@@ -21,7 +21,7 @@ void dump_data(FILE *stream, const char *title, const unsigned char *data,
   fprintf(stream, "\n");
 }
 
-/* Dump an mpi to a FILE * */
+/* Dump an mpi to a FILE */
 void dump_mpi(FILE *stream, const char *title, gcry_mpi_t val) {
   size_t plen;
   unsigned char *d;
@@ -199,51 +199,5 @@ int decode_encoded_message(const char *message) {
   }
 
   free(decoded);
-  return 0;
-}
-
-int decode_identity_message(dake_identity_message_p identity_msg,
-                            const char *original_msg) {
-
-  size_t decoded_msg_len = 0;
-  uint8_t *decoded_msg = NULL;
-  if (otrl_base64_otr_decode(original_msg, &decoded_msg, &decoded_msg_len)) {
-    return 1;
-  }
-
-  if (!otrng_dake_identity_message_deserialize(identity_msg, decoded_msg,
-                                               decoded_msg_len)) {
-    return 1;
-  }
-  free(decoded_msg);
-  return 0;
-}
-
-int decode_auth_r_message(dake_auth_r_p auth_r_msg, const char *original_msg) {
-  size_t decoded_msg_len = 0;
-  uint8_t *decoded_msg = NULL;
-  if (otrl_base64_otr_decode(original_msg, &decoded_msg, &decoded_msg_len)) {
-    free(decoded_msg);
-    return 1;
-  }
-  if (!otrng_dake_auth_r_deserialize(auth_r_msg, decoded_msg,
-                                     decoded_msg_len)) {
-    return 1;
-  }
-  free(decoded_msg);
-  return 0;
-}
-
-int decode_auth_i_message(dake_auth_i_p auth_i_msg, const char *original_msg) {
-  size_t decoded_msg_len = 0;
-  uint8_t *decoded_msg = NULL;
-  if (otrl_base64_otr_decode(original_msg, &decoded_msg, &decoded_msg_len)) {
-    return 1;
-  }
-  if (!otrng_dake_auth_i_deserialize(auth_i_msg, decoded_msg,
-                                     decoded_msg_len)) {
-    return 1;
-  }
-  free(decoded_msg);
   return 0;
 }
