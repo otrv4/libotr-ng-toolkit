@@ -28,12 +28,12 @@ int otrng_toolkit_parse_message(char *msg) {
 }
 
 static void usage(const char *progname) {
-  fprintf(
-      stderr,
-      "Usage: %s\n"
-      "Read Off-the-Record (OTR) Key Exchange and/or Data messages from stdin\n"
-      "and display their contents in a more readable format.\n",
-      progname);
+  fprintf(stderr,
+          "Usage: %s\n"
+          "Read Off-the-Record v4 (OTRv4) Deniable Key Exchange and/or Data "
+          "messages from stdin\n"
+          "and display their contents in a more readable format.\n",
+          progname);
   exit(1);
 }
 
