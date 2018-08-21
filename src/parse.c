@@ -52,7 +52,7 @@ void dump_point(FILE *stream, const char *title, goldilocks_448_point_p point) {
   dump_data(stream, title, ser_point, ED448_POINT_BYTES);
 }
 
-/* Dump a client profile to a FILE * */
+/* Dump a client profile to a FILE */
 void dump_client_profile(FILE *stream, const char *title,
                          client_profile_p profile) {
   fprintf(stream, "%s: ", title);
