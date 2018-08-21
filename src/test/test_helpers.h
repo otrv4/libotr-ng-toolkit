@@ -5,6 +5,7 @@
 
 #ifndef TEST_HELPERS
 #define TEST_HELPERS
+
 #define otrng_toolkit_assert(expr)                                             \
   do {                                                                         \
     if                                                                         \
@@ -41,12 +42,3 @@ static inline void otrng_assert_uint8_equals(const uint8_t *expected,
     g_free(__msg);                                                             \
   } while (0)
 #endif
-
-#define otrng_toolkit_assert(expr)                                             \
-  do {                                                                         \
-    if                                                                         \
-      G_LIKELY(expr);                                                          \
-    else                                                                       \
-      g_assertion_message_expr(G_LOG_DOMAIN, __FILE__, __LINE__, G_STRFUNC,    \
-                               #expr);                                         \
-  } while (0)
