@@ -1,4 +1,8 @@
-#include "decode.h"
+#include <stdio.h>
+#include <string.h>
+#include <gcrypt.h>
+#include <libotr-ng/otrng.h>
+#include <libotr/b64.h>
 
 /* Dump an unsigned int to a FILE */
 void dump_int(FILE *stream, const char *title, unsigned int val) {

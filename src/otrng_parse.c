@@ -2,7 +2,7 @@
 
 #include <libotr-ng/dake.h>
 
-#include "decode.h"
+#include "parse.h"
 #include "helper.h"
 #include "readotr.h"
 

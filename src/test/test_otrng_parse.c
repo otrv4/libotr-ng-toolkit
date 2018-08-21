@@ -1,6 +1,6 @@
 #include <libotr-ng/otrng.h>
 
-#include "../decode.c"
+#include "../parse.c"
 #include "test_helpers.h"
 
 void otrng_toolkit_test_parse_data_message() {

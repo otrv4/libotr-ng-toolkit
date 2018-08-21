@@ -1,6 +1,6 @@
 noinst_LTLIBRARIES = libotr_ng_toolkit.la
 
-libotr_ng_toolkit_la_SOURCES = decode.c helper.c readotr.c readforge.c
+libotr_ng_toolkit_la_SOURCES = parse.c helper.c readotr.c readforge.c
 libotr_ng_toolkit_la_CFLAGS = $(AM_CFLAGS) @LIBGOLDILOCKS_CFLAGS@ \
                                          @LIBGCRYPT_CFLAGS@ \
                                          @LIBSODIUM_CFLAGS@ \

@@ -5,7 +5,7 @@
 #include <libotr-ng/random.h>
 #include <libotr-ng/shake.h>
 
-#include "decode.h"
+#include "parse.h"
 #include "helper.h"
 
 #ifndef READFORGE_H

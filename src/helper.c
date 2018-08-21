@@ -1,4 +1,3 @@
-
 #include <stdio.h>
 
 #include <goldilocks/point_448.h>
@@ -8,7 +7,7 @@
 #include <libotr-ng/shake.h>
 #include <libotr/b64.h>
 
-#include "decode.h"
+#include "parse.h"
 #include "helper.h"
 
 void print_string(char *data, int data_len) {
