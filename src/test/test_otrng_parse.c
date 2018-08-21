@@ -34,32 +34,25 @@ void otrng_toolkit_test_parse_data_message() {
 }
 
 void otrng_toolkit_test_parse_identity_message() {
-  return;
-  //  const char *msg =
-  //      "?OTR:AAQ16j7KWgAAAAAAAAAEAAHqPspaAAIAEOQKxW36YA3xat70+FogpP+"
-  //      "58B0x9sEFeMpsEFeM35Vq01InkAmEHE4HLUWRgymjS7aOX0G6aoz4gAAEAAAAAzM0AAAFAAA"
-  //      "AAFtx1G30j7wBCbrDMb8gTNFDkNiqqbUV6fLCjErpQ9CjpYEZybd8jAl2go2i5pjhZ+"
-  //      "eVO2kIxyF567MCV4BU/Z5utiN5lT9JDWXkpZgTQpas/IKYrSAJAe0awXskxQoKrAA/"
-  //      "pbTasCXLLDWSyqYQXgqo1gIQNgByMJLIwvH7daO8WcznLC2OAKvizY2MN2nWGn8ZNr2L7ZX+"
-  //      "m+BlLFvC19DwVuqP7K5a2PP/"
-  //      "NhBdcgAAAAGAjGBp2urSLgeuyMxWBDyrLdDijIph5cocjsEBT9I2Xk4tmbz9zNDxk9a/"
-  //      "G5tlti/Qmn5ApkMVO7Zw1l7/eoHkD3w/nkYHo7oXrwLcAI7pzgaPY7Yln+HgD1jA/"
-  //      "4TdA5GQpAFvlNcz+wKM69c2PCAuPxgwuYBIEhXeRlolZ4A3Ekz6Um7TsPEDhlTeG/"
-  //      "rjj8fbc+Ezmbe0filEfchYh7Y150N0ufwtA0HD2eAfp9L1CYAO/"
-  //      "1Iwgri9v7togUltozUI+h9xyED/"
-  //      "Pya3up6LYeNO1G9BsIZHdep9hB4RATOo1VQ3kGW3wAtqH4gKQ/"
-  //      "1L94IpD5WKKIZFuQpDVurB1tjr3DB9LtJbrq6ePnA/"
-  //      "xroDB07uLzwYoYpOx1ydAz9m1iweqIMvfAaGfiii+yWx2olo/"
-  //      "KzoqcysEEZwRCKBGjostHgXGJ0OrWWsvB/lFOD/V4go4wihzkzc6vCoG51xYIYxK1OkOC/"
-  //      "MtWZa3c6KArc3tUUcp1Orbs7sYvpNZWBHm1rt.";
-  //
-  //  dake_identity_message_p identity_msg;
-  //  int result = decode_identity_message(identity_msg, msg);
-  //  otrng_toolkit_assert(result == 0);
-  //
-  //  g_assert_cmpint(identity_msg->sender_instance_tag, ==, 3929983578);
-  //  g_assert_cmpint(identity_msg->receiver_instance_tag, ==, 0);
-  //  otrng_dake_identity_message_destroy(identity_msg);
+    const char *identity_msg =
+        "?OTR:AAQ16j7KWgAAAAAAAAAEAAHqPspaAAIAEOQKxW36YA3xat70+FogpP+"
+        "58B0x9sEFeMpsEFeM35Vq01InkAmEHE4HLUWRgymjS7aOX0G6aoz4gAAEAAAAAzM0AAAFAAA"
+        "AAFtx1G30j7wBCbrDMb8gTNFDkNiqqbUV6fLCjErpQ9CjpYEZybd8jAl2go2i5pjhZ+"
+        "eVO2kIxyF567MCV4BU/Z5utiN5lT9JDWXkpZgTQpas/IKYrSAJAe0awXskxQoKrAA/"
+        "pbTasCXLLDWSyqYQXgqo1gIQNgByMJLIwvH7daO8WcznLC2OAKvizY2MN2nWGn8ZNr2L7ZX+"
+        "m+BlLFvC19DwVuqP7K5a2PP/"
+        "NhBdcgAAAAGAjGBp2urSLgeuyMxWBDyrLdDijIph5cocjsEBT9I2Xk4tmbz9zNDxk9a/"
+        "G5tlti/Qmn5ApkMVO7Zw1l7/eoHkD3w/nkYHo7oXrwLcAI7pzgaPY7Yln+HgD1jA/"
+        "4TdA5GQpAFvlNcz+wKM69c2PCAuPxgwuYBIEhXeRlolZ4A3Ekz6Um7TsPEDhlTeG/"
+        "rjj8fbc+Ezmbe0filEfchYh7Y150N0ufwtA0HD2eAfp9L1CYAO/"
+        "1Iwgri9v7togUltozUI+h9xyED/"
+        "Pya3up6LYeNO1G9BsIZHdep9hB4RATOo1VQ3kGW3wAtqH4gKQ/"
+        "1L94IpD5WKKIZFuQpDVurB1tjr3DB9LtJbrq6ePnA/"
+        "xroDB07uLzwYoYpOx1ydAz9m1iweqIMvfAaGfiii+yWx2olo/"
+        "KzoqcysEEZwRCKBGjostHgXGJ0OrWWsvB/lFOD/V4go4wihzkzc6vCoG51xYIYxK1OkOC/"
+        "MtWZa3c6KArc3tUUcp1Orbs7sYvpNZWBHm1rt.";
+
+  otrng_toolkit_assert(otrng_toolkit_parse_encoded_message(identity_msg));
 }
 
 void otrng_toolkit_test_parse_auth_r_message() {
