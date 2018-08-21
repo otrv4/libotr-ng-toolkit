@@ -4,11 +4,11 @@
 #include "parse.h"
 
 static void usage(const char *progname) {
-  fprintf(stderr,
-          "Usage: %s encryption key\n"
-          "Calculate and display the MAC key derived from a given encryption "
-          "or chain key.\n",
-          progname);
+  fprintf(
+      stderr,
+      "Usage: %s encryption key\n"
+      "Calculate and display the MAC key derived from a given encryption.\n",
+      progname);
   exit(1);
 }
 

@@ -20,4 +20,5 @@ void calculate_mac_key(msg_mac_key_p mac_key, unsigned char *buff);
 
 // int modify_message(data_message_s *data_msg, char *original_msg,
 //                   char *old_msg_txt, char *new_msg_txt, int offset);
+
 #endif
