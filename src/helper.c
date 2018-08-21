@@ -42,48 +42,47 @@ void print_plaintext_formated(char *data, int data_len) {
   print_string(buff, strlen(buff));
 }
 
+static int char_to_hex(char c) {
+  if (c >= '0' && c <= '9')
+    return (c - '0');
+  if (c >= 'a' && c <= 'f')
+    return (c - 'a' + 10);
+  if (c >= 'A' && c <= 'F')
+    return (c - 'A' + 10);
+  return -1;
+}
+
 void argv_to_buf(unsigned char **dst, size_t *written, char *arg) {
   unsigned char *buf;
+  size_t len, i;
+
   *dst = NULL;
   *written = 0;
-  size_t size = strlen(arg);
 
-  if (size % 2) {
+  len = strlen(arg);
+  if (len % 2) {
     fprintf(stderr, "Argument ``%s'' must have even length.\n", arg);
-    exit(1);
+    return;
   }
 
-  buf = malloc(size / 2);
-  if (buf == NULL) {
+  buf = malloc(len / 2);
+  if (buf == NULL && len > 0) {
     fprintf(stderr, "Out of memory!\n");
-    exit(1);
+    return;
   }
 
-  char *b = malloc(3);
-  if (b == NULL) {
-    fprintf(stderr, "Out of memory!\n");
-    free(buf);
-    exit(1);
-  }
-
-  char *end;
-  for (int i = 0; i < size / 2; i++) {
-    strncpy(b, arg, 2);
-    b[2] = 0;
-    arg += 2;
-    buf[i] = (int)strtol(b, &end, 16);
-    if (*end) {
-      free(b);
+  for (i = 0; i < len / 2; ++i) {
+    int hi = char_to_hex(arg[2 * i]);
+    int lo = char_to_hex(arg[2 * i + 1]);
+    if (hi < 0 || lo < 0) {
       free(buf);
-      fprintf(stderr, "Error when trying to convert key!\n");
-      exit(1);
+      fprintf(stderr, "Illegal hex char in argument ``%s''.\n", arg);
+      return;
     }
+    buf[i] = (hi << 4) + lo;
   }
-
   *dst = buf;
-  *written = size / 2;
-
-  free(b);
+  *written = len / 2;
 }
 
 int decrypt_data_message(uint8_t *plain, const msg_enc_key_p enc_key,
@@ -147,10 +146,8 @@ void serialize_and_remac(char **encoded_data_msg, data_message_s *data_msg,
   free(enc_msg);
 }
 
-void calculate_mac(msg_mac_key_p mac_key, unsigned char *buff) {
-
+void calculate_mac_key(msg_mac_key_p mac_key, unsigned char *buff) {
   memset(mac_key, 0, sizeof(msg_mac_key_p));
-
   shake_256_kdf1(mac_key, sizeof(msg_mac_key_p), usage_mac_key, buff,
                  sizeof(msg_enc_key_p));
 }
