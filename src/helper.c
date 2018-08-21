@@ -10,81 +10,6 @@
 #include "helper.h"
 #include "parse.h"
 
-void print_string(char *data, int data_len) {
-  for (int i = 0; i < data_len; i++) {
-    printf("%c", data[i]);
-  }
-  printf("\n");
-}
-
-void print_plaintext_formated(char *data, int data_len) {
-  static const char tag_base[] = {
-      '\x20', '\x09', '\x20', '\x20', '\x09', '\x09', '\x09', '\x09', '\x20',
-      '\x09', '\x20', '\x09', '\x20', '\x09', '\x20', '\x20', '\0'};
-
-  size_t tag_length = WHITESPACE_TAG_BASE_BYTES + WHITESPACE_TAG_VERSION_BYTES;
-  size_t chars = data_len - tag_length;
-  char *found_at = strstr(data, tag_base);
-  string_p buff = malloc(chars + 1);
-  if (!buff) {
-    // TODO: maybe this function should return a int to check status
-    return;
-  }
-
-  size_t bytes_before_tag = found_at - data;
-  if (!bytes_before_tag) {
-    memcpy(buff, data + tag_length, chars);
-  } else {
-    memcpy(buff, data, bytes_before_tag);
-    memcpy(buff, data + bytes_before_tag, chars - bytes_before_tag);
-  }
-
-  print_string(buff, strlen(buff));
-}
-
-static int char_to_hex(char c) {
-  if (c >= '0' && c <= '9')
-    return (c - '0');
-  if (c >= 'a' && c <= 'f')
-    return (c - 'a' + 10);
-  if (c >= 'A' && c <= 'F')
-    return (c - 'A' + 10);
-  return -1;
-}
-
-void argv_to_buf(unsigned char **dst, size_t *written, char *arg) {
-  unsigned char *buf;
-  size_t len, i;
-
-  *dst = NULL;
-  *written = 0;
-
-  len = strlen(arg);
-  if (len % 2) {
-    fprintf(stderr, "Argument ``%s'' must have even length.\n", arg);
-    return;
-  }
-
-  buf = malloc(len / 2);
-  if (buf == NULL && len > 0) {
-    fprintf(stderr, "Out of memory!\n");
-    return;
-  }
-
-  for (i = 0; i < len / 2; ++i) {
-    int hi = char_to_hex(arg[2 * i]);
-    int lo = char_to_hex(arg[2 * i + 1]);
-    if (hi < 0 || lo < 0) {
-      free(buf);
-      fprintf(stderr, "Illegal hex char in argument ``%s''.\n", arg);
-      return;
-    }
-    buf[i] = (hi << 4) + lo;
-  }
-  *dst = buf;
-  *written = len / 2;
-}
-
 int decrypt_data_message(uint8_t *plain, const msg_enc_key_p enc_key,
                          const data_message_s *msg) {
 
@@ -147,6 +72,8 @@ void serialize_and_remac(char **encoded_data_msg, data_message_s *data_msg,
 }
 
 void calculate_mac_key(msg_mac_key_p mac_key, unsigned char *buff) {
+  static const uint8_t usage_mac_key = 0x17;
+
   memset(mac_key, 0, sizeof(msg_mac_key_p));
   shake_256_kdf1(mac_key, sizeof(msg_mac_key_p), usage_mac_key, buff,
                  sizeof(msg_enc_key_p));

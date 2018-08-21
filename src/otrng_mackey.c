@@ -22,12 +22,11 @@ int main(int argc, char **argv) {
   }
 
   argv_to_buf(&argbuf, &argbuflen, argv[1]);
-
-  /* Enc keys are 32 bits long, so check for that */
   if (!argbuf) {
     usage(argv[0]);
   }
 
+  /* Enc keys should be 32 bits long */
   if (argbuflen != 32) {
     fprintf(stderr, "The encryption key must be 32 hex chars long.\n");
     usage(argv[0]);
