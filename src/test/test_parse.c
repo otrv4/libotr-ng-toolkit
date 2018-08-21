@@ -129,6 +129,6 @@ void otrng_toolkit_test_parse_non_int_auth_message() {
       "IDb3wHvQbUt3QeNI26xD+MICt+aF/"
       "avuLksJmVHoUiZD+"
       "Dd5klof1IQf5KlJWrgGE3oi3J8jKmTApUHuGllLqA4EPIH0IcUQvg4ktdhTpu0MqCQv56D/"
-      "hRQ7NmbAiqHU8rhTfCxqKhTeY=."
+      "hRQ7NmbAiqHU8rhTfCxqKhTeY=.";
   otrng_toolkit_assert(otrng_toolkit_parse_encoded_message(non_int_auth_msg));
 }

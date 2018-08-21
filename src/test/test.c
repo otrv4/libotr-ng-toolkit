@@ -5,8 +5,8 @@
 
 #include "test_otrng_mackey.c"
 #include "test_otrng_modify.c"
-#include "test_otrng_parse.c"
 #include "test_otrng_readforge.c"
+#include "test_parse.c"
 
 int main(int argc, char **argv) {
 
