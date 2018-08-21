@@ -36,7 +36,6 @@ static void buf_putc(Buffer *bufp, char c) { buf_put(bufp, &c, 1); }
  * or a OTRv4 Data message.  Return a newly-allocated pointer to a copy of
  * this message, which the caller should free().  Returns NULL if no
  * such message could be found. */
-// TODO: change name
 char *read_otr_message(FILE *stream) {
   int seen = 0;
   const char header[] = "?OTR";

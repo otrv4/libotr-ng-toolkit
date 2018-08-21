@@ -1,7 +1,7 @@
 #include <libotr-ng/otrng.h>
 
 #include "parse.h"
-#include "readotr.h"
+#include "read_otr.h"
 
 int otrng_toolkit_parse_message(char *msg) {
   int message_type;
