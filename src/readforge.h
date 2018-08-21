@@ -5,8 +5,8 @@
 #include <libotr-ng/random.h>
 #include <libotr-ng/shake.h>
 
-#include "parse.h"
 #include "helper.h"
+#include "parse.h"
 
 #ifndef READFORGE_H
 #define READFORGE_H

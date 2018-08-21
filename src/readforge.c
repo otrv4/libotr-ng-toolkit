@@ -5,8 +5,8 @@
 #include <libotr-ng/random.h>
 #include <libotr-ng/shake.h>
 
-#include "parse.h"
 #include "helper.h"
+#include "parse.h"
 
 int read(char **plain_text, msg_enc_key_p enc_key, char *raw_ratchet_key,
          char *raw_msg, data_message_s *data_msg) {

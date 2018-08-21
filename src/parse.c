@@ -1,8 +1,8 @@
-#include <stdio.h>
-#include <string.h>
 #include <gcrypt.h>
 #include <libotr-ng/otrng.h>
 #include <libotr/b64.h>
+#include <stdio.h>
+#include <string.h>
 
 /* Dump an unsigned int to a FILE */
 void dump_int(FILE *stream, const char *title, unsigned int val) {
@@ -152,13 +152,13 @@ int otrng_toolkit_parse_encoded_message(const char *message) {
   size_t dec_len = 0;
   uint8_t *decoded = NULL;
   if (otrl_base64_otr_decode(message, &decoded, &dec_len)) {
-    return 1;
+    return 0;
   }
 
   otrng_header_s header;
   if (!otrng_extract_header(&header, decoded, dec_len)) {
     free(decoded);
-    return 1;
+    return 0;
   }
 
   printf("\nHeader: %d \n", header.type);
@@ -169,34 +169,39 @@ int otrng_toolkit_parse_encoded_message(const char *message) {
     if (!otrng_dake_identity_message_deserialize(identity_msg, decoded,
                                                  dec_len)) {
       printf("Invalid Identity Message\n\n");
-      return 1;
+      free(decoded);
+      return 0;
     }
     dump_short(stdout, "\tVersion", header.version);
     dump_identity_message(identity_msg);
     printf("\n");
+    break;
 
   case AUTH_R_MSG_TYPE:
     printf("Auth R Message:\n");
     dake_auth_r_p auth_r_msg;
     if (!otrng_dake_auth_r_deserialize(auth_r_msg, decoded, dec_len)) {
       printf("Invalid Auth R Message\n\n");
-      return 1;
+      free(decoded);
+      return 0;
     }
     dump_short(stdout, "\tVersion", header.version);
     dump_auth_r_message(auth_r_msg);
     printf("\n");
+    break;
 
   case AUTH_I_MSG_TYPE:
     printf("Auth I Message:\n");
     dake_auth_i_p auth_i_msg;
     if (!otrng_dake_auth_i_deserialize(auth_i_msg, decoded, dec_len)) {
       printf("Invalid Auth I Message\n\n");
-      return 1;
+      free(decoded);
+      return 0;
     }
     dump_short(stdout, "\tVersion", header.version);
     dump_auth_i_message(auth_i_msg);
     printf("\n");
-
+    break;
   // TODO: here we also need the prekey message and the other DAKE msgs from the
   // server
   case NON_INT_AUTH_MSG_TYPE:
@@ -205,11 +210,13 @@ int otrng_toolkit_parse_encoded_message(const char *message) {
     if (!otrng_dake_non_interactive_auth_message_deserialize(
             non_int_auth_msg, decoded, dec_len)) {
       printf("Invalid Non-Interactive Auth Message\n\n");
-      return 1;
+      free(decoded);
+      return 0;
     }
     dump_short(stdout, "\tVersion", header.version);
     dump_non_interactive_auth_message(non_int_auth_msg);
     printf("\n");
+    break;
 
   case DATA_MSG_TYPE:
     printf("Data Message:\n");
@@ -218,16 +225,15 @@ int otrng_toolkit_parse_encoded_message(const char *message) {
     if (!otrng_data_message_deserialize(data_msg, decoded, dec_len, &read)) {
       otrng_data_message_free(data_msg);
       printf("Invalid Data Message\n\n");
-      return 1;
+      free(decoded);
+      return 0;
     }
     dump_short(stdout, "\tVersion", header.version);
     dump_data_message(data_msg);
     printf("\n");
-
-  default:
-    return 1;
+    break;
   }
 
   free(decoded);
-  return 0;
+  return 1;
 }

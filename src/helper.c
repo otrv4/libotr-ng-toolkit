@@ -7,8 +7,8 @@
 #include <libotr-ng/shake.h>
 #include <libotr/b64.h>
 
-#include "parse.h"
 #include "helper.h"
+#include "parse.h"
 
 void print_string(char *data, int data_len) {
   for (int i = 0; i < data_len; i++) {

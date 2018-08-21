@@ -6,8 +6,8 @@
 #include <libotr-ng/random.h>
 #include <libotr-ng/shake.h>
 
-#include "parse.h"
 #include "helper.h"
+#include "parse.h"
 #include "readforge.h"
 
 // int main(int argc, char **argv) {

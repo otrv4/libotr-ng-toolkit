@@ -2,8 +2,8 @@
 
 #include <libotr-ng/dake.h>
 
-#include "parse.h"
 #include "helper.h"
+#include "parse.h"
 #include "readotr.h"
 
 int otrng_toolkit_parse_message(char *msg) {
