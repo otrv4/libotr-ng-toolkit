@@ -37,8 +37,7 @@ static void buf_putc(Buffer *bufp, char c) { buf_put(bufp, &c, 1); }
  * this message, which the caller should free().  Returns NULL if no
  * such message could be found. */
 // TODO: change name
-// TODO: somewhere this is freeing what is not supposed. See stacktrace
-char *readotr(FILE *stream) {
+char *read_otr_message(FILE *stream) {
   int seen = 0;
   const char header[] = "?OTR";
 
@@ -46,12 +45,12 @@ char *readotr(FILE *stream) {
   Buffer buf;
 
   while (seen < headerlen) {
-    int c = fgetc(stream);
-    if (c == EOF) {
+    int char_1 = fgetc(stream);
+    if (char_1 == EOF) {
       return NULL;
-    } else if (c == header[seen]) {
+    } else if (char_1 == header[seen]) {
       seen++;
-    } else if (c == header[0]) {
+    } else if (char_1 == header[0]) {
       seen = 1;
     } else {
       seen = 0;
@@ -63,13 +62,12 @@ char *readotr(FILE *stream) {
 
   /* Look for the trailing '.' */
   while (1) {
-    // TODO: change name as this can shadow
-    int c = fgetc(stream);
-    if (c == EOF) {
+    int char_2 = fgetc(stream);
+    if (char_2 == EOF) {
       break;
     }
-    buf_putc(&buf, c);
-    if (c == '.') {
+    buf_putc(&buf, char_2);
+    if (char_2 == '.') {
       break;
     }
   }

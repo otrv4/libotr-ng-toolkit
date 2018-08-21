@@ -1,8 +1,5 @@
-#include <stdio.h>
+#include <libotr-ng/otrng.h>
 
-#include <libotr-ng/dake.h>
-
-#include "helper.h"
 #include "parse.h"
 #include "readotr.h"
 
@@ -48,7 +45,7 @@ int main(int argc, char **argv) {
     usage(argv[0]);
   }
 
-  while ((message = readotr(stdin)) != NULL) {
+  while ((message = read_otr_message(stdin)) != NULL) {
     otrng_toolkit_parse_message(message);
     free(message);
   }

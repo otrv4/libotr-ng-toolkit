@@ -1,4 +1,6 @@
 #ifndef READOTR_H
 #define READOTR_H
-char *readotr(FILE *stream);
+
+char *read_otr_message(FILE *stream);
+
 #endif
