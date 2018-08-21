@@ -144,7 +144,7 @@ void dump_data_message(data_message_s *data_msg) {
   otrng_data_message_free(data_msg);
 }
 
-int decode_encoded_message(const char *message) {
+int otrng_toolkit_parse_encoded_message(const char *message) {
   size_t dec_len = 0;
   uint8_t *decoded = NULL;
   if (otrl_base64_otr_decode(message, &decoded, &dec_len)) {

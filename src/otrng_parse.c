@@ -6,8 +6,8 @@
 #include "helper.h"
 #include "readotr.h"
 
-int parse_message(char *msg) {
-  int message_type = 0;
+int otrng_toolkit_parse_message(char *msg) {
+  int message_type;
 
   message_type = otrng_get_message_type(msg);
 
@@ -25,7 +25,7 @@ int parse_message(char *msg) {
     printf("OTR Error:\n\t%s\n\n", msg);
     break;
   case MSG_OTR_ENCODED:
-    decode_encoded_message(msg);
+    otrng_toolkit_parse_encoded_message(msg);
   }
   return 0;
 }
@@ -49,7 +49,7 @@ int main(int argc, char **argv) {
   }
 
   while ((message = readotr(stdin)) != NULL) {
-    parse_message(message);
+    otrng_toolkit_parse_message(message);
     free(message);
   }
 

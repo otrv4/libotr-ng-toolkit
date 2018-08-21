@@ -14,6 +14,6 @@
 // TODO: if this are going to be exported, they should have the otrng_toolkit
 // TODO: define the return errors
 
-int decode_encoded_message(const char *message);
+int otrng_toolkit_parse_encoded_message(const char *message);
 
 #endif
