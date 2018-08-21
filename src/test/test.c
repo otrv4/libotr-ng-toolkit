@@ -27,6 +27,8 @@ int main(int argc, char **argv) {
                   otrng_toolkit_test_parse_auth_r_message);
   g_test_add_func("/toolkit/parse_auth_i_msg",
                   otrng_toolkit_test_parse_auth_i_message);
+  g_test_add_func("/toolkit/parse_non_int_auth_msg",
+                  otrng_toolkit_test_parse_non_int_auth_message);
 
   g_test_add_func("/toolkit/calculate_mac",
                   otrng_toolkit_test_calculate_mac_key);
