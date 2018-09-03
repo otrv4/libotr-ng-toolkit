@@ -132,3 +132,11 @@ void otrng_toolkit_test_parse_non_int_auth_message() {
       "hRQ7NmbAiqHU8rhTfCxqKhTeY=.";
   otrng_toolkit_assert(otrng_toolkit_parse_encoded_message(non_int_auth_msg));
 }
+
+void otrng_toolkit_test_parse_prekey_success_message() {
+  const char *prekey_success_msg =
+      "AAQGbQJzmFMujbgWDP1BjPZbsEO61+"
+      "AmGPalm6QFnGugNXodeVM3MXxnMaWaLSxRkTfTPF3b+IDnuaOgnKIt8ckRvrjseEA=.";
+
+  otrng_toolkit_assert(otrng_toolkit_parse_prekey_message(prekey_success_msg));
+}

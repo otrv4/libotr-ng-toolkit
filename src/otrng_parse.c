@@ -22,9 +22,16 @@ int otrng_toolkit_parse_message(char *msg) {
     printf("OTR Error:\n\t%s\n\n", msg);
     break;
   case MSG_OTR_ENCODED:
-    otrng_toolkit_parse_encoded_message(msg);
+    if (!otrng_toolkit_parse_encoded_message(msg)) {
+      return 0;
+    };
   }
-  return 0;
+
+  if (otrng_toolkit_get_prekey_message_type(msg) == 1) {
+    otrng_toolkit_parse_prekey_message(msg);
+  }
+
+  return 1;
 }
 
 static void usage(const char *progname) {

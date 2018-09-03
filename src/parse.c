@@ -1,5 +1,6 @@
 #include <gcrypt.h>
 #include <libotr-ng/otrng.h>
+#include <libotr-ng/prekey_client.h>
 #include <libotr/b64.h>
 #include <stdio.h>
 #include <string.h>
@@ -148,6 +149,23 @@ void dump_data_message(data_message_s *data_msg) {
   otrng_data_message_free(data_msg);
 }
 
+static const string_p prekey_message_header = "AA";
+
+int otrng_toolkit_get_prekey_message_type(const char *message) {
+  size_t len = strlen(message);
+
+  if (!len || '.' != message[len - 1]) {
+    return 0;
+  }
+
+  if (strncmp(message, prekey_message_header, strlen(prekey_message_header)) ==
+      0) {
+    return 1;
+  }
+
+  return 0;
+}
+
 int otrng_toolkit_parse_encoded_message(const char *message) {
   size_t dec_len = 0;
   uint8_t *decoded = NULL;
@@ -231,6 +249,34 @@ int otrng_toolkit_parse_encoded_message(const char *message) {
     dump_short(stdout, "\tVersion", header.version);
     dump_data_message(data_msg);
     printf("\n");
+    break;
+  }
+
+  free(decoded);
+  return 1;
+}
+
+int otrng_toolkit_parse_prekey_message(const char *message) {
+  size_t len = strlen(message);
+  uint8_t *decoded = NULL;
+  size_t decoded_len = 0;
+
+  /* (((base64len+3) / 4) * 3) */
+  decoded = malloc(((len - 1 + 3) / 4) * 3);
+  if (!decoded) {
+    return OTRNG_ERROR;
+  }
+
+  decoded_len = otrl_base64_decode(decoded, message, len - 1);
+
+  uint8_t message_type = 0;
+  if (!otrng_parse_header(&message_type, decoded, decoded_len, NULL)) {
+    return 0;
+  }
+
+  switch (message_type) {
+  case OTRNG_PREKEY_SUCCESS_MSG:
+    printf("Success message:\n\t%s\n\n", decoded);
     break;
   }
 
