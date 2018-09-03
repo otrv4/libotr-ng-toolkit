@@ -57,8 +57,8 @@ before_script:
   - git clone --depth=1 https://bugs.otr.im/lib/libotr.git .deps/libotr
   - pushd .deps/libotr && ./bootstrap && ./configure && make && sudo make install && popd
   # Dependencies for libotr-ng
-  - curl https://download.libsodium.org/libsodium/releases/old/libsodium-1.0.11.tar.gz | tar xzf - -C .deps
-  - pushd .deps/libsodium-1.0.11 && ./autogen.sh && ./configure && make && sudo make install && popd
+  - curl https://download.libsodium.org/libsodium/releases/LATEST.tar.gz | tar xzf - -C .deps
+  - pushd .deps/libsodium-stable && ./autogen.sh && ./configure && make && sudo make install && popd
   - git clone --depth=1 https://github.com/otrv4/libgoldilocks .deps/libgoldilocks
   - pushd .deps/libgoldilocks && ./autogen.sh && ./configure && make && sudo make install && popd
   - git clone --depth=1 https://github.com/otrv4/libotr-ng.git .deps/libotr-ng
