@@ -1,9 +1,10 @@
 #include <gcrypt.h>
-#include <libotr-ng/otrng.h>
 #include <libotr-ng/prekey_client.h>
 #include <libotr/b64.h>
 #include <stdio.h>
 #include <string.h>
+
+#include "parse.h"
 
 /* Dump an unsigned int to a FILE */
 void dump_int(FILE *stream, const char *title, unsigned int val) {
@@ -125,6 +126,14 @@ void dump_non_interactive_auth_message(
   dump_data(stdout, "\t\tAuth MAC", non_int_auth_msg->auth_mac,
             DATA_MSG_MAC_BYTES);
   otrng_dake_non_interactive_auth_message_destroy(non_int_auth_msg);
+}
+
+void dump_prekey_success_message(
+    otrng_prekey_success_message_p prekey_success_msg) {
+  dump_int(stdout, "\tClient instance",
+           prekey_success_msg->client_instance_tag);
+  dump_data(stdout, "\tSuccess MAC", prekey_success_msg->success_mac,
+            HASH_BYTES);
 }
 
 void dump_data_message(data_message_s *data_msg) {
@@ -275,7 +284,16 @@ int otrng_toolkit_parse_prekey_message(const char *message) {
 
   switch (message_type) {
   case OTRNG_PREKEY_SUCCESS_MSG:
-    printf("Prekey Success Message:\n\t%s\n\n", decoded);
+    printf("Prekey Success Message:\n");
+    otrng_prekey_success_message_p prekey_success_msg;
+    if (!otrng_prekey_success_message_deserialize(prekey_success_msg, decoded,
+                                                  decoded_len)) {
+      printf("Invalid Prekey Success Message\n\n");
+      free(decoded);
+      return 0;
+    }
+    dump_prekey_success_message(prekey_success_msg);
+    printf("\n");
     break;
 
   case OTRNG_PREKEY_FAILURE_MSG:

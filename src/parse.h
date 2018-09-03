@@ -1,4 +1,5 @@
 #include <libotr-ng/otrng.h>
+#include <libotr-ng/prekey_messages.h>
 
 #ifndef PARSE_H
 #define PARSE_H
