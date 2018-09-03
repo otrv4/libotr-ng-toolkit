@@ -140,3 +140,95 @@ void otrng_toolkit_test_parse_prekey_success_message() {
 
   otrng_toolkit_assert(otrng_toolkit_parse_prekey_message(prekey_success_msg));
 }
+
+void otrng_toolkit_test_parse_prekey_failure_message() {
+  const char *prekey_failure_msg =
+      "AAQFbQJzmFMujbgWDP1BjPZbsEO61+"
+      "AmGPalm6QFnGugNXodeVM3MXxnMaWaLSxRkTfTPF3b+IDnuaOgnKIt8ckRvrjseEA=.";
+
+  otrng_toolkit_assert(otrng_toolkit_parse_prekey_message(prekey_failure_msg));
+}
+
+void otrng_toolkit_test_parse_prekey_storage_status_message() {
+  const char *prekey_storage_status_msg =
+      "AAQLbQJzmAAAAmRPS8JgMfNobrQ5n+8WIFQonbztNa3LBtd9AhJDaROm+lgX+"
+      "Pmnpgp4Cn3riVPQqjbQgPl7S5I0CMqXqtLt31ZD.";
+
+  otrng_toolkit_assert(
+      otrng_toolkit_parse_prekey_message(prekey_storage_status_msg));
+}
+
+void otrng_toolkit_test_parse_prekey_dake_1_message() {
+  const char *prekey_dake_1_msg =
+      "AAQ1bQJzmAAAAAQAAW0Cc5gAAgAQZ++"
+      "48mZmqGaQpCHm90ENOULrayINoV6l27eD2yDyqIyOr+Pe1FRVXil/"
+      "Swz8EnZLQA+"
+      "PTvoMxfuAAAQAAAADMzQAAAUAAAAAW53pEqRF0r7vPVC4du5DBAgTDYd06usVBhb3zzKyp0I"
+      "/oy9wGmi29bEVIvapstcSKwQ4usAmW2iwXJ0mABEtlliXG9VqRtO7FBRJYVdOdFMgEjbfUxl"
+      "a8i7k/"
+      "yqWkNpXKQXmc8ZDVz6vYbGgGRD8ScilG4cxAGrdzziH1A0Oa2hVe+"
+      "YfZTjOqWiTDpDJeKIEzkduptKe0DZD6blmx8D4jPIK2hdgvah2/UkbfInIAA==.";
+
+  otrng_toolkit_assert(otrng_toolkit_parse_prekey_message(prekey_dake_1_msg));
+}
+
+void otrng_toolkit_test_parse_prekey_dake_2_message() {
+  const char *prekey_dake_2_msg =
+      "AAQ2bQJzmAAAABFwcmVrZXlzLmxvY2FsaG9zdAAQrC8mmPzxUoSAeFBbBBeR40JJ+"
+      "wKa13H392zJMcy1LdsHAYqWsSjOm0HtipeiNtb06vTmtS0eCuSAx0FnKMhmQLtt5v33yaBLS"
+      "KUkiPuZYHl3+K0m/"
+      "hhEeilFFqU9Y0Tw7MtgZqFnXRGurcFhVTRR7wUAphHdgj0GOO0awTCEeevgWrXnG1xXU8OZV"
+      "tcvTWbOhWIW58Uc+LGHuGuMZBoJslnFtTQnwvZloz86TRuoE75eBMqIo/"
+      "coj2KI+AbKP95r3tf2vz8QgvWkYZrNg7IOWJ4ZHu9Tx/"
+      "kztgbVy5CDm8KPKT0YmX8FYklnJGBgC1shYQzpuTuNnzAlVrLhA9T76hSXRXS6Q+"
+      "Q7jfhisDtIKDmkxPGNaTaRoosl3jBVY8f+ydYZUiL+2MIbj820VBjVg6ukonm1lejgmqlR+"
+      "c4yvAzgtjfa1IYqQLiBL/C/aBZnHxZ5B/4Ah2W/"
+      "2QGuViXmrra560VfqZxM4yT8jetqcdzgvKgf1A8OOWdG87PYJ9VAPDXIOgCAAXNBJ9JNHdva"
+      "2BxUe9ScKhs5zuKnuqaBX97syx+sip6vV3IZM3MIbrjyqt/gv37imoCHy0LTeFjamiUo.";
+
+  otrng_toolkit_assert(otrng_toolkit_parse_prekey_message(prekey_dake_2_msg));
+}
+
+void otrng_toolkit_test_parse_prekey_dake_3_message() {
+  const char *prekey_dake_3_msg =
+      "AAQ3bQJzmPzxmOH8kx5a8yksIM60bZl5A5OJQWq4UeOiqg/"
+      "64CeSRb+nnEWPjAJE9BT4z9AKrqDjgpoTKhUsFXw3KSO/"
+      "X+ByzZ3+1AEo77toU+K5fLEWLnuK1vEBqmtxcFD3+"
+      "hv0RvuW7rb0WdHuY1XCMBWoNCXgi0hBA44Xs/iVFZ/5JPORPTb2DGgMGxiv3/"
+      "OV4ECVkL4urZCy/Rm16iSPypmrEaYOejq0Jz5rJADGmykowpJ2BYZdaQUgfEF/"
+      "G2oOTGKunXHJMBIP2DVDVv++knuOqi7sRlhaatX+2gRqRroDaok2Wnw+vgPk4ui/"
+      "AVCyOGiuz6+M/NbfWgD3FA1FbmNGH93aas4zfayMQowCPTHy1ytUw0tm+yeDwCVgt/"
+      "nXYddZLwnEfWyYlMqDfI5bTCYdPpTrvmIX9jlIOQWkCOlTR84sH+tGBSN+"
+      "VqTFcfV1mOF2IwAAAEMABAnzMunWnRDqawFFxFdcv0EjumsBW/"
+      "i4xhuKh1uOJs6PaFrUpq588pbq5g+JNI4qhR6BXD1mJJp//kgT+hgM3PbI.";
+
+  otrng_toolkit_assert(otrng_toolkit_parse_prekey_message(prekey_dake_3_msg));
+}
+
+void otrng_toolkit_test_parse_prekey_ensemble_retrieval_message() {
+  const char *prekey_ensemble_retrieval_msg =
+      "AAQTbQJzmAEAAAAEAAHboU/"
+      "xAAIAEDu1PM1OQJLIocn85LEm901drrItkbYpFVuqkXSYFubxIywdVxDfFp4kirMCwUUHl7V"
+      "k2onvnTKGgAAEAAAAAzM0AAAFAAAAAFud6QY0pWqatq6k+Dj34htqtvVX73GufWQ+"
+      "lSqNf4Bkxu1bLU9FGdnEBh9H+iweU2cJ+zn6jqFRBNb4/"
+      "IBD9+M77HtjUwn8u+UNyG0ZpNtutWvjelKmmbhi9bZvfeZMcTBpbEA089rRzc+qS1+"
+      "UDgO55tTJEADboU/"
+      "xAAAAAFuz4nMAESEVEvVVu+"
+      "bTviqZZs2yxHiX152ZaHwIZvTGBlXCRWeQWnkg2l66xTC7yDXTxMqGSsPGTl8UgBLigFC7Nk"
+      "0SKNgN0jjlNsxpTlVDk90seJ6lx5WB1l7xuAcsoUvfaBfh1O5Q6ypb5df9ulW7kQOvy4NkgG"
+      "g8r9XzCH1RVeDuSdOIPlVJPUY/"
+      "YAs7MyKsp24R63br5bCf5HfBcBf6ZERL6AxnjfobB10GQpA5AAAEDwNvVuvboU/"
+      "xV5gUvC236JI8LsilpfPbsAv1Pzg40k7dXXBIKBrwLI/"
+      "2nevn6NStaCjEESRjUN2TUKsOdkkqZyoAAAABgN7a7YnSlp7etkMlh1XeRCFCiBVHhjZEzhe"
+      "+fqmHyTrDasSsdKr0cVfvsRboqeStUNTC4yi7lrLfKqsQnygQ+"
+      "h1dE3d24SO00zg4prfnn0iUs9QWp1XsNVSWbWt1yNe5pRsp7g1mENi1h3odyHdl9m9icvldn"
+      "H9EmyZKEiEkXi0K06Iqg0rYcHj3nATt3KdIM6KfjDLfWc3mISdeTL3Vq5sGZxV4SOsRzyhCh"
+      "xblNz7otFd5lW1QYmHuPIc86SMu5OhczCyv0EGI2bYm9IlGtICesBSjYwrPI2u4PYHDXdCZi"
+      "jCqdPz0vG+ggdbLSU545JigyL+hT9ITH+0eT8vDg1Kd2F36a5VOO9APEAklej/"
+      "Vf7SG8IYMpyCJU7h5izzi5lCzu2tVc/"
+      "9GN23Jr4Nn4MJAEQKSvCo9UiH2EQ2UpkUSGPZrUPW13pghHisuogPvmyXUk+5y+"
+      "pxLvYW5CUwJ3CN7ykQyxOyGJe6VM1yX2mN2+Ov8NPAPnyes0ZFBydFpIg==.";
+
+  otrng_toolkit_assert(
+      otrng_toolkit_parse_prekey_message(prekey_ensemble_retrieval_msg));
+}

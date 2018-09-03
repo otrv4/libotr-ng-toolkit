@@ -220,8 +220,7 @@ int otrng_toolkit_parse_encoded_message(const char *message) {
     dump_auth_i_message(auth_i_msg);
     printf("\n");
     break;
-  // TODO: here we also need the prekey message and the other DAKE msgs from the
-  // server
+
   case NON_INT_AUTH_MSG_TYPE:
     printf("Non-Interactive Auth Message:\n");
     dake_non_interactive_auth_message_p non_int_auth_msg;
@@ -276,7 +275,31 @@ int otrng_toolkit_parse_prekey_message(const char *message) {
 
   switch (message_type) {
   case OTRNG_PREKEY_SUCCESS_MSG:
-    printf("Success message:\n\t%s\n\n", decoded);
+    printf("Prekey Success Message:\n\t%s\n\n", decoded);
+    break;
+
+  case OTRNG_PREKEY_FAILURE_MSG:
+    printf("Prekey Failure Message:\n\t%s\n\n", decoded);
+    break;
+
+  case OTRNG_PREKEY_STORAGE_STATUS_MSG:
+    printf("Prekey Storage Status Message:\n\t%s\n\n", decoded);
+    break;
+
+  case OTRNG_PREKEY_DAKE1_MSG:
+    printf("Prekey DAKE 1 Message:\n\t%s\n\n", decoded);
+    break;
+
+  case OTRNG_PREKEY_DAKE2_MSG:
+    printf("Prekey DAKE 2 Message:\n\t%s\n\n", decoded);
+    break;
+
+  case OTRNG_PREKEY_DAKE3_MSG:
+    printf("Prekey DAKE 3 Message:\n\t%s\n\n", decoded);
+    break;
+
+  case OTRNG_PREKEY_ENSEMBLE_RETRIEVAL_MSG:
+    printf("Prekey Ensemble Retrieval Message:\n\t%s\n\n", decoded);
     break;
   }
 

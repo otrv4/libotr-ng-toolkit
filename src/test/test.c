@@ -31,6 +31,18 @@ int main(int argc, char **argv) {
                   otrng_toolkit_test_parse_non_int_auth_message);
   g_test_add_func("/toolkit/parse_prekey_success_msg",
                   otrng_toolkit_test_parse_prekey_success_message);
+  g_test_add_func("/toolkit/parse_prekey_failure_msg",
+                  otrng_toolkit_test_parse_prekey_failure_message);
+  g_test_add_func("/toolkit/parse_prekey_storage_status_msg",
+                  otrng_toolkit_test_parse_prekey_storage_status_message);
+  g_test_add_func("/toolkit/parse_prekey_dake_1_msg",
+                  otrng_toolkit_test_parse_prekey_dake_1_message);
+  g_test_add_func("/toolkit/parse_prekey_dake_2_msg",
+                  otrng_toolkit_test_parse_prekey_dake_2_message);
+  g_test_add_func("/toolkit/parse_prekey_dake_3_msg",
+                  otrng_toolkit_test_parse_prekey_dake_3_message);
+  g_test_add_func("/toolkit/parse_prekey_ensemble_retrieval_msg",
+                  otrng_toolkit_test_parse_prekey_ensemble_retrieval_message);
 
   g_test_add_func("/toolkit/calculate_mac",
                   otrng_toolkit_test_calculate_mac_key);
